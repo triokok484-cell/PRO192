@@ -192,61 +192,697 @@
 
     <div class="top-bar">
         <div class="tabs">
-            <button class="tab-btn active" id="tab-learn" onclick="switchTab('flashcard')">📖 Học tập</button>
-            <button class="tab-btn" id="tab-quiz" onclick="switchTab('quiz')">📝 Thi thử</button>
+            <button class="tab-btn active" onclick="switchTab('flashcard')">📖 Thẻ ghi nhớ (Learn)</button>
+            <button class="tab-btn" onclick="switchTab('quiz')">📝 Thi (Quiz)</button>
         </div>
-        <button class="lang-btn" onclick="toggleLanguage()" id="lang-btn">English Mode</button>
+        <button class="lang-btn" onclick="toggleLanguage()" title="Phím tắt: Enter hoặc N">
+            <span style="font-size: 16px;">🌐</span> <span id="current-lang-text">EN</span>
+        </button>
     </div>
 
     <div class="main-container">
-        <div class="content-area">
-            
-            <div id="flashcard-view" class="view-section active">
-                <div class="flashcard" onclick="this.classList.toggle('flipped')" id="fc-main">
-                    <div class="card-inner">
-                        <div class="card-front" id="fc-front"></div>
-                        <div class="card-back" id="fc-back"></div>
+        <div class="content-area" id="main-content-area">
+
+            <div id="flashcard-view" class="view-section active-view">
+                <div style="max-width: 800px; margin: 0 auto; width: 100%;">
+                    <div style="display:flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px;">
+                        <div style="flex: 1;">
+                            <label style="font-weight:600; color:var(--primary-color); display:block; margin-bottom:5px;">📖 Chọn chủ đề học:</label>
+                            <select id="fc-category-select" onchange="updateFlashcardFilter()" class="custom-select" style="margin-top:0;"></select>
+                        </div>
+                        <button class="action-btn" onclick="shuffleFlashcardOptions()" style="margin-left: 15px;" title="Phím tắt: M">🔀 Xáo trộn Đ/A</button>
+                    </div>
+                    
+                    <div class="flashcard-wrapper">
+                        <div class="flashcard" id="fc-flip-card" onclick="this.classList.toggle('flipped');">
+                            <div class="card-face card-front">
+                                <div style="width: 100%; display: flex; justify-content: space-between; align-items: center;">
+                                    <div class="category-badge" id="fc-tag"></div>
+                                    <span id="fc-multi-badge" class="multi-select-hint hidden"></span>
+                                </div>
+                                <div id="fc-content" class="fc-question-highlight"></div>
+                                <ul class="options-list read-only" id="fc-options"></ul>
+                                <div style="margin-top: auto; padding-top:20px; font-size: 13px; color: #aaa; font-weight: 600;">(Nhấn Phím Space hoặc Click chuột để lật thẻ)</div>
+                            </div>
+                            
+                            <div class="card-face card-back">
+                                <div class="category-badge" style="background:var(--secondary-color); color:white;">Đáp án đúng</div>
+                                
+                                <div id="fc-question-reminder" style="font-size: 14px; color: #666; margin-bottom: 10px; font-style: italic; width: 100%;"></div>
+                                
+                                <div id="fc-answer" class="fc-answer-box"></div>
+                                
+                                <div style="width: 100%; font-size: 15px; color: #333; background: #f8f9fa; padding: 20px; border-radius: 10px; border-left: 4px solid var(--primary-color); line-height: 1.6;">
+                                    <strong id="fc-explanation-label" style="color:var(--primary-color);">Giải thích:</strong><br>
+                                    <span id="fc-explanation" style="display: block; margin-top: 8px;"></span>
+                                </div>
+                                <div style="margin-top: auto; padding-top:20px; font-size: 13px; color: #aaa; width: 100%; text-align: center; font-weight: 600;">(Nhấn Phím Space hoặc Click chuột để quay lại mặt trước)</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="display:flex; justify-content:space-between; align-items: center;">
+                        <button class="nav-btn secondary" onclick="navFlashcard(-1)">← Câu trước</button>
+                        <span id="fc-counter" style="font-weight:700; color:#868e96; font-size: 15px;"></span>
+                        <button class="nav-btn" onclick="navFlashcard(1)">Câu sau →</button>
                     </div>
                 </div>
-                <div style="margin-top:25px; display:flex; gap:20px; align-items:center;">
-                    <button class="btn-nav" id="btn-prev" onclick="navFC(-1)">Trước</button>
-                    <span id="fc-counter" style="font-weight:bold; color:#888;"></span>
-                    <button class="btn-nav" id="btn-next" onclick="navFC(1)">Sau</button>
+            </div>
+
+            <div id="quiz-setup" class="view-section">
+                <div style="background: white; padding: 40px; border-radius: 16px; box-shadow: var(--card-shadow); text-align: center; max-width: 500px; margin: 40px auto;">
+                    <h2 id="txt-setup-title" style="color: var(--primary-color); margin-bottom: 30px; font-weight: 700; margin-top:0;">Cấu hình bài thi PRO192</h2>
+                    <div style="text-align: left; margin-bottom: 25px;">
+                        <label style="font-weight:600; margin-bottom: 5px; display:block;">1. Chọn chủ đề ôn tập:</label>
+                        <select id="quiz-category-select" onchange="updateQuizCountMax()" class="custom-select" style="margin-top:0;"></select>
+                    </div>
+                    <div style="text-align: left; margin-bottom: 35px;">
+                        <label id="txt-q-count" style="font-weight:600; margin-bottom: 5px; display:block;">2. Số lượng câu hỏi (Sẽ được Random):</label>
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            <input type="number" id="quiz-count-input" min="1" value="30" style="padding: 10px 15px; border: 1px solid #ced4da; border-radius: 8px; font-size: 16px; font-weight:600; width: 100px; text-align: center; color: var(--primary-color);">
+                            <div style="font-size: 14px; color: #6c757d;">
+                                <span id="txt-total">Có sẵn:</span> <strong id="total-qs" style="color:var(--dark-text)">0</strong> câu
+                            </div>
+                        </div>
+                    </div>
+                    <button class="start-btn" onclick="startQuiz()" id="txt-start" style="width: 100%;">Bắt đầu làm bài 🚀</button>
                 </div>
             </div>
 
-            <div id="quiz-setup" class="view-section" style="text-align:center; padding-top: 50px;">
-                <h1 id="quiz-title">PRO192 Final Exam Practice</h1>
-                <p id="quiz-desc">Hệ thống đã sẵn sàng với bộ câu hỏi chuẩn FPT.</p>
-                <button class="btn-nav" style="padding:20px 60px; font-size:20px;" onclick="alert('Module thi đang cập nhật...')">Start Quiz</button>
+            <div id="quiz-active" class="view-section">
+                <div style="display:flex; justify-content: flex-end; width: 100%; max-width: 900px; margin: 0 auto;">
+                    <button class="action-btn" onclick="shuffleQuizOptions()" title="Phím tắt: M">🔀 Xáo trộn Đ/A</button>
+                </div>
+                
+                <div class="question-card" id="q-active-card">
+                    <div class="flex-between" style="margin-bottom:20px; color:#868e96; font-size: 14px; font-weight: 600;">
+                        <span id="quiz-progress"></span>
+                        <div>
+                            <div class="category-badge" id="q-category-badge" style="margin-bottom:0;"></div>
+                            <span id="multi-select-badge" class="multi-select-hint hidden"></span>
+                        </div>
+                    </div>
+                    <div id="q-content" class="question-text"></div>
+                    
+                    <ul class="options-list interactive" id="q-options"></ul>
+                </div>
+
+                <div class="flex-between" style="max-width: 100%; margin-top: 20px;">
+                    <button class="nav-btn secondary" onclick="navQuiz(-1)" id="btn-prev">← Câu trước</button>
+                    <button class="submit-btn" onclick="finishQuiz()" id="btn-submit">Nộp bài</button>
+                    <button class="nav-btn" onclick="navQuiz(1)" id="btn-next">Câu sau →</button>
+                </div>
             </div>
 
+            <div id="quiz-result" class="view-section">
+                <div style="text-align: center; margin-bottom: 30px;">
+                    <h2 id="txt-result-title" style="margin-top:0; color: #2c3e50; font-size: 24px;">Kết quả làm bài</h2>
+                    <div id="score-val" style="font-size:55px; font-weight:800; color:var(--primary-color);"></div>
+                    <p id="score-percent" style="color: #6c757d; font-weight: 600; font-size: 18px; margin-top: 5px;"></p>
+                    <button class="start-btn" onclick="resetQuiz()" style="margin-top: 15px; box-shadow: 0 4px 15px rgba(111,66,193,0.3);">Làm đề mới 🔄</button>
+                </div>
+                <div id="review-list" style="width: 100%;"></div>
+            </div>
+
+        </div>
+
+        <div class="quiz-sidebar hidden" id="quiz-sidebar">
+            <div id="txt-map-title" style="font-weight:700; margin-bottom:20px; font-size: 15px; color: #2c3e50;">Danh sách câu hỏi</div>
+            <div class="question-grid" id="map-grid"></div>
+            <div style="margin-top:auto; padding-top: 20px; font-size:13px; color:#6c757d; border-top: 1px solid #eaeaea;">
+                <div class="flex-between" style="justify-content: flex-start; margin-bottom:10px;"><div style="width:14px; height:14px; border:2px solid var(--primary-color); border-radius: 4px; margin-right:10px;"></div><span id="leg-current">Đang chọn</span></div>
+                <div class="flex-between" style="justify-content: flex-start; margin-bottom:10px;"><div style="width:14px; height:14px; background:#e2e3e5; border:1px solid #ced4da; border-radius: 4px; margin-right:10px;"></div><span id="leg-ans">Đã làm</span></div>
+                <div class="flex-between" style="justify-content: flex-start; margin-bottom:10px;"><div style="width:14px; height:14px; background:var(--secondary-color); border-radius: 4px; margin-right:10px;"></div><span id="leg-cor">Đúng</span></div>
+                <div class="flex-between" style="justify-content: flex-start;"><div style="width:14px; height:14px; background:var(--danger-color); border-radius: 4px; margin-right:10px;"></div><span id="leg-wro">Sai</span></div>
+            </div>
         </div>
     </div>
 
 <script>
-    // --- TEXT DICTIONARY ---
-    const uiTexts = {
+    // ======================================================
+    // LOGIC ỨNG DỤNG
+    // ======================================================
+    
+    const naturalSort = (a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' });
+    
+    function shuffleArray(array) {
+        let arr = [...array];
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    const compareArrays = (a, b) => {
+        if(!a || !b) return false;
+        const sortedA = [...a].sort();
+        const sortedB = [...b].sort();
+        return sortedA.length === sortedB.length && sortedA.every((val, index) => val === sortedB[index]);
+    };
+
+    function getCorrectIndices(data, qObj) {
+        const rawAnswers = Array.isArray(data.answer) ? data.answer : [data.answer];
+        const options = data.options || [];
+        let originalIndices = [];
+        
+        const clean = (str) => {
+            if (typeof str !== 'string') return '';
+            let s = str.trim();
+            let match = s.match(/^[A-Z][\.\)]\s*(.*)/i);
+            if (match && match[1]) return match[1].trim().toLowerCase();
+            return s.toLowerCase();
+        };
+
+        rawAnswers.forEach(ans => {
+            let idx = -1;
+            let cleanAns = clean(ans);
+            idx = options.findIndex(opt => clean(opt) === cleanAns);
+            
+            if (idx === -1 && typeof ans === 'string') {
+                let letters = ans.trim().toUpperCase().replace(/[^A-Z]/g, '');
+                for(let char of letters) {
+                    let charCode = char.charCodeAt(0) - 65; 
+                    if (charCode >= 0 && charCode < options.length) {
+                        originalIndices.push(charCode);
+                    }
+                }
+            } else if (idx !== -1) {
+                originalIndices.push(idx);
+            }
+        });
+        return [...new Set(originalIndices)];
+    }
+
+    let state = {
+        isVietnamese: false, 
+        activeTab: 'flashcard', 
+        fcIndex: 0, 
+        filteredFlashcards: [],
+        fcShuffledIndices: [], 
+        quizPhase: 'setup', 
+        activeQuestions: [], 
+        userAnswers: {}, 
+        currentQuizIndex: 0, 
+        quizResults: {}
+    };
+
+    const texts = {
         vi: {
-            tabLearn: "📖 Học tập", tabQuiz: "📝 Thi thử",
-            langBtn: "English Mode", btnPrev: "← Câu trước",
-            btnNext: "Câu sau →", ansLabel: "Đáp án đúng:", 
-            expLabel: "Giải thích chuyên môn:", quizTitle: "Luyện thi PRO192",
-            quizDesc: "Sẵn sàng chinh phục kỳ thi Final với 169 câu hỏi chuẩn.",
-            counterOf: "Câu", counterTotal: "trên"
+            setupTitle: "Cấu hình bài thi PRO192", total: "Có sẵn:", qCount: "Số lượng câu hỏi:", start: "Bắt đầu làm bài 🚀", mapTitle: "Danh sách câu",
+            submit: "Nộp bài", resultTitle: "Kết quả làm bài", prev: "← Câu trước", next: "Câu sau →", 
+            legCur: "Đang chọn", legCor: "Đúng", legWro: "Sai", qOf: "Câu", correctAns: "Đáp án đúng:", unanswered: "Chưa làm", correct: "✔ Chính xác!",
+            wrong: "✘ Sai rồi", chapter: "Chủ đề:", confirmSubmit: "Bạn có chắc muốn nộp bài?", 
+            shortcutHelp: "Phím tắt: 1-8 (Chọn) | Enter/N (Ngôn ngữ) | M (Đảo đáp án) | Space (Lật thẻ) | ⬅/➡ (Chuyển câu)",
+            chooseOne: "Chọn 1 đáp án", chooseMulti: "Hãy chọn {n} đáp án", explanation: "Giải thích:"
         },
         en: {
-            tabLearn: "📖 Learning", tabQuiz: "📝 Quiz Mode",
-            langBtn: "Chế độ TV", btnPrev: "← Previous",
-            btnNext: "Next →", ansLabel: "Correct Answer:",
-            expLabel: "Professor's Explanation:", quizTitle: "PRO192 Exam Tool",
-            quizDesc: "Ready to conquer the Final Exam with 169 curated questions.",
-            counterOf: "Question", counterTotal: "of"
+            setupTitle: "PRO192 Practice Config", total: "Available:", qCount: "Number of questions:", start: "Start Quiz 🚀", mapTitle: "Question Map",
+            submit: "Submit", resultTitle: "Quiz Results", prev: "← Prev", next: "Next →", 
+            legCur: "Current", legCor: "Correct", legWro: "Wrong", qOf: "Question", correctAns: "Correct Answer:", unanswered: "Unanswered", correct: "✔ Correct!",
+            wrong: "✘ Wrong", chapter: "Topic:", confirmSubmit: "Are you sure you want to submit the quiz?", 
+            shortcutHelp: "Shortcuts: 1-8 (Select) | Enter/N (Lang) | M (Shuffle) | Space (Flip Card) | ⬅/➡ (Navigate)",
+            chooseOne: "Single Choice", chooseMulti: "Multiple Choice ({n})", explanation: "Explanation:"
         }
     };
 
-    // --- JSON DATA (BÀI TẬP CODE ĐÃ ĐỊNH DẠNG) ---
-    const quizData =[
+    function init() {
+        if (typeof quizData === 'undefined' || quizData.length === 0) {
+            document.body.innerHTML = `<div style="padding:20px; text-align:center; color:red;"><h2>Chưa có dữ liệu. Vui lòng dán JSON vào code (biến quizData).</h2></div>`;
+            return;
+        }
+        
+        quizData.forEach((q, i) => {
+            if(!q.id) q.id = i+1;
+            if(!q.category) q.category = "General";
+        });
+
+        const uniqueCats = Array.from(new Set(quizData.map(q => q.category)));
+        uniqueCats.sort(naturalSort);
+        const populate = (id) => {
+            const sel = document.getElementById(id);
+            sel.innerHTML = '<option value="all">-- Tất cả / All Topics --</option>';
+            uniqueCats.forEach(cat => { sel.innerHTML += `<option value="${cat}">${cat}</option>`; });
+        };
+        populate('fc-category-select');
+        populate('quiz-category-select');
+        
+        updateFlashcardFilter();
+        updateQuizCountMax();
+        updateLanguageTexts();
+        updateView();
+    }
+
+    function updateView() {
+        document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active-view'));
+        document.getElementById('quiz-sidebar').classList.add('hidden');
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        
+        if (state.activeTab === 'flashcard') {
+            document.querySelector('.tab-btn[onclick*="flashcard"]').classList.add('active');
+            document.getElementById('flashcard-view').classList.add('active-view');
+        } else {
+            document.querySelector('.tab-btn[onclick*="quiz"]').classList.add('active');
+            const phaseMap = { setup: 'quiz-setup', active: 'quiz-active', result: 'quiz-result' };
+            document.getElementById(phaseMap[state.quizPhase]).classList.add('active-view');
+            if (state.quizPhase !== 'setup') document.getElementById('quiz-sidebar').classList.remove('hidden');
+        }
+    }
+
+    function switchTab(tab) { state.activeTab = tab; updateView(); }
+    
+    // ==========================================
+    // LEARN MODE 
+    // ==========================================
+    function updateFlashcardFilter() {
+        const cat = document.getElementById('fc-category-select').value;
+        state.filteredFlashcards = (cat === 'all') ? [...quizData] : quizData.filter(q => q.category === cat);
+        state.fcIndex = 0;
+        initFlashcardState();
+    }
+
+    function initFlashcardState() {
+        document.getElementById('fc-flip-card').classList.remove('flipped');
+        if(state.filteredFlashcards.length === 0) return renderFlashcard();
+        const q = state.filteredFlashcards[state.fcIndex];
+        const data = state.isVietnamese ? (q.vi || q.en) : (q.en || q.vi);
+        const optLen = (data.options || []).length;
+        
+        state.fcShuffledIndices = Array.from({ length: optLen }, (_, i) => i);
+        renderFlashcard();
+    }
+
+    function shuffleFlashcardOptions() {
+        state.fcShuffledIndices = shuffleArray(state.fcShuffledIndices);
+        renderFlashcard();
+    }
+
+    function renderFlashcard() {
+        const countSpan = document.getElementById('fc-counter');
+        const cardWrapper = document.querySelector('.flashcard-wrapper');
+        
+        if (state.filteredFlashcards.length === 0) { 
+            cardWrapper.style.display = 'none'; countSpan.innerText = "0 / 0"; return; 
+        }
+        cardWrapper.style.display = 'flex';
+        
+        const t = state.isVietnamese ? texts.vi : texts.en;
+        const qObj = state.filteredFlashcards[state.fcIndex];
+        const data = state.isVietnamese ? (qObj.vi || qObj.en) : (qObj.en || qObj.vi);
+        
+        document.getElementById('fc-tag').innerText = qObj.category;
+        countSpan.innerText = `Câu ${state.fcIndex + 1} / ${state.filteredFlashcards.length}`;
+        
+        const correctIndices = getCorrectIndices(data, qObj);
+        const isMulti = correctIndices.length > 1;
+        
+        const hintBadge = document.getElementById('fc-multi-badge');
+        hintBadge.classList.remove('hidden');
+        hintBadge.innerText = isMulti ? t.chooseMulti.replace('{n}', correctIndices.length) : t.chooseOne;
+
+        // HIỂN THỊ CÂU HỎI
+        document.getElementById('fc-content').innerText = data.question;
+        document.getElementById('fc-question-reminder').innerText = "Q: " + data.question;
+        
+        // MẶT TRƯỚC - Render Options
+        const ul = document.getElementById('fc-options');
+        ul.innerHTML = '';
+        const labels = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+        
+        state.fcShuffledIndices.forEach((origIdx, displayPos) => {
+            const li = document.createElement('li');
+            li.innerText = (data.options[origIdx] || '').replace(/^[A-F][\.\)]\s*/, ''); 
+            li.setAttribute('data-label', labels[displayPos]);
+            // KO cho click chọn đáp án ở phần học
+            li.onclick = (e) => { e.stopPropagation(); }; 
+            ul.appendChild(li);
+        });
+
+        // MẶT SAU - Render Đáp án & Giải thích
+        const answerTexts = correctIndices.map(i => {
+            let txt = data.options[i];
+            return txt ? txt.replace(/^[A-F][\.\)]\s*/, '') : '';
+        }).filter(x=>x);
+        
+        const answerBox = document.getElementById('fc-answer');
+        answerBox.innerHTML = '';
+        if(answerTexts.length > 0) {
+            answerTexts.forEach((ansTxt, idx) => {
+                answerBox.innerHTML += `<div>${labels[idx]}. ${ansTxt}</div>`;
+            });
+        } else {
+            answerBox.innerText = data.answer;
+        }
+
+        document.getElementById('fc-explanation-label').innerText = t.explanation;
+        document.getElementById('fc-explanation').innerHTML = data.explanation || "Chưa có thông tin giải thích chi tiết.";
+    }
+
+    function navFlashcard(dir) {
+        let next = state.fcIndex + dir;
+        if (next >= 0 && next < state.filteredFlashcards.length) { 
+            state.fcIndex = next; 
+            initFlashcardState(); 
+        }
+    }
+
+    // ==========================================
+    // QUIZ MODE
+    // ==========================================
+    function updateQuizCountMax() {
+        const cat = document.getElementById('quiz-category-select').value;
+        let count = (cat === 'all') ? quizData.length : quizData.filter(q => q.category === cat).length;
+        document.getElementById('total-qs').innerText = count;
+        const input = document.getElementById('quiz-count-input');
+        input.max = count;
+        input.value = Math.min(parseInt(input.value) || 30, count);
+    }
+
+    function startQuiz() {
+        const cat = document.getElementById('quiz-category-select').value;
+        let pool = (cat === 'all') ? [...quizData] : quizData.filter(q => q.category === cat);
+        if (pool.length === 0) { alert("Không có câu hỏi!"); return; }
+        
+        let count = Math.min(parseInt(document.getElementById('quiz-count-input').value), pool.length);
+        if (isNaN(count) || count <= 0) count = 1;
+
+        // LUÔN RANDOM CÂU HỎI
+        const selectedQuestions = shuffleArray(pool).slice(0, count);
+        
+        state.activeQuestions = selectedQuestions.map(q => {
+            const data = state.isVietnamese ? (q.vi || q.en) : (q.en || q.vi);
+            return { 
+                ...q, 
+                // XÁO TRỘN ĐÁP ÁN CHO TỪNG CÂU
+                shuffledIndices: shuffleArray(Array.from({ length: (data.options || []).length }, (_, i) => i)) 
+            };
+        });
+        
+        state.userAnswers = {};
+        state.quizResults = {}; 
+        state.currentQuizIndex = 0;
+        state.quizPhase = 'active';
+        
+        document.getElementById('main-content-area').scrollTop = 0;
+        updateView();
+        renderQuestionCard();
+        renderMap();
+    }
+
+    function shuffleQuizOptions() {
+        const idx = state.currentQuizIndex;
+        const qObj = state.activeQuestions[idx];
+        qObj.shuffledIndices = shuffleArray(qObj.shuffledIndices);
+        state.userAnswers[idx] = []; 
+        renderQuestionCard();
+    }
+
+    function renderQuestionCard() {
+        if (!state.activeQuestions[state.currentQuizIndex]) return;
+
+        const t = state.isVietnamese ? texts.vi : texts.en;
+        const idx = state.currentQuizIndex;
+        const qObj = state.activeQuestions[idx];
+        const data = state.isVietnamese ? (qObj.vi || qObj.en) : (qObj.en || qObj.vi);
+        const userSelections = state.userAnswers[idx] || [];
+        
+        const correctIndices = getCorrectIndices(data, qObj);
+        const isMulti = correctIndices.length > 1;
+
+        const hintBadge = document.getElementById('multi-select-badge');
+        hintBadge.classList.remove('hidden');
+        if(isMulti) {
+            hintBadge.innerText = t.chooseMulti.replace('{n}', correctIndices.length);
+            hintBadge.style.color = '#856404'; hintBadge.style.backgroundColor = '#fff3cd'; hintBadge.style.border = '1px solid #ffeeba';
+        } else {
+            hintBadge.innerText = t.chooseOne;
+            hintBadge.style.color = '#495057'; hintBadge.style.backgroundColor = '#e9ecef'; hintBadge.style.border = 'none';
+        }
+        
+        document.getElementById('q-category-badge').innerText = qObj.category;
+        document.getElementById('quiz-progress').innerText = `${t.qOf} ${idx + 1}/${state.activeQuestions.length}`;
+        document.getElementById('q-content').innerText = data.question;
+        
+        const ul = document.getElementById('q-options');
+        ul.innerHTML = '';
+
+        const labels = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+        
+        qObj.shuffledIndices.forEach((originalIndex, displayPos) => {
+            const li = document.createElement('li');
+            li.innerText = (data.options[originalIndex] || '').replace(/^[A-F][\.\)]\s*/, ''); 
+            li.setAttribute('data-label', labels[displayPos]);
+            
+            if (userSelections.includes(originalIndex)) li.classList.add('selected');
+
+            li.onclick = () => handleQuizAnswer(idx, originalIndex, isMulti);
+            ul.appendChild(li);
+        });
+        
+        document.getElementById('btn-prev').disabled = idx === 0;
+        document.getElementById('btn-next').disabled = idx === state.activeQuestions.length - 1;
+        renderMap();
+    }
+
+    function handleQuizAnswer(qIdx, originalIndex, isMulti) {
+        state.userAnswers[qIdx] = state.userAnswers[qIdx] || [];
+        const currentSelection = state.userAnswers[qIdx];
+        
+        if (isMulti) {
+            const selectionIndex = currentSelection.indexOf(originalIndex);
+            if (selectionIndex > -1) currentSelection.splice(selectionIndex, 1);
+            else currentSelection.push(originalIndex);
+        } else {
+            state.userAnswers[qIdx] = [originalIndex];
+        }
+        renderQuestionCard();
+        renderMap();
+    }
+
+    function navQuiz(dir) {
+        let next = state.currentQuizIndex + dir;
+        if (next >= 0 && next < state.activeQuestions.length) { 
+            state.currentQuizIndex = next; 
+            renderQuestionCard(); 
+        }
+    }
+
+    function finishQuiz() {
+        if (!confirm(state.isVietnamese ? texts.vi.confirmSubmit : texts.en.confirmSubmit)) return;
+        
+        let correctCount = 0;
+        state.activeQuestions.forEach((q, i) => {
+            const data = state.isVietnamese ? (q.vi || q.en) : (q.en || q.vi);
+            const correctIndices = getCorrectIndices(data, q);
+            const userIndices = state.userAnswers[i] || [];
+            const isCorrect = compareArrays(userIndices, correctIndices);
+            state.quizResults[i] = { isCorrect };
+            if (isCorrect) correctCount++;
+        });
+
+        state.quizPhase = 'result';
+        document.getElementById('main-content-area').scrollTop = 0;
+        updateView();
+        
+        const total = state.activeQuestions.length;
+        document.getElementById('score-val').innerText = `${correctCount}/${total}`;
+        document.getElementById('score-percent').innerText = `(${(total > 0 ? Math.round(correctCount / total * 100) : 0)}%)`;
+        renderResultView();
+        renderMap();
+    }
+
+    function renderResultView() {
+        const t = state.isVietnamese ? texts.vi : texts.en;
+        const list = document.getElementById('review-list');
+        list.innerHTML = '';
+        
+        state.activeQuestions.forEach((qObj, idx) => {
+            const data = state.isVietnamese ? (qObj.vi || qObj.en) : (qObj.en || qObj.vi);
+            const result = state.quizResults[idx];
+            const correctIndices = getCorrectIndices(data, qObj);
+            const userSelections = state.userAnswers[idx] || [];
+            
+            let statusHtml = '';
+            if (result && result.isCorrect) {
+                statusHtml = `<span class="res-status correct">${t.correct}</span>`;
+            } else if (userSelections.length > 0) {
+                statusHtml = `<span class="res-status wrong">${t.wrong}</span>`;
+            } else {
+                statusHtml = `<span class="res-status" style="color:gray">${t.unanswered}</span>`;
+            }
+
+            let optionsHtml = '<ul class="options-list result-mode" style="margin-bottom: 20px;">';
+            const labels = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+            
+            qObj.shuffledIndices.forEach((originalIndex, displayPos) => {
+                if (!data.options || !data.options[originalIndex]) return;
+                const isSelected = userSelections.includes(originalIndex);
+                const isCorrectOption = correctIndices.includes(originalIndex);
+                
+                let liClass = '';
+                if (isCorrectOption) liClass = 'is-correct-answer';
+                else if (isSelected && !isCorrectOption) liClass = 'is-wrong-answer';
+
+                let optText = data.options[originalIndex].replace(/^[A-F][\.\)]\s*/, '');
+                optionsHtml += `<li class="${liClass}" data-label="${labels[displayPos]}">${optText}</li>`;
+            });
+            optionsHtml += '</ul>';
+
+            let explainHtml = '';
+            if(data.explanation){
+                explainHtml = `
+                    <div class="res-exp">
+                        <strong style="color: var(--primary-color);">${t.explanation}</strong><br>
+                        <span style="display:block; margin-top:5px;">${data.explanation}</span>
+                    </div>`;
+            }
+
+            list.innerHTML += `
+            <div class="question-card" id="result-card-${idx}">
+                <div class="res-header">
+                    <span class="res-qnum">${t.qOf} ${idx + 1}</span>
+                    ${statusHtml}
+                </div>
+                <div class="category-badge">${qObj.category}</div>
+                <div class="question-text">${data.question}</div>
+                ${optionsHtml}
+                ${explainHtml}
+            </div>`;
+        });
+    }
+
+    function resetQuiz() { 
+        state.quizPhase = 'setup'; state.userAnswers = {}; state.quizResults = {}; 
+        state.activeQuestions = []; updateView(); updateQuizCountMax(); 
+    }
+
+    function renderMap() {
+        const grid = document.getElementById('map-grid');
+        grid.innerHTML = '';
+        document.getElementById('leg-ans').parentElement.style.display = (state.quizPhase === 'result') ? 'none' : 'flex';
+
+        state.activeQuestions.forEach((_, i) => {
+            const btn = document.createElement('button');
+            btn.className = 'map-btn';
+            btn.innerText = i + 1;
+            
+            if (state.quizPhase === 'result') {
+                const result = state.quizResults[i];
+                if (result) btn.classList.add(result.isCorrect ? 'correct' : 'wrong');
+            } else {
+                const hasAnswer = state.userAnswers[i] && state.userAnswers[i].length > 0;
+                if (state.currentQuizIndex === i) btn.classList.add('active');
+                else if (hasAnswer) btn.classList.add('answered');
+            }
+
+            btn.onclick = () => { 
+                if(state.quizPhase === 'result') { 
+                    // SCROLL TỚI ĐÚNG CÂU
+                    const targetCard = document.getElementById(`result-card-${i}`);
+                    if(targetCard) {
+                        targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        targetCard.style.boxShadow = "0 0 0 3px var(--warning-color)";
+                        setTimeout(() => targetCard.style.boxShadow = "var(--card-shadow)", 1500);
+                    }
+                } else {
+                    state.currentQuizIndex = i; 
+                    renderQuestionCard(); 
+                }
+            };
+            grid.appendChild(btn);
+        });
+    }
+
+    function toggleLanguage() {
+        state.isVietnamese = !state.isVietnamese;
+        updateLanguageTexts();
+        if (state.activeTab === 'flashcard') renderFlashcard();
+        else if (state.activeTab === 'quiz') {
+            if (state.quizPhase === 'active') renderQuestionCard();
+            else if (state.quizPhase === 'result') renderResultView();
+        }
+    }
+
+    function updateLanguageTexts() {
+        const t = state.isVietnamese ? texts.vi : texts.en;
+        document.getElementById('current-lang-text').innerText = state.isVietnamese ? "VN" : "EN";
+        document.getElementById('txt-setup-title').innerText = t.setupTitle;
+        document.getElementById('txt-total').innerText = t.total;
+        document.getElementById('txt-q-count').innerText = t.qCount;
+        document.getElementById('txt-start').innerHTML = t.start;
+        document.getElementById('btn-prev').innerText = t.prev;
+        document.getElementById('btn-next').innerText = t.next;
+        document.getElementById('btn-submit').innerText = t.submit;
+        document.getElementById('txt-result-title').innerText = t.resultTitle;
+        document.getElementById('leg-current').innerText = t.legCur;
+        document.getElementById('leg-cor').innerText = t.legCor;
+        document.getElementById('leg-wro').innerText = t.legWro;
+        document.getElementById('txt-map-title').innerText = t.mapTitle;
+        document.getElementById('shortcut-help').innerText = t.shortcutHelp;
+        
+        const setupTitles = document.querySelectorAll('.tab-btn');
+        if(setupTitles.length >= 2) {
+            setupTitles[0].innerText = state.isVietnamese ? "📖 Thẻ ghi nhớ (Learn)" : "📖 Learn";
+            setupTitles[1].innerText = state.isVietnamese ? "📝 Thi (Quiz)" : "📝 Quiz";
+        }
+    }
+
+    // --- SỰ KIỆN BÀN PHÍM ---
+    document.addEventListener('keydown', e => {
+        if (['INPUT', 'SELECT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
+        const key = e.key.toLowerCase();
+
+        // N hoặc Enter: Đổi ngôn ngữ
+        if (key === 'n' || e.key === 'Enter') { e.preventDefault(); toggleLanguage(); return; }
+
+        // M: Xáo trộn đáp án 
+        if (key === 'm') {
+            e.preventDefault();
+            if (state.activeTab === 'flashcard') shuffleFlashcardOptions();
+            else if (state.activeTab === 'quiz' && state.quizPhase === 'active') shuffleQuizOptions();
+            return;
+        }
+
+        // Chuyển câu
+        if (e.key === 'ArrowLeft') {
+            if (state.activeTab === 'flashcard') navFlashcard(-1);
+            else if (state.activeTab === 'quiz' && state.quizPhase === 'active') navQuiz(-1);
+        }
+        if (e.key === 'ArrowRight') {
+            if (state.activeTab === 'flashcard') navFlashcard(1);
+            else if (state.activeTab === 'quiz' && state.quizPhase === 'active') navQuiz(1);
+        }
+        
+        // CHỈ cho chọn số 1-8 trong lúc làm Quiz.
+        if (e.key >= '1' && e.key <= '8') {
+            const displayIndex = parseInt(e.key) - 1; 
+            if (state.activeTab === 'quiz' && state.quizPhase === 'active') {
+                const idx = state.currentQuizIndex;
+                const qObj = state.activeQuestions[idx];
+                const data = state.isVietnamese ? (qObj.vi || qObj.en) : (qObj.en || qObj.vi);
+                if (displayIndex < (data.options || []).length) {
+                    const originalIndex = qObj.shuffledIndices[displayIndex];
+                    const correctIndices = getCorrectIndices(data, qObj);
+                    const isMulti = correctIndices.length > 1;
+                    handleQuizAnswer(idx, originalIndex, isMulti);
+                }
+            }
+        }
+
+        // Lật thẻ bằng phím Space
+        if (e.key === ' ') {
+            e.preventDefault(); 
+            if (state.activeTab === 'flashcard') {
+                document.getElementById('fc-flip-card').classList.toggle('flipped');
+            } 
+        }
+    });
+
+    // ======================================================
+    // DATA TRỐNG 
+    // Em dán 186 câu hỏi JSON vào trong mảng này nhé!
+    // ======================================================
+    const quizData = [
     {
         "id": 1,
         "category": "Java Basics",
@@ -2960,79 +3596,8 @@
         }
     }
 ];
-
-    let state = { lang: 'vi', fcIdx: 0 };
-
-    function switchTab(t) {
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById('tab-' + t).classList.add('active');
-        document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
-        document.getElementById(t + '-view').classList.add('active');
-    }
-
-    function toggleLanguage() {
-        state.lang = state.lang === 'vi' ? 'en' : 'vi';
-        translateUI();
-        renderFC();
-    }
-
-    function translateUI() {
-        const t = uiTexts[state.lang];
-        document.getElementById('tab-learn').innerText = t.tabLearn;
-        document.getElementById('tab-quiz').innerText = t.tabQuiz;
-        document.getElementById('lang-btn').innerText = t.langBtn;
-        document.getElementById('btn-prev').innerText = t.btnPrev;
-        document.getElementById('btn-next').innerText = t.btnNext;
-        document.getElementById('quiz-title').innerText = t.quizTitle;
-        document.getElementById('quiz-desc').innerText = t.quizDesc;
-        updateFCStatus();
-    }
-
-    function renderFC() {
-        const q = quizData[state.fcIdx];
-        const data = q[state.lang];
-        const t = uiTexts[state.lang];
-        
-        let codeHtml = data.code ? `<pre class="code-snippet"><code>${data.code}</code></pre>` : '';
-
-        document.getElementById('fc-front').innerHTML = `
-            <div class="q-header"><span class="badge-topic">${q.category}</span></div>
-            <div class="question-box">
-                <p class="question-text">${data.question}</p>
-                ${codeHtml}
-            </div>
-            <ul class="options-list">
-                ${data.options.map((o, i) => `<li data-label="${String.fromCharCode(65+i)}">${o.substring(3)}</li>`).join('')}
-            </ul>
-        `;
-
-        document.getElementById('fc-back').innerHTML = `
-            <div class="badge-topic" style="background:#d1e7dd; color:#0f5132">${t.ansLabel} ${data.answer}</div>
-            <div style="margin-top:30px; font-size:16px; line-height:1.7;">
-                <b style="color:var(--primary-color)">${t.expLabel}</b><br>${data.explanation}
-            </div>
-        `;
-    }
-
-    function navFC(step) {
-        let newIdx = state.fcIdx + step;
-        if(newIdx >= 0 && newIdx < quizData.length) {
-            state.fcIdx = newIdx;
-            document.getElementById('fc-main').classList.remove('flipped');
-            renderFC();
-            updateFCStatus();
-        }
-    }
-
-    function updateFCStatus() {
-        const t = uiTexts[state.lang];
-        document.getElementById('fc-counter').innerText = `${t.counterOf} ${state.fcIdx + 1} ${t.counterTotal} ${quizData.length}`;
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-        translateUI();
-        renderFC();
-    });
+    // Khởi động
+    document.addEventListener('DOMContentLoaded', init);
 </script>
 </body>
 </html>
