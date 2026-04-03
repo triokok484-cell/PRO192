@@ -19,7 +19,7 @@
         }
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
         
-        * { box-sizing: border-box; scroll-behavior: smooth; }
+        * { box-sizing: border-box; }
         
         body {
             font-family: 'Inter', sans-serif;
@@ -51,13 +51,10 @@
 
         /* --- Main Layout --- */
         .main-container { display: flex; flex: 1; overflow: hidden; position: relative; height: 100%; }
-        
-        /* Cần overflow-y: auto để scrollIntoView hoạt động đúng trên khung này */
         .content-area {
             flex: 1; padding: 30px; overflow-y: auto; width: 100%; scroll-behavior: smooth;
             display: flex; flex-direction: column; align-items: center; position: relative; 
         }
-        
         .view-section { display: none !important; width: 100%; max-width: 900px; animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
         .view-section.active-view { display: block !important; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -65,26 +62,26 @@
         .flex-between { display: flex; justify-content: space-between; align-items: center; }
 
         /* --- Buttons --- */
-        .start-btn, .nav-btn, .submit-btn {
+        .start-btn, .nav-btn, .submit-btn, .action-btn {
             background: var(--primary-color); color: white; border: none; padding: 12px 24px; border-radius: 8px;
             font-size: 15px; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; font-weight: 600;
         }
-        .start-btn:hover, .nav-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(111, 66, 193, 0.25); }
+        .start-btn:hover, .nav-btn:hover, .action-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(111, 66, 193, 0.25); }
         .submit-btn { background: var(--secondary-color); }
         .nav-btn.secondary { background: #e9ecef; color: #495057; box-shadow: none; }
         .nav-btn.secondary:hover { background: #dee2e6; }
         .nav-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-        .action-btn { background: #fff3cd; color: #856404; border: 1px solid #ffeeba; }
+        .action-btn { background: #fff3cd; color: #856404; border: 1px solid #ffeeba; margin-bottom: 15px;}
         .action-btn:hover { background: #ffe8a1; }
 
         /* --- Question Card Styling --- */
-        .question-card { background: white; border-radius: 16px; padding: 30px; box-shadow: var(--card-shadow); margin-bottom: 20px; position: relative; border: 1px solid #eaeaea; transition: box-shadow 0.3s ease; }
+        .question-card { background: white; border-radius: 16px; padding: 30px; box-shadow: var(--card-shadow); margin-bottom: 30px; position: relative; border: 1px solid #eaeaea; transition: box-shadow 0.3s ease; width: 100%;}
         .question-text { font-size: 17px; line-height: 1.6; margin-bottom: 25px; font-weight: 500; color: #1a1a1a; white-space: pre-wrap; }
         
-        .options-list { list-style: none; padding: 0; display: grid; gap: 12px; }
+        .options-list { list-style: none; padding: 0; display: grid; gap: 12px; width: 100%; }
         .options-list li {
             background: #fff; border: 2px solid #f0f0f0; border-radius: 10px; padding: 15px 20px 15px 50px;
-            cursor: pointer; position: relative; transition: all 0.15s; font-size: 15px; user-select: none;
+            cursor: pointer; position: relative; transition: all 0.15s; font-size: 15px; user-select: none; text-align: left;
         }
         .options-list li:hover:not(.disabled) { border-color: var(--primary-color); background: #fcfaff; }
         
@@ -95,31 +92,31 @@
             text-align: center; line-height: 28px; font-weight: 700; font-size: 13px; transition: all 0.2s;
         }
 
-        /* --- STATES: SELECTED --- */
+        /* STATES: SELECTED */
         .options-list li.selected {
             border-color: var(--primary-color); background-color: var(--primary-light);
             box-shadow: 0 0 0 1px var(--primary-color) inset; font-weight: 600;
         }
         .options-list li.selected::before { background-color: var(--primary-color); color: white; }
 
-        /* --- STATES: CHECKED (ĐÚNG/SAI HIGHLIGHT) --- */
+        /* STATES: CHECKED (ĐÚNG/SAI HIGHLIGHT) */
         .options-list.checked li { cursor: default; opacity: 0.6; }
         .options-list.checked li.is-correct-answer {
             background-color: #d1e7dd !important; border-color: #0f5132 !important;
-            color: #0f5132 !important; opacity: 1 !important; font-weight: 600;
+            color: #0f5132 !important; opacity: 1 !important; font-weight: 600; box-shadow: 0 0 0 1px #0f5132 inset;
         }
         .options-list.checked li.is-correct-answer::before { background-color: #198754; color: white; content: "✔"; }
         
         .options-list.checked li.is-wrong-answer {
             background-color: #f8d7da !important; border-color: #842029 !important;
-            color: #842029 !important; opacity: 1 !important; font-weight: 600;
+            color: #842029 !important; opacity: 1 !important; font-weight: 600; box-shadow: 0 0 0 1px #842029 inset;
         }
         .options-list.checked li.is-wrong-answer::before { background-color: #dc3545; color: white; content: "✘"; }
 
         /* Giải thích */
         .instant-explanation {
             margin-top: 20px; padding: 15px; border-radius: 10px; font-size: 14px;
-            display: none; animation: fadeIn 0.3s ease; line-height: 1.5;
+            display: none; animation: fadeIn 0.3s ease; line-height: 1.5; text-align: left;
         }
         .instant-explanation.show { display: block; }
         .instant-explanation.correct { background-color: #e8f5e9; color: #155724; border: 1px solid #c3e6cb; }
@@ -134,20 +131,27 @@
         .btn-check-multi:hover:not(:disabled) { background-color: #e36d0a; transform: translateY(-2px); }
         .btn-check-multi:disabled { background-color: #ced4da; color: #6c757d; cursor: not-allowed; transform: none; }
 
-        /* --- Result Format (Match Image) --- */
-        .res-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
-        .res-qnum { font-weight: 700; font-size: 18px; color: #2c3e50; }
-        .res-status.wrong { color: var(--danger-color); font-weight: 600; }
-        .res-status.correct { color: var(--secondary-color); font-weight: 600; }
-        .res-topic { font-size: 13px; color: #868e96; margin-bottom: 15px; }
-        .res-ans-label { color: var(--secondary-color); font-weight: 700; margin-top: 15px; font-size: 15px; }
-        .res-ans-text { font-weight: 700; color: #1a1a1a; margin-bottom: 10px; white-space: pre-wrap; }
-        .res-exp { font-style: italic; color: #555; background: #f8f9fa; padding: 12px; border-radius: 8px; font-size: 14px; border-left: 4px solid var(--primary-color); }
+        /* --- Flashcard Styling --- */
+        .flashcard-wrapper { display: flex; justify-content: center; perspective: 1000px; margin-bottom: 30px; width: 100%;}
+        .flashcard {
+            width: 100%; position: relative; transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer; display: grid;
+        }
+        .flashcard.flipped { transform: rotateY(180deg); }
+        .card-face {
+            grid-area: 1 / 1; width: 100%; min-height: 400px; 
+            backface-visibility: hidden; -webkit-backface-visibility: hidden;
+            border-radius: 16px; border: 1px solid #eaeaea;
+            box-shadow: var(--card-shadow); background: white; padding: 40px; display: flex; flex-direction: column;
+            justify-content: flex-start; align-items: center; text-align: center;
+        }
+        .card-front { z-index: 2; transform: rotateY(0deg); }
+        .card-back { transform: rotateY(180deg); background: #fff; justify-content: flex-start; text-align: left; align-items: flex-start; }
 
         /* --- Utils --- */
         .category-badge {
             font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; background: #e0d4fc;
-            color: var(--primary-color); padding: 6px 12px; border-radius: 6px; font-weight: 700; display: inline-block;
+            color: var(--primary-color); padding: 6px 12px; border-radius: 6px; font-weight: 700; display: inline-block; margin-bottom: 15px;
         }
         .quiz-sidebar {
             width: 280px; background: white; border-left: 1px solid #eaeaea; display: flex;
@@ -172,6 +176,9 @@
         #quiz-setup { background: white; padding: 40px; border-radius: 16px; box-shadow: var(--card-shadow); text-align: center; max-width: 500px; margin: auto; }
         .custom-select { width: 100%; padding: 12px 15px; border: 1px solid #ced4da; border-radius: 8px; font-size: 15px; background: #fff; margin-top: 10px; cursor: pointer; }
 
+        .res-status.wrong { color: var(--danger-color); font-weight: 600; }
+        .res-status.correct { color: var(--secondary-color); font-weight: 600; }
+
         @media (max-width: 768px) {
             .main-container { flex-direction: column; }
             .quiz-sidebar { width: 100%; height: auto; max-height: 150px; border-left: none; border-top: 1px solid #eee; order: -1; padding: 15px; }
@@ -184,10 +191,10 @@
 
     <div class="top-bar">
         <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab('flashcard')">📖 Học (Learn)</button>
+            <button class="tab-btn active" onclick="switchTab('flashcard')">📖 Thẻ ghi nhớ (Learn)</button>
             <button class="tab-btn" onclick="switchTab('quiz')">📝 Thi (Quiz)</button>
         </div>
-        <button class="lang-btn" onclick="toggleLanguage()" title="Phím tắt: N">
+        <button class="lang-btn" onclick="toggleLanguage()" title="Phím tắt: Enter hoặc N">
             <span style="font-size: 16px;">🌐</span> <span id="current-lang-text">EN</span>
         </button>
     </div>
@@ -196,30 +203,40 @@
         <div class="content-area" id="main-content-area">
 
             <div id="flashcard-view" class="view-section active-view">
-                <div style="max-width: 800px; margin: 0 auto;">
+                <div style="max-width: 800px; margin: 0 auto; width: 100%;">
                     <div style="display:flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px;">
                         <div style="flex: 1;">
                             <label style="font-weight:600; color:var(--primary-color); display:block; margin-bottom:5px;">📖 Chọn chủ đề học:</label>
                             <select id="fc-category-select" onchange="updateFlashcardFilter()" class="custom-select" style="margin-top:0;"></select>
                         </div>
-                        <button class="nav-btn secondary action-btn" onclick="shuffleFlashcardOptions()" style="margin-left: 15px;" title="Phím tắt: M">🔀 Xáo trộn Đ/A</button>
+                        <button class="action-btn" onclick="shuffleFlashcardOptions()" style="margin-left: 15px;" title="Phím tắt: M">🔀 Xáo trộn Đ/A</button>
                     </div>
                     
-                    <div class="question-card" id="fc-card">
-                        <div class="flex-between" style="margin-bottom:15px;">
-                            <div class="category-badge" id="fc-tag"></div>
-                            <span id="fc-multi-badge" class="multi-select-hint hidden"></span>
+                    <div class="flashcard-wrapper">
+                        <div class="flashcard" id="fc-flip-card">
+                            <div class="card-face card-front">
+                                <div style="width: 100%; display: flex; justify-content: space-between; align-items: center;">
+                                    <div class="category-badge" id="fc-tag"></div>
+                                    <span id="fc-multi-badge" class="multi-select-hint hidden"></span>
+                                </div>
+                                <div id="fc-content" class="question-text" style="width: 100%; text-align: left;"></div>
+                                <ul class="options-list" id="fc-options"></ul>
+                                <div style="margin-top: auto; padding-top:20px; font-size: 13px; color: #aaa; font-weight: 600;">(Nhấn Phím Space để lật thẻ xem giải thích)</div>
+                            </div>
+                            
+                            <div class="card-face card-back">
+                                <div id="fc-answer-label" class="category-badge" style="background:var(--secondary-color); color:white;">Đáp án đúng</div>
+                                <div id="fc-answer" style="font-size: 18px; font-weight: bold; margin-bottom: 20px; color:var(--dark-text); width: 100%;"></div>
+                                <div style="width: 100%; font-size: 15px; color: #555; background: #f8f9fa; padding: 20px; border-radius: 10px; border-left: 4px solid var(--primary-color);">
+                                    <strong id="fc-explanation-label" style="color:var(--primary-color);"></strong><br>
+                                    <span id="fc-explanation" style="display: block; margin-top: 8px;"></span>
+                                </div>
+                                <div style="margin-top: auto; padding-top:20px; font-size: 13px; color: #aaa; width: 100%; text-align: center; font-weight: 600;">(Nhấn Phím Space để quay lại)</div>
+                            </div>
                         </div>
-                        <div id="fc-content" class="question-text"></div>
-                        <ul class="options-list" id="fc-options"></ul>
-                        
-                        <div id="fc-check-container" class="btn-check-wrapper">
-                            <button id="fc-btn-check" class="btn-check-multi">Kiểm tra đáp án ✨ (Space)</button>
-                        </div>
-                        <div id="fc-explain-area" class="instant-explanation"></div>
                     </div>
                     
-                    <div style="display:flex; justify-content:space-between; align-items: center; margin-top: 20px;">
+                    <div style="display:flex; justify-content:space-between; align-items: center;">
                         <button class="nav-btn secondary" onclick="navFlashcard(-1)">← Câu trước</button>
                         <span id="fc-counter" style="font-weight:700; color:#868e96; font-size: 15px;"></span>
                         <button class="nav-btn" onclick="navFlashcard(1)">Câu sau →</button>
@@ -235,7 +252,7 @@
                     <select id="quiz-category-select" onchange="updateQuizCountMax()" class="custom-select" style="margin-top:0;"></select>
                 </div>
                 <div style="text-align: left; margin-bottom: 35px;">
-                    <label id="txt-q-count" style="font-weight:600; margin-bottom: 5px; display:block;">2. Số lượng câu hỏi (Randomized):</label>
+                    <label id="txt-q-count" style="font-weight:600; margin-bottom: 5px; display:block;">2. Số lượng câu hỏi (Sẽ được Random):</label>
                     <div style="display: flex; align-items: center; gap: 15px;">
                         <input type="number" id="quiz-count-input" min="1" value="30" style="padding: 10px 15px; border: 1px solid #ced4da; border-radius: 8px; font-size: 16px; font-weight:600; width: 100px; text-align: center; color: var(--primary-color);">
                         <div style="font-size: 14px; color: #6c757d;">
@@ -247,8 +264,8 @@
             </div>
 
             <div id="quiz-active" class="view-section">
-                <div style="display:flex; justify-content: flex-end; margin-bottom: 15px;">
-                    <button class="nav-btn secondary action-btn" onclick="shuffleQuizOptions()" title="Phím tắt: M">🔀 Xáo trộn Đ/A</button>
+                <div style="display:flex; justify-content: flex-end; width: 100%; max-width: 900px; margin: 0 auto;">
+                    <button class="action-btn" onclick="shuffleQuizOptions()" title="Phím tắt: M">🔀 Xáo trộn Đ/A</button>
                 </div>
                 
                 <div class="question-card" id="q-active-card">
@@ -266,7 +283,6 @@
                     <div id="check-btn-container" class="btn-check-wrapper hidden">
                         <button id="btn-manual-check" class="btn-check-multi" disabled>Chốt đáp án nhiều lựa chọn</button>
                     </div>
-                    <div id="instant-explain-area" class="instant-explanation"></div>
                 </div>
 
                 <div class="flex-between" style="max-width: 100%; margin-top: 20px;">
@@ -277,13 +293,13 @@
             </div>
 
             <div id="quiz-result" class="view-section">
-                <div class="result-header">
+                <div class="result-header" style="background: transparent; box-shadow: none; padding: 10px; margin-bottom: 20px;">
                     <h2 id="txt-result-title" style="margin-top:0; color: #2c3e50;">Kết quả làm bài</h2>
-                    <div id="score-val" style="font-size:48px; font-weight:800; color:var(--primary-color);"></div>
+                    <div id="score-val" style="font-size:55px; font-weight:800; color:var(--primary-color);"></div>
                     <p id="score-percent" style="color: #6c757d; font-weight: 600; font-size: 18px; margin-top: 5px;"></p>
-                    <button class="start-btn" onclick="resetQuiz()" style="margin-top: 20px;">Làm đề mới 🔄</button>
+                    <button class="start-btn" onclick="resetQuiz()" style="margin-top: 20px; box-shadow: 0 4px 15px rgba(111,66,193,0.3);">Làm đề mới 🔄</button>
                 </div>
-                <div id="review-list"></div>
+                <div id="review-list" style="width: 100%;"></div>
             </div>
 
         </div>
@@ -307,7 +323,7 @@
     
     const naturalSort = (a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' });
     
-    // Hàm xáo trộn mảng (Fisher-Yates)
+    // Xáo trộn mảng (Fisher-Yates)
     function shuffleArray(array) {
         let arr = [...array];
         for (let i = arr.length - 1; i > 0; i--) {
@@ -359,13 +375,12 @@
     }
 
     let state = {
-        isVietnamese: false, // Default tiếng Anh
+        isVietnamese: false, 
         activeTab: 'flashcard', 
         
         fcIndex: 0, 
         filteredFlashcards: [],
         fcUserAnswers: [], 
-        fcChecked: false,
         fcShuffledIndices: [], 
         
         quizPhase: 'setup', 
@@ -382,7 +397,7 @@
             submit: "Nộp bài", resultTitle: "Kết quả làm bài", prev: "← Câu trước", next: "Câu sau →", 
             legCur: "Đang chọn", legCor: "Đúng", legWro: "Sai", qOf: "Câu", correctAns: "Đáp án đúng:", unanswered: "Chưa làm", correct: "✔ Chính xác!",
             wrong: "✘ Sai rồi", chapter: "Chủ đề:", confirmSubmit: "Bạn có chắc muốn nộp bài?", 
-            shortcutHelp: "Phím tắt: 1-4 (Chọn) | N (Ngôn ngữ) | M (Đảo đáp án) | Space (Check đáp án) | ⬅/➡ (Chuyển câu)",
+            shortcutHelp: "Phím tắt: 1-8 (Chọn) | Enter/N (Ngôn ngữ) | M (Đảo đáp án) | Space (Lật thẻ) | ⬅/➡ (Chuyển câu)",
             chooseOne: "Chọn 1 đáp án", chooseMulti: "Hãy chọn {n} đáp án", checkBtn: "Kiểm tra đáp án ✨", explanation: "Giải thích:"
         },
         en: {
@@ -390,15 +405,19 @@
             submit: "Submit", resultTitle: "Quiz Results", prev: "← Prev", next: "Next →", 
             legCur: "Current", legCor: "Correct", legWro: "Wrong", qOf: "Question", correctAns: "Correct Answer:", unanswered: "Unanswered", correct: "✔ Correct!",
             wrong: "✘ Wrong", chapter: "Topic:", confirmSubmit: "Are you sure you want to submit the quiz?", 
-            shortcutHelp: "Shortcuts: 1-4 (Select) | N (Lang) | M (Shuffle) | Space (Check) | ⬅/➡ (Navigate)",
+            shortcutHelp: "Shortcuts: 1-8 (Select) | Enter/N (Lang) | M (Shuffle) | Space (Flip Card) | ⬅/➡ (Navigate)",
             chooseOne: "Single Choice", chooseMulti: "Multiple Choice ({n})", checkBtn: "Check Answer ✨", explanation: "Explanation:"
         }
     };
 
     function init() {
         if (typeof quizData === 'undefined' || quizData.length === 0) {
-            document.body.innerHTML = `<div style="padding:20px; text-align:center; color:red;"><h2>Chưa có dữ liệu. Vui lòng dán JSON vào code (biến quizData).</h2></div>`;
-            return;
+            // Chèn câu hỏi mồi để build giao diện
+            window.quizData = [{
+                id: 1, category: "System Setup",
+                vi: { question: "Hãy chèn biến JSON của PRO192 vào cuối mã nguồn.", options: ["A. Tôi đã hiểu", "B. Chưa hiểu"], answer: "A", explanation: "Dữ liệu JSON cần nạp vào mảng quizData." },
+                en: { question: "Please insert your PRO192 JSON array at the bottom of the source code.", options: ["A. Got it", "B. Don't know how"], answer: "A", explanation: "The quizData variable is currently empty." }
+            }];
         }
         
         quizData.forEach((q, i) => {
@@ -441,7 +460,7 @@
     function switchTab(tab) { state.activeTab = tab; updateView(); }
     
     // ==========================================
-    // LEARN MODE 
+    // LEARN MODE (FLASHCARD)
     // ==========================================
     function updateFlashcardFilter() {
         const cat = document.getElementById('fc-category-select').value;
@@ -451,6 +470,7 @@
     }
 
     function initFlashcardState() {
+        document.getElementById('fc-flip-card').classList.remove('flipped');
         if(state.filteredFlashcards.length === 0) return renderFlashcard();
         const q = state.filteredFlashcards[state.fcIndex];
         const data = state.isVietnamese ? (q.vi || q.en) : (q.en || q.vi);
@@ -458,12 +478,10 @@
         
         state.fcShuffledIndices = Array.from({ length: optLen }, (_, i) => i);
         state.fcUserAnswers = [];
-        state.fcChecked = false;
         renderFlashcard();
     }
 
     function shuffleFlashcardOptions() {
-        if(state.fcChecked) return; 
         state.fcShuffledIndices = shuffleArray(state.fcShuffledIndices);
         state.fcUserAnswers = [];
         renderFlashcard();
@@ -471,14 +489,14 @@
 
     function renderFlashcard() {
         const countSpan = document.getElementById('fc-counter');
-        const card = document.getElementById('fc-card');
+        const cardWrapper = document.querySelector('.flashcard-wrapper');
         
         if (state.filteredFlashcards.length === 0) { 
-            card.style.display = 'none'; 
+            cardWrapper.style.display = 'none'; 
             countSpan.innerText = "0 / 0"; 
             return; 
         }
-        card.style.display = 'block';
+        cardWrapper.style.display = 'flex';
         
         const t = state.isVietnamese ? texts.vi : texts.en;
         const qObj = state.filteredFlashcards[state.fcIndex];
@@ -500,10 +518,9 @@
 
         document.getElementById('fc-content').innerText = data.question;
         
+        // MẶT TRƯỚC - Render Options
         const ul = document.getElementById('fc-options');
         ul.innerHTML = '';
-        ul.className = 'options-list' + (state.fcChecked ? ' checked' : '');
-
         const labels = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
         
         state.fcShuffledIndices.forEach((origIdx, displayPos) => {
@@ -511,58 +528,31 @@
             li.innerText = (data.options[origIdx] || '').replace(/^[A-F][\.\)]\s*/, ''); 
             li.setAttribute('data-label', labels[displayPos]);
             
-            const isSelected = state.fcUserAnswers.includes(origIdx);
-            const isCorrectOption = correctIndices.includes(origIdx);
+            if (state.fcUserAnswers.includes(origIdx)) li.classList.add('selected');
 
-            if (isSelected) li.classList.add('selected');
-
-            if (state.fcChecked) {
-                if (isCorrectOption) li.classList.add('is-correct-answer');
-                else if (isSelected && !isCorrectOption) li.classList.add('is-wrong-answer');
-            } else {
-                li.onclick = () => {
-                    if (isMulti) {
-                        const sIdx = state.fcUserAnswers.indexOf(origIdx);
-                        if (sIdx > -1) state.fcUserAnswers.splice(sIdx, 1);
-                        else state.fcUserAnswers.push(origIdx);
-                        renderFlashcard(); 
-                    } else {
-                        state.fcUserAnswers = [origIdx];
-                        checkFlashcard(correctIndices);
-                    }
-                };
-            }
+            li.onclick = (e) => {
+                e.stopPropagation(); // Ngăn sự kiện lật thẻ của thẻ cha
+                if (isMulti) {
+                    const sIdx = state.fcUserAnswers.indexOf(origIdx);
+                    if (sIdx > -1) state.fcUserAnswers.splice(sIdx, 1);
+                    else state.fcUserAnswers.push(origIdx);
+                } else {
+                    state.fcUserAnswers = [origIdx];
+                }
+                renderFlashcard();
+            };
             ul.appendChild(li);
         });
 
-        const checkContainer = document.getElementById('fc-check-container');
-        const checkBtn = document.getElementById('fc-btn-check');
-        const explainArea = document.getElementById('fc-explain-area');
-
-        checkBtn.innerText = t.checkBtn;
-        checkBtn.onclick = () => checkFlashcard(correctIndices);
-
-        if (state.fcChecked) {
-            checkContainer.classList.add('hidden');
-            const isUserCorrect = compareArrays(state.fcUserAnswers, correctIndices);
-            explainArea.className = `instant-explanation show ${isUserCorrect ? 'correct' : 'wrong'}`;
-            explainArea.innerHTML = `<strong>${isUserCorrect ? t.correct : t.wrong}</strong><br>
-                                    <strong style="margin-top:8px; display:inline-block;">${t.explanation}</strong> ${data.explanation || "Chưa có thông tin giải thích chi tiết."}`;
-        } else {
-            explainArea.className = 'instant-explanation'; explainArea.innerHTML = '';
-            if (isMulti) {
-                checkContainer.classList.remove('hidden');
-                checkBtn.disabled = state.fcUserAnswers.length === 0;
-            } else {
-                checkContainer.classList.add('hidden');
-            }
-        }
-    }
-
-    function checkFlashcard(correctIndices) {
-        if(state.fcUserAnswers.length === 0 && correctIndices.length > 0) return;
-        state.fcChecked = true;
-        renderFlashcard();
+        // MẶT SAU - Render Đáp án & Giải thích
+        const answerTexts = correctIndices.map(i => {
+            let txt = data.options[i];
+            return txt ? txt.replace(/^[A-F][\.\)]\s*/, '') : '';
+        }).filter(x=>x).join('\n');
+        
+        document.getElementById('fc-answer').innerText = answerTexts || data.answer;
+        document.getElementById('fc-explanation-label').innerText = t.explanation;
+        document.getElementById('fc-explanation').innerHTML = data.explanation || "Chưa có thông tin giải thích chi tiết.";
     }
 
     function navFlashcard(dir) {
@@ -572,6 +562,11 @@
             initFlashcardState(); 
         }
     }
+
+    // Mở / Đóng lật thẻ
+    document.getElementById('fc-flip-card').addEventListener('click', function() {
+        this.classList.toggle('flipped');
+    });
 
     // ==========================================
     // QUIZ MODE
@@ -593,14 +588,14 @@
         let count = Math.min(parseInt(document.getElementById('quiz-count-input').value), pool.length);
         if (isNaN(count) || count <= 0) count = 1;
 
-        // Xáo trộn ngẫu nhiên ngân hàng câu hỏi
+        // BỐC CÂU HỎI RANDOM (YÊU CẦU CỦA USER)
         const selectedQuestions = shuffleArray(pool).slice(0, count);
         
         state.activeQuestions = selectedQuestions.map(q => {
-            const data = state.isVietnamese ? (q.vi || q.en) : (q.en || q.vi);
+            const data = state.isVietnamese ? (q.vi || q.en || q) : (q.en || q.vi || q);
             return { 
                 ...q, 
-                // Xáo trộn luôn cả vị trí hiển thị đáp án
+                // XÁO TRỘN ĐÁP ÁN BÊN TRONG CÂU HỎI
                 shuffledIndices: shuffleArray(Array.from({ length: (data.options || []).length }, (_, i) => i)) 
             };
         });
@@ -610,6 +605,10 @@
         state.checkedQuestions = {}; 
         state.currentQuizIndex = 0;
         state.quizPhase = 'active';
+        
+        // Reset scroll position
+        document.getElementById('main-content-area').scrollTop = 0;
+        
         updateView();
         renderQuestionCard();
         renderMap();
@@ -617,11 +616,9 @@
 
     function shuffleQuizOptions() {
         const idx = state.currentQuizIndex;
-        if (state.checkedQuestions[idx]) return; // Khóa nếu đã xem kết quả
-        
         const qObj = state.activeQuestions[idx];
         qObj.shuffledIndices = shuffleArray(qObj.shuffledIndices);
-        state.userAnswers[idx] = []; 
+        state.userAnswers[idx] = []; // Reset answer on shuffle
         renderQuestionCard();
     }
 
@@ -637,7 +634,6 @@
         const correctIndices = getCorrectIndices(data, qObj);
         const numCorrect = correctIndices.length;
         const isMulti = numCorrect > 1;
-        const isChecked = state.checkedQuestions[idx] === true;
 
         const hintBadge = document.getElementById('multi-select-badge');
         hintBadge.classList.remove('hidden');
@@ -655,8 +651,7 @@
         
         const ul = document.getElementById('q-options');
         ul.innerHTML = '';
-        if (isChecked) ul.classList.add('checked');
-        else ul.classList.remove('checked');
+        ul.classList.remove('checked');
 
         const labels = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
         
@@ -665,52 +660,18 @@
             li.innerText = (data.options[originalIndex] || '').replace(/^[A-F][\.\)]\s*/, ''); 
             li.setAttribute('data-label', labels[displayPos]);
             
-            const isSelected = userSelections.includes(originalIndex);
-            const isCorrectOption = correctIndices.includes(originalIndex);
+            if (userSelections.includes(originalIndex)) li.classList.add('selected');
 
-            if (isSelected) li.classList.add('selected');
-
-            if (isChecked) {
-                if (isCorrectOption) li.classList.add('is-correct-answer');
-                else if (isSelected && !isCorrectOption) li.classList.add('is-wrong-answer');
-                li.onclick = null;
-            } else {
-                li.onclick = () => handleQuizAnswer(idx, originalIndex, isMulti, isChecked, correctIndices);
-            }
+            li.onclick = () => handleQuizAnswer(idx, originalIndex, isMulti);
             ul.appendChild(li);
         });
-
-        const checkBtnContainer = document.getElementById('check-btn-container');
-        const checkBtn = document.getElementById('btn-manual-check');
-        const explainDiv = document.getElementById('instant-explain-area');
-
-        checkBtn.innerText = t.checkBtn;
-        checkBtn.onclick = () => performQuizCheck(idx, correctIndices);
-
-        if (isChecked) {
-            checkBtnContainer.classList.add('hidden');
-            const isUserCorrect = compareArrays(userSelections, correctIndices);
-            explainDiv.className = `instant-explanation show ${isUserCorrect ? 'correct' : 'wrong'}`;
-            explainDiv.innerHTML = `<strong>${isUserCorrect ? t.correct : t.wrong}</strong><br>
-                                    <strong style="margin-top:8px; display:inline-block;">${t.explanation}</strong> ${data.explanation || "Chưa có thông tin giải thích chi tiết."}`;
-        } else {
-            explainDiv.className = 'instant-explanation'; explainDiv.innerHTML = '';
-            if (isMulti) {
-                checkBtnContainer.classList.remove('hidden');
-                checkBtn.disabled = userSelections.length === 0;
-            } else {
-                checkBtnContainer.classList.add('hidden');
-            }
-        }
         
         document.getElementById('btn-prev').disabled = idx === 0;
         document.getElementById('btn-next').disabled = idx === state.activeQuestions.length - 1;
         renderMap();
     }
 
-    function handleQuizAnswer(qIdx, originalIndex, isMulti, isChecked, correctIndices) {
-        if (isChecked) return;
-
+    function handleQuizAnswer(qIdx, originalIndex, isMulti) {
         state.userAnswers[qIdx] = state.userAnswers[qIdx] || [];
         const currentSelection = state.userAnswers[qIdx];
         
@@ -718,26 +679,19 @@
             const selectionIndex = currentSelection.indexOf(originalIndex);
             if (selectionIndex > -1) currentSelection.splice(selectionIndex, 1);
             else currentSelection.push(originalIndex);
-            renderQuestionCard(); 
         } else {
             state.userAnswers[qIdx] = [originalIndex];
-            renderQuestionCard();
-            renderMap();
         }
-    }
-
-    function performQuizCheck(qIdx, correctIndices) {
-        state.checkedQuestions[qIdx] = true;
-        const userIndices = state.userAnswers[qIdx] || [];
-        const isCorrect = compareArrays(userIndices, correctIndices);
-        state.quizResults[qIdx] = { isCorrect };
         renderQuestionCard();
         renderMap();
     }
 
     function navQuiz(dir) {
         let next = state.currentQuizIndex + dir;
-        if (next >= 0 && next < state.activeQuestions.length) { state.currentQuizIndex = next; renderQuestionCard(); }
+        if (next >= 0 && next < state.activeQuestions.length) { 
+            state.currentQuizIndex = next; 
+            renderQuestionCard(); 
+        }
     }
 
     function finishQuiz() {
@@ -755,7 +709,9 @@
         });
 
         state.quizPhase = 'result';
+        document.getElementById('main-content-area').scrollTop = 0;
         updateView();
+        
         const total = state.activeQuestions.length;
         document.getElementById('score-val').innerText = `${correctCount}/${total}`;
         document.getElementById('score-percent').innerText = `(${(total > 0 ? Math.round(correctCount / total * 100) : 0)}%)`;
@@ -763,30 +719,57 @@
         renderMap();
     }
 
+    // ==========================================
+    // RENDER LẠI CÂU HỎI TRONG TRANG RESULT
+    // ==========================================
     function renderResultView() {
         const t = state.isVietnamese ? texts.vi : texts.en;
         const list = document.getElementById('review-list');
         list.innerHTML = '';
+        
         state.activeQuestions.forEach((qObj, idx) => {
             const data = state.isVietnamese ? (qObj.vi || qObj.en) : (qObj.en || qObj.vi);
             const result = state.quizResults[idx];
+            const correctIndices = getCorrectIndices(data, qObj);
+            const userSelections = state.userAnswers[idx] || [];
             
-            // Xử lý status theo đúng design screenshot
+            // Xử lý status header
             let statusHtml = '';
             if (result && result.isCorrect) {
                 statusHtml = `<span class="res-status correct">${t.correct}</span>`;
-            } else if (result && !result.isCorrect) {
+            } else if (result && !result.isCorrect && userSelections.length > 0) {
                 statusHtml = `<span class="res-status wrong">${t.wrong}</span>`;
             } else {
                 statusHtml = `<span class="res-status" style="color:gray">${t.unanswered}</span>`;
             }
 
-            const correctIndices = getCorrectIndices(data, qObj);
-            const correctTexts = correctIndices.map(i => {
-                let txt = data.options[i];
-                return txt ? txt.replace(/^[A-F][\.\)]\s*/, '') : '';
-            }).filter(x=>x).join('\n');
+            // Dựng lại khối Options HTML
+            let optionsHtml = '<ul class="options-list checked" style="margin-bottom: 20px;">';
+            const labels = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+            
+            qObj.shuffledIndices.forEach((originalIndex, displayPos) => {
+                if (!data.options || !data.options[originalIndex]) return;
+                const isSelected = userSelections.includes(originalIndex);
+                const isCorrectOption = correctIndices.includes(originalIndex);
+                
+                let liClass = '';
+                if (isCorrectOption) liClass = 'is-correct-answer';
+                else if (isSelected && !isCorrectOption) liClass = 'is-wrong-answer';
 
+                let optText = data.options[originalIndex].replace(/^[A-F][\.\)]\s*/, '');
+                optionsHtml += `<li class="${liClass}" data-label="${labels[displayPos]}">${optText}</li>`;
+            });
+            optionsHtml += '</ul>';
+
+            // Dựng hộp Giải thích
+            let explainHtml = `
+                <div class="instant-explanation show ${result && result.isCorrect ? 'correct' : 'wrong'}">
+                    <strong style="color: ${(result && result.isCorrect) ? '#155724' : '#721c24'}">${t.explanation}</strong> 
+                    <span style="display:block; margin-top:5px;">${data.explanation || "Chưa có thông tin giải thích chi tiết."}</span>
+                </div>
+            `;
+
+            // Lắp ráp lại thành 1 Question Card chuẩn xác
             list.innerHTML += `
             <div class="question-card" id="result-card-${idx}">
                 <div class="res-header">
@@ -794,17 +777,18 @@
                     ${statusHtml}
                 </div>
                 <div class="res-topic">${t.chapter} ${qObj.category}</div>
-                <div class="question-text" style="margin-bottom:15px;">${data.question}</div>
-                
-                <div class="res-ans-label">${t.correctAns}</div>
-                <div class="res-ans-text">${correctTexts || data.answer}</div>
-                
-                ${data.explanation ? `<div class="res-exp">${data.explanation}</div>` : ''}
+                <div class="question-text">${data.question}</div>
+                ${optionsHtml}
+                ${explainHtml}
             </div>`;
         });
     }
 
-    function resetQuiz() { state.quizPhase = 'setup'; state.userAnswers = {}; state.quizResults = {}; state.activeQuestions = []; state.checkedQuestions = {}; updateView(); updateQuizCountMax(); }
+    function resetQuiz() { 
+        state.quizPhase = 'setup'; state.userAnswers = {}; state.quizResults = {}; 
+        state.activeQuestions = []; state.checkedQuestions = {}; 
+        updateView(); updateQuizCountMax(); 
+    }
 
     function renderMap() {
         const grid = document.getElementById('map-grid');
@@ -820,27 +804,19 @@
                 const result = state.quizResults[i];
                 if (result) btn.classList.add(result.isCorrect ? 'correct' : 'wrong');
             } else {
-                const isChecked = state.checkedQuestions[i];
                 const hasAnswer = state.userAnswers[i] && state.userAnswers[i].length > 0;
-                
                 if (state.currentQuizIndex === i) btn.classList.add('active');
-                
-                if (isChecked) {
-                    const result = state.quizResults[i];
-                    if (result) btn.classList.add(result.isCorrect ? 'correct' : 'wrong');
-                } else if (hasAnswer) {
-                    btn.classList.add('answered');
-                }
+                else if (hasAnswer) btn.classList.add('answered');
             }
 
             btn.onclick = () => { 
                 if(state.quizPhase === 'result') { 
-                    // TÍNH NĂNG SCROLL TỚI CÂU HỎI TRONG TRANG KẾT QUẢ
+                    // SCROLL MƯỢT MÀ TỚI CÂU HỎI TRONG TRANG KẾT QUẢ
                     const targetCard = document.getElementById(`result-card-${i}`);
-                    const scrollContainer = document.getElementById('main-content-area');
-                    if(targetCard && scrollContainer) {
+                    if(targetCard) {
                         targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        targetCard.style.boxShadow = "0 0 0 3px var(--primary-color)";
+                        // Highlight thẻ một chút để dễ nhìn
+                        targetCard.style.boxShadow = "0 0 0 3px var(--warning-color)";
                         setTimeout(() => targetCard.style.boxShadow = "var(--card-shadow)", 1500);
                     }
                 } else {
@@ -877,10 +853,11 @@
         document.getElementById('leg-cor').innerText = t.legCor;
         document.getElementById('leg-wro').innerText = t.legWro;
         document.getElementById('txt-map-title').innerText = t.mapTitle;
+        document.getElementById('shortcut-help').innerText = t.shortcutHelp;
         
         const setupTitles = document.querySelectorAll('.tab-btn');
         if(setupTitles.length >= 2) {
-            setupTitles[0].innerText = state.isVietnamese ? "📖 Học (Learn)" : "📖 Learn";
+            setupTitles[0].innerText = state.isVietnamese ? "📖 Thẻ ghi nhớ (Learn)" : "📖 Learn";
             setupTitles[1].innerText = state.isVietnamese ? "📝 Thi (Quiz)" : "📝 Quiz";
         }
     }
@@ -890,21 +867,18 @@
         if (['INPUT', 'SELECT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
         const key = e.key.toLowerCase();
 
-        // N: Đổi ngôn ngữ
-        if (key === 'n') { e.preventDefault(); toggleLanguage(); return; }
+        // Đổi ngôn ngữ (N hoặc Enter)
+        if (key === 'n' || e.key === 'Enter') { e.preventDefault(); toggleLanguage(); return; }
 
-        // M: Xáo trộn đáp án 
+        // Xáo trộn đáp án (M)
         if (key === 'm') {
             e.preventDefault();
-            if (state.activeTab === 'flashcard') {
-                shuffleFlashcardOptions();
-            } else if (state.activeTab === 'quiz' && state.quizPhase === 'active') {
-                shuffleQuizOptions();
-            }
+            if (state.activeTab === 'flashcard') shuffleFlashcardOptions();
+            else if (state.activeTab === 'quiz' && state.quizPhase === 'active') shuffleQuizOptions();
             return;
         }
 
-        // Điều hướng câu hỏi
+        // Chuyển câu bằng phím mũi tên
         if (e.key === 'ArrowLeft') {
             if (state.activeTab === 'flashcard') navFlashcard(-1);
             else if (state.activeTab === 'quiz' && state.quizPhase === 'active') navQuiz(-1);
@@ -914,11 +888,12 @@
             else if (state.activeTab === 'quiz' && state.quizPhase === 'active') navQuiz(1);
         }
         
-        // Chọn đáp án bằng phím số (1-8)
+        // Chọn đáp án 1-8 
+        // Chỉ nhận phím số khi ở màn hình học mặt trước, hoặc lúc làm bài Quiz
         if (e.key >= '1' && e.key <= '8') {
             const displayIndex = parseInt(e.key) - 1; 
             
-            if (state.activeTab === 'flashcard' && !state.fcChecked) {
+            if (state.activeTab === 'flashcard' && !document.getElementById('fc-flip-card').classList.contains('flipped')) {
                 const qObj = state.filteredFlashcards[state.fcIndex];
                 const data = state.isVietnamese ? (qObj.vi || qObj.en) : (qObj.en || qObj.vi);
                 if (displayIndex < (data.options || []).length) {
@@ -930,14 +905,13 @@
                         const sIdx = state.fcUserAnswers.indexOf(origIdx);
                         if (sIdx > -1) state.fcUserAnswers.splice(sIdx, 1);
                         else state.fcUserAnswers.push(origIdx);
-                        renderFlashcard(); 
                     } else {
                         state.fcUserAnswers = [origIdx];
-                        checkFlashcard(correctIndices);
                     }
+                    renderFlashcard();
                 }
             } 
-            else if (state.activeTab === 'quiz' && state.quizPhase === 'active' && !state.checkedQuestions[state.currentQuizIndex]) {
+            else if (state.activeTab === 'quiz' && state.quizPhase === 'active') {
                 const idx = state.currentQuizIndex;
                 const qObj = state.activeQuestions[idx];
                 const data = state.isVietnamese ? (qObj.vi || qObj.en) : (qObj.en || qObj.vi);
@@ -945,35 +919,23 @@
                     const originalIndex = qObj.shuffledIndices[displayIndex];
                     const correctIndices = getCorrectIndices(data, qObj);
                     const isMulti = correctIndices.length > 1;
-                    handleQuizAnswer(idx, originalIndex, isMulti, false, correctIndices);
+                    handleQuizAnswer(idx, originalIndex, isMulti);
                 }
             }
         }
 
-        // Space: Check đáp án
+        // Lật thẻ / Xem giải thích (Space)
         if (e.key === ' ') {
             e.preventDefault(); 
-            if (state.activeTab === 'flashcard' && !state.fcChecked) {
-                const qObj = state.filteredFlashcards[state.fcIndex];
-                const data = state.isVietnamese ? (qObj.vi || qObj.en) : (qObj.en || qObj.vi);
-                checkFlashcard(getCorrectIndices(data, qObj));
-            } else if (state.activeTab === 'quiz' && state.quizPhase === 'active') {
-                const checkBtn = document.getElementById('btn-manual-check');
-                if (checkBtn && !checkBtn.parentElement.classList.contains('hidden') && !checkBtn.disabled) {
-                    checkBtn.click();
-                } else if(!state.checkedQuestions[state.currentQuizIndex]){
-                     const qObj = state.activeQuestions[state.currentQuizIndex];
-                     const data = state.isVietnamese ? (qObj.vi || qObj.en) : (qObj.en || qObj.vi);
-                     performQuizCheck(state.currentQuizIndex, getCorrectIndices(data, qObj));
-                }
-            }
+            if (state.activeTab === 'flashcard') {
+                document.getElementById('fc-flip-card').classList.toggle('flipped');
+            } 
         }
     });
 
     // ======================================================
-    // DATA TRỐNG THEO YÊU CẦU
-    // Để tool chạy không báo lỗi, thầy đặt 1 câu hỏi mẫu siêu ngắn.
-    // Em cứ việc paste đè 208 câu kia vào mảng này sau nhé!
+    // DATA TRỐNG 
+    // Em dán 208 câu hỏi JSON vào trong cặp ngoặc vuông này
     // ======================================================
     const quizData = [
         {
@@ -3089,7 +3051,7 @@
 
     ];
 
-    // Khởi tạo app
+    // Khởi động
     document.addEventListener('DOMContentLoaded', init);
 </script>
 </body>
