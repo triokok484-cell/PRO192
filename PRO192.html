@@ -3,56 +3,189 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PRO192 - Java Master Tool (Global Translate Edition)</title>
+    <title>PRO192 - Java OOP Master Tool</title>
     <style>
         :root {
             --primary-color: #6f42c1;
             --primary-light: #f3f0ff;
             --secondary-color: #28a745;
             --danger-color: #dc3545;
-            --light-bg: #f8f9fa;
+            --warning-color: #fd7e14;
+            --selected-border: #6f42c1;
+            --selected-bg: #e0d4fc;
+            --light-bg: #f4f7f6;
             --dark-text: #2c3e50;
-            --code-bg: #2d2d2d;
+            --card-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
         }
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Fira+Code:wght@400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
         
-        body { font-family: 'Inter', sans-serif; background-color: #f0f2f5; margin: 0; padding: 0; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
-        .top-bar { background: white; padding: 12px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); z-index: 100; }
-        .tabs { display: flex; background: #eee; padding: 4px; border-radius: 10px; gap: 4px; }
-        .tab-btn { padding: 8px 20px; border: none; background: transparent; cursor: pointer; border-radius: 8px; font-weight: 600; color: #555; transition: 0.3s; }
-        .tab-btn.active { background: white; color: var(--primary-color); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .lang-btn { background: var(--primary-color); color: white; border: none; padding: 8px 18px; border-radius: 8px; font-weight: 700; cursor: pointer; }
+        * { box-sizing: border-box; scroll-behavior: smooth; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--dark-text);
+            margin: 0; padding: 0;
+            display: flex; flex-direction: column;
+            height: 100vh; overflow: hidden;
+        }
 
-        .main-container { display: flex; flex: 1; overflow: hidden; }
-        .content-area { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; align-items: center; }
+        /* --- UI Components --- */
+        .top-bar {
+            background: white; padding: 15px 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: flex; justify-content: space-between; align-items: center; z-index: 100; flex-shrink: 0;
+        }
+        .tabs { display: flex; background: #f0f2f5; padding: 5px; border-radius: 12px; gap: 5px; }
+        .tab-btn {
+            padding: 10px 24px; border: none; background: transparent; cursor: pointer; border-radius: 8px;
+            font-weight: 600; color: #666; transition: all 0.3s ease; font-size: 14px;
+        }
+        .tab-btn.active { background-color: white; color: var(--primary-color); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .lang-btn {
+            background: white; border: 2px solid #e0d4fc; color: var(--primary-color); padding: 8px 16px;
+            border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 700; transition: all 0.2s;
+        }
 
-        /* KHUNG CÂU HỎI */
-        .question-card { background: white; width: 100%; max-width: 850px; border-radius: 15px; padding: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); margin-bottom: 20px; position: relative; }
-        .q-header { display: flex; justify-content: space-between; margin-bottom: 15px; }
-        .badge-topic { background: var(--primary-light); color: var(--primary-color); padding: 5px 12px; border-radius: 6px; font-size: 11px; font-weight: 800; text-transform: uppercase; }
-        .question-box { background: #f8f1ff; border-left: 6px solid var(--primary-color); padding: 20px; border-radius: 0 12px 12px 0; margin-bottom: 25px; }
-        .question-text { font-size: 18px; font-weight: 700; color: var(--primary-color); line-height: 1.6; white-space: pre-wrap; margin: 0; }
+        /* --- Main Layout --- */
+        .main-container { display: flex; flex: 1; overflow: hidden; position: relative; height: 100%; }
+        .content-area {
+            flex: 1; padding: 30px; overflow-y: auto; width: 100%; scroll-behavior: smooth;
+            display: flex; flex-direction: column; align-items: center; position: relative; 
+        }
+        .view-section { display: none !important; width: 100%; max-width: 900px; animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+        .view-section.active-view { display: block !important; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .hidden { display: none !important; }
+        .flex-between { display: flex; justify-content: space-between; align-items: center; }
 
-        /* FORMAT CODE */
-        .code-snippet { font-family: 'Fira Code', monospace; background: #2d2d2d; color: #f8f8f2; display: block; padding: 18px; margin-top: 15px; border-radius: 10px; font-size: 14px; line-height: 1.5; overflow-x: auto; border: 1px solid #444; }
+        /* --- Buttons --- */
+        .start-btn, .nav-btn, .action-btn {
+            background: var(--primary-color); color: white; border: none; padding: 12px 24px; border-radius: 8px;
+            font-size: 15px; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; font-weight: 600;
+        }
+        .start-btn:hover, .nav-btn:hover, .action-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(111, 66, 193, 0.25); }
+        .submit-btn { background: var(--secondary-color); color: white; border: none; padding: 12px 24px; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer;}
+        .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(40, 167, 69, 0.25); }
+        .nav-btn.secondary { background: #e9ecef; color: #495057; box-shadow: none; }
+        .nav-btn.secondary:hover { background: #dee2e6; }
+        .nav-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .action-btn { background: #fff3cd; color: #856404; border: 1px solid #ffeeba; margin-bottom: 15px;}
+        .action-btn:hover { background: #ffe8a1; }
 
-        .options-list { list-style: none; padding: 0; display: grid; gap: 10px; }
-        .options-list li { border: 2px solid #eee; padding: 15px 20px 15px 55px; border-radius: 10px; cursor: pointer; transition: 0.2s; position: relative; font-size: 15px; color: #444; }
-        .options-list li:hover { border-color: var(--primary-color); background: var(--primary-light); }
-        .options-list li::before { content: attr(data-label); position: absolute; left: 15px; top: 50%; transform: translateY(-50%); width: 28px; height: 28px; background: #eee; border-radius: 6px; text-align: center; line-height: 28px; font-weight: 800; color: #666; }
-        .options-list li.selected { border-color: var(--primary-color); background: var(--primary-light); font-weight: 600; }
-        .options-list li.selected::before { background: var(--primary-color); color: white; }
+        /* --- Question Card Styling --- */
+        .question-card { background: white; border-radius: 16px; padding: 30px; box-shadow: var(--card-shadow); margin-bottom: 30px; position: relative; border: 1px solid #eaeaea; transition: box-shadow 0.3s ease; width: 100%;}
+        .question-text { font-size: 17px; line-height: 1.6; margin-bottom: 25px; font-weight: 500; color: #1a1a1a; white-space: pre-wrap; }
+        
+        .options-list { list-style: none; padding: 0; display: grid; gap: 12px; width: 100%; }
+        .options-list li {
+            background: #fff; border: 2px solid #f0f0f0; border-radius: 10px; padding: 15px 20px 15px 50px;
+            cursor: pointer; position: relative; transition: all 0.15s; font-size: 15px; text-align: left; color: #444;
+        }
+        
+        /* Chỉ cho hover khi ở dạng Interactive (Quiz) */
+        .options-list.interactive li:hover:not(.disabled) { border-color: var(--primary-color); background: #fcfaff; }
+        
+        /* Label A, B, C */
+        .options-list li::before {
+            content: attr(data-label); position: absolute; left: 15px; top: 50%; transform: translateY(-50%);
+            width: 28px; height: 28px; background: #e9ecef; color: #495057; border-radius: 6px;
+            text-align: center; line-height: 28px; font-weight: 700; font-size: 13px; transition: all 0.2s;
+        }
 
-        /* FLASHCARD */
-        .flashcard { width: 100%; max-width: 850px; min-height: 480px; cursor: pointer; perspective: 1000px; }
-        .card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
-        .flashcard.flipped .card-inner { transform: rotateY(180deg); }
-        .card-front, .card-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 20px; padding: 40px; box-sizing: border-box; background: white; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        .card-back { transform: rotateY(180deg); border: 3px solid var(--secondary-color); overflow-y: auto; }
+        /* STATES: SELECTED */
+        .options-list li.selected {
+            border-color: var(--primary-color); background-color: var(--primary-light);
+            box-shadow: 0 0 0 1px var(--primary-color) inset; font-weight: 600;
+        }
+        .options-list li.selected::before { background-color: var(--primary-color); color: white; }
 
-        .btn-nav { background: var(--primary-color); color: white; border: none; padding: 12px 30px; border-radius: 10px; cursor: pointer; font-weight: 600; }
-        .view-section { display: none; width: 100%; }
-        .view-section.active { display: block; }
+        /* STATES: CHECKED (ĐÚNG/SAI HIGHLIGHT TRONG TRANG KẾT QUẢ) */
+        .options-list.result-mode li { cursor: default; opacity: 0.65; }
+        .options-list.result-mode li.is-correct-answer {
+            background-color: #d1e7dd !important; border-color: #0f5132 !important;
+            color: #0f5132 !important; opacity: 1 !important; font-weight: 600; box-shadow: 0 0 0 1px #0f5132 inset;
+        }
+        .options-list.result-mode li.is-correct-answer::before { background-color: #198754; color: white; content: "✔"; }
+        
+        .options-list.result-mode li.is-wrong-answer {
+            background-color: #f8d7da !important; border-color: #842029 !important;
+            color: #842029 !important; opacity: 1 !important; font-weight: 600; box-shadow: 0 0 0 1px #842029 inset;
+        }
+        .options-list.result-mode li.is-wrong-answer::before { background-color: #dc3545; color: white; content: "✘"; }
+
+        /* Giải thích */
+        .res-exp { margin-top: 20px; font-style: italic; color: #333; background: #fdfdfe; padding: 15px; border-radius: 8px; font-size: 14px; border-left: 4px solid var(--primary-color); line-height: 1.6;}
+
+        /* --- Flashcard Specific --- */
+        .flashcard-wrapper { display: flex; justify-content: center; perspective: 1000px; margin-bottom: 30px; width: 100%;}
+        .flashcard {
+            width: 100%; position: relative; transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer; display: grid;
+        }
+        .flashcard.flipped { transform: rotateY(180deg); }
+        .card-face {
+            grid-area: 1 / 1; width: 100%; min-height: 400px; 
+            backface-visibility: hidden; -webkit-backface-visibility: hidden;
+            border-radius: 16px; border: 1px solid #eaeaea;
+            box-shadow: var(--card-shadow); background: white; padding: 40px; display: flex; flex-direction: column;
+            justify-content: flex-start; align-items: center; text-align: center; overflow-y: auto;
+        }
+        .card-front { z-index: 2; transform: rotateY(0deg); }
+        .card-back { transform: rotateY(180deg); background: #fff; justify-content: flex-start; text-align: left; align-items: flex-start; }
+        
+        /* LEARN MODE: HIGHLIGHT QUESTION & ANSWER */
+        .fc-question-highlight {
+            font-size: 20px; font-weight: 700; color: var(--primary-color); background: var(--primary-light);
+            padding: 20px; border-radius: 12px; border-left: 5px solid var(--primary-color);
+            margin-bottom: 25px; text-align: left; line-height: 1.5; width: 100%; box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .fc-answer-box {
+            background-color: #d1e7dd; border: 1px solid #badbcc; border-left: 5px solid #0f5132;
+            color: #0f5132; padding: 15px 20px; border-radius: 8px; font-size: 16px; font-weight: 600; 
+            width: 100%; margin-bottom: 20px; text-align: left; white-space: pre-wrap;
+        }
+        
+        /* Vô hiệu hóa click và cursor ở options phần học */
+        .options-list.read-only li { cursor: default; }
+
+        /* --- Utils --- */
+        .category-badge {
+            font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; background: #e0d4fc;
+            color: var(--primary-color); padding: 6px 12px; border-radius: 6px; font-weight: 700; display: inline-block; margin-bottom: 15px;
+        }
+        .quiz-sidebar {
+            width: 280px; background: white; border-left: 1px solid #eaeaea; display: flex;
+            flex-direction: column; padding: 25px; overflow-y: auto; flex-shrink: 0; z-index: 90;
+        }
+        .question-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+        .map-btn {
+            width: 100%; aspect-ratio: 1; border: 1px solid #dee2e6; border-radius: 6px; background: white;
+            color: #495057; cursor: pointer; font-weight: 600; transition: all 0.2s; font-size: 13px;
+        }
+        .map-btn:hover { background: #f8f9fa; border-color: #adb5bd; }
+        .map-btn.active { background: var(--primary-light); border: 2px solid var(--primary-color); color: var(--primary-color); font-weight: 700; }
+        .map-btn.answered { background: #e2e3e5; border-color: #ced4da; }
+        .map-btn.correct { background: var(--secondary-color); color: white; border-color: var(--secondary-color); }
+        .map-btn.wrong { background: var(--danger-color); color: white; border-color: var(--danger-color); }
+        
+        .multi-select-hint {
+            font-size: 12px; color: #856404; background: #fff3cd; border: 1px solid #ffeeba;
+            padding: 4px 8px; border-radius: 6px; margin-left: 10px; display: inline-block; font-weight: 600;
+        }
+        
+        .custom-select { width: 100%; padding: 12px 15px; border: 1px solid #ced4da; border-radius: 8px; font-size: 15px; background: #fff; margin-top: 10px; cursor: pointer; }
+
+        .res-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+        .res-qnum { font-weight: 700; font-size: 18px; color: #2c3e50; }
+        .res-status.wrong { color: var(--danger-color); font-weight: 600; }
+        .res-status.correct { color: var(--secondary-color); font-weight: 600; }
+
+        @media (max-width: 768px) {
+            .main-container { flex-direction: column; }
+            .quiz-sidebar { width: 100%; height: auto; max-height: 150px; border-left: none; border-top: 1px solid #eee; order: -1; padding: 15px; }
+            .question-grid { grid-template-columns: repeat(10, 1fr); }
+            .content-area { padding: 15px; }
+        }
     </style>
 </head>
 <body>
