@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PRO192 - Java Master Tool</title>
+    <title>PRO192 - Java OOP Master Tool</title>
     <style>
         :root {
             --primary-color: #6f42c1;
@@ -11,72 +11,74 @@
             --secondary-color: #28a745;
             --danger-color: #dc3545;
             --warning-color: #fd7e14;
-            --light-bg: #f8f9fa;
+            --selected-border: #6f42c1;
+            --selected-bg: #e0d4fc;
+            --light-bg: #f4f7f6;
             --dark-text: #2c3e50;
-            --card-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            --card-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            --code-bg: #282c34;
         }
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Fira+Code:wght@400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap');
         
         * { box-sizing: border-box; scroll-behavior: smooth; }
-        body { font-family: 'Inter', sans-serif; background-color: #f0f2f5; color: var(--dark-text); margin: 0; padding: 0; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--light-bg); color: var(--dark-text); margin: 0; padding: 0; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
 
         /* --- UI Components --- */
-        .top-bar { background: white; padding: 12px 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; z-index: 100; }
+        .top-bar { background: white; padding: 15px 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; z-index: 100; flex-shrink: 0; }
         .tabs { display: flex; background: #f0f2f5; padding: 5px; border-radius: 12px; gap: 5px; }
-        .tab-btn { padding: 10px 24px; border: none; background: transparent; cursor: pointer; border-radius: 8px; font-weight: 600; color: #666; transition: 0.3s; font-size: 14px; }
+        .tab-btn { padding: 10px 24px; border: none; background: transparent; cursor: pointer; border-radius: 8px; font-weight: 600; color: #666; transition: all 0.3s ease; font-size: 14px; }
         .tab-btn.active { background-color: white; color: var(--primary-color); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-        .lang-btn { background: var(--primary-color); border: none; color: white; padding: 8px 18px; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 700; transition: 0.2s; display: flex; align-items: center; gap: 8px; }
+        .lang-btn { background: var(--primary-color); color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 700; transition: all 0.2s; }
 
-        .main-container { display: flex; flex: 1; overflow: hidden; }
-        .content-area { flex: 1; padding: 25px; overflow-y: auto; display: flex; flex-direction: column; align-items: center; }
-        .view-section { display: none !important; width: 100%; max-width: 900px; animation: fadeIn 0.4s ease; }
+        /* --- Layout --- */
+        .main-container { display: flex; flex: 1; overflow: hidden; position: relative; height: 100%; }
+        .content-area { flex: 1; padding: 30px; overflow-y: auto; width: 100%; display: flex; flex-direction: column; align-items: center; position: relative; }
+        .view-section { display: none !important; width: 100%; max-width: 900px; animation: fadeIn 0.3s ease; }
         .view-section.active-view { display: block !important; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; } }
 
         /* --- Question & Code Styling --- */
-        .question-card { background: white; border-radius: 20px; padding: 35px; box-shadow: var(--card-shadow); margin-bottom: 25px; border: 1px solid #eee; width: 100%; }
-        .question-box { background: var(--primary-light); border-left: 6px solid var(--primary-color); padding: 20px; border-radius: 0 12px 12px 0; margin-bottom: 25px; }
-        .question-text { font-size: 18px; font-weight: 700; color: var(--primary-color); line-height: 1.6; margin: 0; white-space: pre-wrap; }
+        .question-card { background: white; border-radius: 16px; padding: 30px; box-shadow: var(--card-shadow); margin-bottom: 30px; border: 1px solid #eaeaea; width: 100%; }
+        .question-text { font-size: 18px; line-height: 1.6; margin-bottom: 25px; font-weight: 600; color: #1a1a1a; white-space: pre-wrap; }
         
-        /* Java Code Highlighter Style */
-        .code-block { font-family: 'Fira Code', monospace; background: #282c34; color: #abb2bf; padding: 20px; border-radius: 10px; margin-top: 15px; font-size: 14px; line-height: 1.5; overflow-x: auto; border: 1px solid #181a1f; display: block; tab-size: 4; }
+        /* Chỗ hiển thị CODE chuẩn lập trình */
+        .code-snippet { font-family: 'Fira Code', monospace; background: var(--code-bg); color: #abb2bf; padding: 20px; border-radius: 10px; margin-bottom: 25px; font-size: 14px; line-height: 1.5; overflow-x: auto; border: 1px solid #181a1f; display: block; tab-size: 4; white-space: pre; }
 
-        .options-list { list-style: none; padding: 0; display: grid; gap: 12px; }
-        .options-list li { background: #fff; border: 2px solid #f0f0f0; border-radius: 12px; padding: 15px 20px 15px 55px; cursor: pointer; position: relative; transition: 0.2s; font-size: 15px; color: #444; }
-        .options-list.interactive li:hover { border-color: var(--primary-color); background: var(--primary-light); }
-        .options-list li::before { content: attr(data-label); position: absolute; left: 15px; top: 50%; transform: translateY(-50%); width: 30px; height: 30px; background: #e9ecef; border-radius: 8px; text-align: center; line-height: 30px; font-weight: 800; color: #555; }
+        .options-list { list-style: none; padding: 0; display: grid; gap: 12px; width: 100%; }
+        .options-list li { background: #fff; border: 2px solid #f0f0f0; border-radius: 10px; padding: 15px 20px 15px 55px; cursor: pointer; position: relative; transition: all 0.15s; font-size: 15px; color: #444; }
+        .options-list.interactive li:hover { border-color: var(--primary-color); background: #fcfaff; }
+        .options-list li::before { content: attr(data-label); position: absolute; left: 15px; top: 50%; transform: translateY(-50%); width: 28px; height: 28px; background: #e9ecef; color: #495057; border-radius: 6px; text-align: center; line-height: 28px; font-weight: 700; font-size: 13px; }
         .options-list li.selected { border-color: var(--primary-color); background-color: var(--primary-light); font-weight: 600; box-shadow: 0 0 0 1px var(--primary-color) inset; }
         .options-list li.selected::before { background-color: var(--primary-color); color: white; }
 
-        /* Result Mode Colors */
-        .options-list.result-mode li.is-correct-answer { background-color: #d1e7dd !important; border-color: #0f5132 !important; color: #0f5132 !important; opacity: 1 !important; font-weight: 600; }
+        /* Kết quả đúng/sai */
+        .options-list.result-mode li.is-correct-answer { background-color: #d1e7dd !important; border-color: #0f5132 !important; color: #0f5132 !important; opacity: 1 !important; }
         .options-list.result-mode li.is-correct-answer::before { background-color: #198754; color: white; content: "✔"; }
         .options-list.result-mode li.is-wrong-answer { background-color: #f8d7da !important; border-color: #842029 !important; color: #842029 !important; opacity: 1 !important; }
         .options-list.result-mode li.is-wrong-answer::before { background-color: #dc3545; color: white; content: "✘"; }
 
-        /* Flashcard Logic */
-        .flashcard { width: 100%; min-height: 500px; cursor: pointer; perspective: 1000px; }
-        .card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); transform-style: preserve-3d; }
-        .flashcard.flipped .card-inner { transform: rotateY(180deg); }
-        .card-front, .card-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 20px; padding: 40px; background: white; box-shadow: var(--card-shadow); display: flex; flex-direction: column; }
-        .card-back { transform: rotateY(180deg); border: 3px solid var(--secondary-color); overflow-y: auto; }
+        /* --- Flashcard --- */
+        .flashcard-wrapper { display: flex; justify-content: center; perspective: 1000px; margin-bottom: 30px; width: 100%; }
+        .flashcard { width: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer; display: grid; }
+        .flashcard.flipped { transform: rotateY(180deg); }
+        .card-face { grid-area: 1 / 1; width: 100%; min-height: 450px; backface-visibility: hidden; border-radius: 16px; border: 1px solid #eaeaea; box-shadow: var(--card-shadow); background: white; padding: 40px; display: flex; flex-direction: column; align-items: center; }
+        .card-back { transform: rotateY(180deg); align-items: flex-start; text-align: left; }
+        .fc-answer-box { background-color: #d1e7dd; border-left: 5px solid #0f5132; color: #0f5132; padding: 15px 20px; border-radius: 8px; font-size: 16px; font-weight: 600; width: 100%; margin-bottom: 20px; }
 
-        /* Sidebar */
-        .quiz-sidebar { width: 280px; background: white; border-left: 1px solid #eaeaea; padding: 25px; overflow-y: auto; z-index: 90; transition: 0.3s; }
+        /* --- Buttons & Utilities --- */
+        .start-btn, .nav-btn, .action-btn { background: var(--primary-color); color: white; border: none; padding: 12px 24px; border-radius: 8px; font-size: 15px; cursor: pointer; font-weight: 600; }
+        .submit-btn { background: var(--secondary-color); color: white; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; }
+        .nav-btn.secondary { background: #e9ecef; color: #495057; }
+        .action-btn { background: #fff3cd; color: #856404; border: 1px solid #ffeeba; margin-bottom: 15px; }
+        .category-badge { font-size: 11px; text-transform: uppercase; background: #e0d4fc; color: var(--primary-color); padding: 6px 12px; border-radius: 6px; font-weight: 700; margin-bottom: 15px; }
+        .quiz-sidebar { width: 280px; background: white; border-left: 1px solid #eaeaea; padding: 25px; overflow-y: auto; flex-shrink: 0; }
         .question-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
-        .map-btn { width: 100%; aspect-ratio: 1; border: 1px solid #dee2e6; border-radius: 8px; background: white; cursor: pointer; font-weight: 600; transition: 0.2s; font-size: 13px; }
-        .map-btn.active { border: 2px solid var(--primary-color); background: var(--primary-light); color: var(--primary-color); }
+        .map-btn { width: 100%; aspect-ratio: 1; border: 1px solid #dee2e6; border-radius: 6px; background: white; cursor: pointer; font-weight: 600; font-size: 13px; }
+        .map-btn.active { border: 2px solid var(--primary-color); color: var(--primary-color); }
+        .map-btn.answered { background: #e2e3e5; }
         .map-btn.correct { background: var(--secondary-color); color: white; border: none; }
         .map-btn.wrong { background: var(--danger-color); color: white; border: none; }
-
-        /* Buttons */
-        .btn-p { background: var(--primary-color); color: white; border: none; padding: 12px 25px; border-radius: 10px; cursor: pointer; font-weight: 600; transition: 0.2s; }
-        .btn-p:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(111, 66, 193, 0.3); }
-        .btn-s { background: #e9ecef; color: #495057; border: none; padding: 12px 25px; border-radius: 10px; cursor: pointer; font-weight: 600; }
-        .action-btn { background: #fff3cd; color: #856404; border: 1px solid #ffeeba; padding: 8px 15px; border-radius: 8px; cursor: pointer; font-weight: bold; }
-        
-        .hidden { display: none !important; }
-        .category-badge { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; background: var(--primary-light); color: var(--primary-color); padding: 6px 12px; border-radius: 6px; font-weight: 800; margin-bottom: 15px; display: inline-block; }
+        .custom-select { width: 100%; padding: 12px; border: 1px solid #ced4da; border-radius: 8px; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -87,292 +89,386 @@
             <button class="tab-btn" id="tab-quiz-btn" onclick="switchTab('quiz')">📝 Thi thử (Quiz)</button>
         </div>
         <button class="lang-btn" onclick="toggleLanguage()">
-            <span id="lang-icon">🌐</span> <span id="current-lang-text">VN</span>
+            🌐 <span id="current-lang-text">VN</span>
         </button>
     </div>
 
     <div class="main-container">
         <div class="content-area" id="main-content-area">
 
-            <!-- LEARN MODE -->
+            <!-- FLASHCARD -->
             <div id="flashcard-view" class="view-section active-view">
-                <div style="display:flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px;">
-                    <div style="flex: 1;">
-                        <label id="lbl-fc-topic" style="font-weight:600; color:var(--primary-color); display:block; margin-bottom:5px;">📖 Chủ đề:</label>
-                        <select id="fc-category-select" onchange="updateFlashcardFilter()" class="custom-select"></select>
+                <div style="max-width: 800px; margin: 0 auto; width: 100%;">
+                    <div style="display:flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px;">
+                        <div style="flex: 1;">
+                            <label id="lbl-fc-topic" style="font-weight:600; color:var(--primary-color); display:block; margin-bottom:5px;">Chủ đề học:</label>
+                            <select id="fc-category-select" onchange="updateFlashcardFilter()" class="custom-select"></select>
+                        </div>
+                        <button class="action-btn" id="btn-shuffle-fc" onclick="shuffleFlashcardOptions()" style="margin-left: 15px;">🔀 Đảo đáp án</button>
                     </div>
-                    <button class="action-btn" id="btn-shuffle-fc" onclick="shuffleFC()" style="margin-left: 15px;">🔀 Đảo Đ/A</button>
-                </div>
-                
-                <div class="flashcard" id="fc-flip-card" onclick="this.classList.toggle('flipped');">
-                    <div class="card-inner">
-                        <div class="card-front" id="fc-front"></div>
-                        <div class="card-back" id="fc-back"></div>
+                    
+                    <div class="flashcard-wrapper">
+                        <div class="flashcard" id="fc-flip-card" onclick="this.classList.toggle('flipped');">
+                            <div class="card-face card-front">
+                                <div style="width: 100%; display: flex; justify-content: space-between;">
+                                    <div class="category-badge" id="fc-tag"></div>
+                                    <span id="fc-multi-badge" class="multi-select-hint hidden"></span>
+                                </div>
+                                <div id="fc-content-box" style="width:100%">
+                                    <div id="fc-question" class="question-text" style="text-align:center"></div>
+                                    <div id="fc-code" class="code-snippet hidden"></div>
+                                </div>
+                                <ul class="options-list read-only" id="fc-options"></ul>
+                                <div id="hint-flip-1" style="margin-top:auto; font-size:12px; color:#aaa;">(Nhấn Space/Click để lật thẻ)</div>
+                            </div>
+                            
+                            <div class="card-face card-back">
+                                <div id="lbl-ans-correct" class="category-badge" style="background:var(--secondary-color); color:white;">Đáp án đúng</div>
+                                <div id="fc-answer" class="fc-answer-box"></div>
+                                <div style="width: 100%; background: #f8f9fa; padding: 20px; border-radius: 10px; border-left: 4px solid var(--primary-color);">
+                                    <strong id="lbl-fc-exp" style="color:var(--primary-color);">Giải thích:</strong>
+                                    <div id="fc-explanation" style="margin-top:8px; font-size:15px; line-height:1.6;"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                
-                <div style="margin-top:25px; display:flex; justify-content:space-between; align-items: center; width: 100%;">
-                    <button class="btn-s" id="btn-fc-prev" onclick="navFC(-1)">← Trước</button>
-                    <span id="fc-counter" style="font-weight:bold; color:#888; font-size: 16px;"></span>
-                    <button class="btn-s" id="btn-fc-next" onclick="navFC(1)">Sau →</button>
+                    
+                    <div style="display:flex; justify-content:space-between; align-items: center;">
+                        <button class="nav-btn secondary" id="btn-fc-prev" onclick="navFlashcard(-1)">← Trước</button>
+                        <span id="fc-counter" style="font-weight:700; color:#888;"></span>
+                        <button class="nav-btn" id="btn-fc-next" onclick="navFlashcard(1)">Sau →</button>
+                    </div>
                 </div>
             </div>
 
             <!-- QUIZ SETUP -->
             <div id="quiz-setup" class="view-section">
-                <div style="background: white; padding: 50px; border-radius: 20px; box-shadow: var(--card-shadow); text-align: center; margin-top: 50px;">
-                    <h2 id="setup-title" style="margin-top:0; color:var(--primary-color)">Luyện thi PRO192</h2>
-                    <div style="text-align: left; margin: 30px 0;">
-                        <label id="lbl-quiz-topic" style="font-weight:600; display:block; margin-bottom:8px;">1. Chọn chủ đề:</label>
+                <div style="background: white; padding: 40px; border-radius: 16px; box-shadow: var(--card-shadow); text-align: center; max-width: 500px; margin: 40px auto;">
+                    <h2 id="txt-setup-title" style="color:var(--primary-color); margin-bottom:30px;">Cấu hình luyện thi</h2>
+                    <div style="text-align: left; margin-bottom: 25px;">
+                        <label id="lbl-quiz-topic" style="font-weight:600; display:block; margin-bottom:5px;">1. Chọn chủ đề:</label>
                         <select id="quiz-category-select" onchange="updateQuizCountMax()" class="custom-select"></select>
-                        <label id="lbl-quiz-count" style="font-weight:600; display:block; margin-top:20px; margin-bottom:8px;">2. Số câu hỏi:</label>
+                    </div>
+                    <div style="text-align: left; margin-bottom: 35px;">
+                        <label id="txt-q-count" style="font-weight:600; display:block; margin-bottom:5px;">2. Số câu hỏi:</label>
                         <input type="number" id="quiz-count-input" value="30" class="custom-select">
                     </div>
-                    <button class="btn-p" style="width:100%; padding:18px;" id="btn-start-quiz" onclick="startQuiz()">Bắt đầu ngay 🚀</button>
+                    <button class="start-btn" onclick="startQuiz()" id="txt-start" style="width: 100%;">Bắt đầu làm bài 🚀</button>
                 </div>
             </div>
 
             <!-- QUIZ ACTIVE -->
             <div id="quiz-active" class="view-section">
-                <div style="display:flex; justify-content: flex-end; margin-bottom:15px;">
-                    <button class="action-btn" id="btn-shuffle-quiz" onclick="shuffleQuizOpts()">🔀 Đảo Đ/A</button>
+                <div style="display:flex; justify-content: flex-end; margin-bottom:10px;">
+                    <button class="action-btn" id="btn-shuffle-quiz" onclick="shuffleQuizOptions()">🔀 Đảo đáp án</button>
                 </div>
-                <div class="question-card" id="q-active-card">
-                    <div class="flex-between" style="margin-bottom:20px; color:#888; font-size: 13px; font-weight:700;">
+                <div class="question-card">
+                    <div class="flex-between" style="margin-bottom:15px; color:#888; font-size:14px; font-weight:600;">
                         <span id="quiz-progress"></span>
                         <div class="category-badge" id="q-category-badge" style="margin-bottom:0"></div>
                     </div>
-                    <div id="q-content"></div>
+                    <div id="q-question" class="question-text" style="color:#333"></div>
+                    <div id="q-code" class="code-snippet hidden"></div>
                     <ul class="options-list interactive" id="q-options"></ul>
                 </div>
-                <div class="flex-between">
-                    <button class="btn-s" id="btn-prev" onclick="navQuiz(-1)">← Trước</button>
-                    <button class="btn-p" id="btn-submit" onclick="finishQuiz()" style="background:var(--secondary-color)">Nộp bài</button>
-                    <button class="btn-s" id="btn-next" onclick="navQuiz(1)">Sau →</button>
+                <div class="flex-between" style="margin-top:20px;">
+                    <button class="nav-btn secondary" id="btn-prev" onclick="navQuiz(-1)">← Trước</button>
+                    <button class="submit-btn" id="btn-submit" onclick="finishQuiz()">Nộp bài</button>
+                    <button class="nav-btn" id="btn-next" onclick="navQuiz(1)">Sau →</button>
                 </div>
             </div>
 
-            <!-- QUIZ RESULT -->
+            <!-- RESULT -->
             <div id="quiz-result" class="view-section">
-                <div style="text-align:center; background:white; padding:40px; border-radius:20px; box-shadow:var(--card-shadow); margin-bottom:30px;">
-                    <h2 id="res-title">Kết quả bài thi</h2>
-                    <div id="score-val" style="font-size:60px; font-weight:800; color:var(--primary-color)"></div>
-                    <button class="btn-p" id="btn-restart" onclick="resetQuiz()" style="margin-top:20px;">Làm đề mới 🔄</button>
+                <div style="text-align:center; margin-bottom:30px;">
+                    <h2 id="txt-result-title">Kết quả bài thi</h2>
+                    <div id="score-val" style="font-size:60px; font-weight:800; color:var(--primary-color);"></div>
+                    <button class="start-btn" id="btn-reset" onclick="resetQuiz()" style="margin-top:15px;">Làm đề mới 🔄</button>
                 </div>
                 <div id="review-list"></div>
             </div>
-
         </div>
 
-        <!-- SIDEBAR -->
         <div class="quiz-sidebar hidden" id="quiz-sidebar">
-            <div id="sidebar-title" style="font-weight:800; margin-bottom:20px; color:var(--dark-text)">Danh sách câu</div>
+            <div id="txt-map-title" style="font-weight:700; margin-bottom:20px; color:#2c3e50;">Danh sách câu hỏi</div>
             <div class="question-grid" id="map-grid"></div>
         </div>
     </div>
 
 <script>
-    // --- DICTIONARY ---
-    const ui = {
+    // --- DICTIONARY DỊCH THUẬT ---
+    const uiTexts = {
         vi: {
-            learn: "📖 Thẻ ghi nhớ", quiz: "📝 Thi (Quiz)", lang: "VN",
-            fcTopic: "📖 Chọn chủ đề học:", fcShuffle: "🔀 Xáo trộn Đ/A",
-            fcPrev: "← Câu trước", fcNext: "Câu sau →", fcCorrect: "Đáp án đúng",
-            fcExp: "Giải thích chuyên môn:", setupTitle: "Cấu hình luyện thi PRO192",
-            setupTopic: "1. Chọn chủ đề ôn tập:", setupCount: "2. Số lượng câu hỏi:",
-            setupStart: "Bắt đầu làm bài 🚀", quizShuffle: "🔀 Xáo trộn Đ/A",
-            quizPrev: "← Trước", quizNext: "Sau →", quizSubmit: "Nộp bài",
-            resTitle: "Kết quả bài thi", resRestart: "Làm đề mới 🔄",
-            sidebarTitle: "Bản đồ câu hỏi", qOf: "Câu", total: "Tổng số:",
-            confirm: "Bạn có chắc muốn nộp bài?", selectHint: "Chọn {n} đáp án"
+            learnTab: "📖 Thẻ ghi nhớ (Learn)", quizTab: "📝 Thi (Quiz)", lang: "VN",
+            fcTopic: "📖 Chọn chủ đề học:", fcShuffle: "🔀 Đảo Đ/A", fcPrev: "← Câu trước", fcNext: "Câu sau →",
+            fcHint: "(Nhấn Space/Click để lật thẻ)", fcCorrect: "Đáp án đúng", fcExp: "Giải thích:",
+            setupTitle: "Cấu hình luyện thi PRO192", setupTopic: "1. Chọn chủ đề ôn tập:", setupCount: "2. Số lượng câu hỏi:",
+            setupStart: "Bắt đầu làm bài 🚀", quizShuffle: "🔀 Đảo Đ/A", quizPrev: "← Trước", quizNext: "Sau →", quizSubmit: "Nộp bài",
+            resultTitle: "Kết quả làm bài", resetBtn: "Làm đề mới 🔄", mapTitle: "Bản đồ câu hỏi",
+            confirm: "Bạn có chắc muốn nộp bài?", qOf: "Câu", chooseOne: "Chọn 1 đáp án", chooseMulti: "Chọn {n} đáp án"
         },
         en: {
-            learn: "📖 Flashcards", quiz: "📝 Quiz Mode", lang: "EN",
-            fcTopic: "📖 Choose Topic:", fcShuffle: "🔀 Shuffle Options",
-            fcPrev: "← Previous", fcNext: "Next →", fcCorrect: "Correct Answer",
-            fcExp: "Professor's Note:", setupTitle: "PRO192 Exam Setup",
-            setupTopic: "1. Select Topic:", setupCount: "2. Number of Questions:",
-            setupStart: "Start Now 🚀", quizShuffle: "🔀 Shuffle Options",
-            quizPrev: "← Prev", quizNext: "Next →", quizSubmit: "Submit",
-            resTitle: "Quiz Results", resRestart: "New Quiz 🔄",
-            sidebarTitle: "Question Map", qOf: "Question", total: "Total:",
-            confirm: "Are you sure you want to submit?", selectHint: "Select {n} answers"
+            learnTab: "📖 Flashcards (Học)", quizTab: "📝 Quiz (Thi)", lang: "EN",
+            fcTopic: "📖 Choose Topic:", fcShuffle: "🔀 Shuffle Options", fcPrev: "← Previous", fcNext: "Next →",
+            fcHint: "(Press Space/Click to flip)", fcCorrect: "Correct Answer", fcExp: "Explanation:",
+            setupTitle: "PRO192 Exam Setup", setupTopic: "1. Select practice topic:", setupCount: "2. Question count:",
+            setupStart: "Start Quiz Now 🚀", quizShuffle: "🔀 Shuffle Options", quizPrev: "← Prev", quizNext: "Next →", quizSubmit: "Submit",
+            resultTitle: "Quiz Results", resetBtn: "New Practice 🔄", mapTitle: "Question Map",
+            confirm: "Are you sure to submit?", qOf: "Question", chooseOne: "Single Choice", chooseMulti: "Select {n} answers"
         }
     };
 
     let state = {
-        lang: 'vi', tab: 'flashcard', fcIdx: 0, filtered: [],
-        qPhase: 'setup', activeQs: [], userAns: {}, curQIdx: 0, res: {}
+        isVN: true, tab: 'flashcard', fcIdx: 0, filteredFC: [], fcShuffled: [],
+        qPhase: 'setup', activeQs: [], userAns: {}, curQIdx: 0, results: {}
     };
 
-    // --- LOGIC ---
     function init() {
-        if (!window.quizData) return;
+        if (!window.quizData || quizData.length === 0) return;
         const cats = Array.from(new Set(quizData.map(q => q.category))).sort();
-        const fill = (id) => {
+        const populate = (id) => {
             const s = document.getElementById(id);
             s.innerHTML = '<option value="all">-- Tất cả (All Topics) --</option>';
             cats.forEach(c => s.innerHTML += `<option value="${c}">${c}</option>`);
         };
-        fill('fc-category-select'); fill('quiz-category-select');
-        updateFlashcardFilter(); updateLanguage();
+        populate('fc-category-select'); populate('quiz-category-select');
+        updateFlashcardFilter(); updateUI();
     }
 
     function toggleLanguage() {
-        state.lang = state.lang === 'vi' ? 'en' : 'vi';
-        updateLanguage();
-        if (state.tab === 'flashcard') renderFC();
-        else if (state.qPhase === 'active') renderQCard();
+        state.isVN = !state.isVN;
+        updateUI();
+        if (state.tab === 'flashcard') renderFlashcard();
+        else if (state.qPhase === 'active') renderQuestionCard();
     }
 
-    function updateLanguage() {
-        const t = ui[state.lang];
+    function updateUI() {
+        const t = state.isVN ? uiTexts.vi : uiTexts.en;
         document.getElementById('current-lang-text').innerText = t.lang;
-        document.getElementById('tab-learn-btn').innerText = t.learn;
-        document.getElementById('tab-quiz-btn').innerText = t.quiz;
+        document.getElementById('tab-learn-btn').innerText = t.learnTab;
+        document.getElementById('tab-quiz-btn').innerText = t.quizTab;
         document.getElementById('lbl-fc-topic').innerText = t.fcTopic;
         document.getElementById('btn-shuffle-fc').innerText = t.fcShuffle;
         document.getElementById('btn-fc-prev').innerText = t.fcPrev;
         document.getElementById('btn-fc-next').innerText = t.fcNext;
-        document.getElementById('setup-title').innerText = t.setupTitle;
+        document.getElementById('lbl-ans-correct').innerText = t.fcCorrect;
+        document.getElementById('lbl-fc-exp').innerText = t.fcExp;
+        document.getElementById('hint-flip-1').innerText = t.fcHint;
+        document.getElementById('txt-setup-title').innerText = t.setupTitle;
         document.getElementById('lbl-quiz-topic').innerText = t.setupTopic;
-        document.getElementById('lbl-quiz-count').innerText = t.setupCount;
-        document.getElementById('btn-start-quiz').innerText = t.setupStart;
+        document.getElementById('txt-q-count').innerText = t.setupCount;
+        document.getElementById('txt-start').innerText = t.setupStart;
         document.getElementById('btn-shuffle-quiz').innerText = t.quizShuffle;
         document.getElementById('btn-prev').innerText = t.quizPrev;
         document.getElementById('btn-next').innerText = t.quizNext;
         document.getElementById('btn-submit').innerText = t.quizSubmit;
-        document.getElementById('res-title').innerText = t.resTitle;
-        document.getElementById('btn-restart').innerText = t.resRestart;
-        document.getElementById('sidebar-title').innerText = t.sidebarTitle;
-        updateFCCounter();
+        document.getElementById('txt-result-title').innerText = t.resultTitle;
+        document.getElementById('btn-reset').innerText = t.resetBtn;
+        document.getElementById('txt-map-title').innerText = t.mapTitle;
+        updateCounter();
     }
 
-    // --- VIEW SWITCHING ---
-    function switchTab(t) {
-        state.tab = t;
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.id.includes(t)));
-        document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active-view'));
-        document.getElementById(t === 'flashcard' ? 'flashcard-view' : (state.qPhase === 'setup' ? 'quiz-setup' : 'quiz-' + state.qPhase)).classList.add('active-view');
-        document.getElementById('quiz-sidebar').classList.toggle('hidden', t === 'flashcard' || state.qPhase === 'setup');
-    }
-
-    // --- FLASHCARD ---
-    function renderFC() {
-        const q = state.filtered[state.fcIdx];
-        const d = q[state.lang];
-        const t = ui[state.lang];
-        
-        let codeHtml = d.code ? `<code class="code-block">${d.code}</code>` : '';
-        
-        document.getElementById('fc-front').innerHTML = `
-            <div class="category-badge">${q.category}</div>
-            <div class="question-box"><p class="question-text">${d.question}</p>${codeHtml}</div>
-            <ul class="options-list">${d.options.map((o,i) => `<li data-label="${String.fromCharCode(65+i)}">${o.substring(3)}</li>`).join('')}</ul>
-        `;
-
-        document.getElementById('fc-back').innerHTML = `
-            <div class="category-badge" style="background:var(--secondary-color); color:white">${t.fcCorrect}</div>
-            <div class="fc-answer-box">${Array.isArray(q.en.answer) ? q.en.answer.join(', ') : q.en.answer}</div>
-            <div style="font-size:15px; line-height:1.6"><strong>${t.fcExp}</strong><br>${d.explanation}</div>
-        `;
-    }
-
-    function navFC(s) {
-        let n = state.fcIdx + s;
-        if(n >= 0 && n < state.filtered.length) { state.fcIdx = n; document.getElementById('fc-flip-card').classList.remove('flipped'); renderFC(); updateFCCounter(); }
-    }
-
-    function updateFCCounter() {
-        document.getElementById('fc-counter').innerText = `${ui[state.lang].qOf} ${state.fcIdx + 1} / ${state.filtered.length}`;
-    }
-
+    // --- FLASHCARD LOGIC ---
     function updateFlashcardFilter() {
         const c = document.getElementById('fc-category-select').value;
-        state.filtered = c === 'all' ? [...quizData] : quizData.filter(q => q.category === c);
-        state.fcIdx = 0; renderFC(); updateFCCounter();
+        state.filteredFC = (c === 'all') ? [...quizData] : quizData.filter(q => q.category === c);
+        state.fcIdx = 0; initFCState();
     }
 
-    // --- QUIZ ---
+    function initFCState() {
+        document.getElementById('fc-flip-card').classList.remove('flipped');
+        if (state.filteredFC.length === 0) return;
+        const q = state.filteredFC[state.fcIdx];
+        state.fcShuffled = Array.from({ length: (q.en.options || []).length }, (_, i) => i);
+        renderFlashcard();
+    }
+
+    function renderFlashcard() {
+        if (state.filteredFC.length === 0) return;
+        const q = state.filteredFC[state.fcIdx];
+        const data = state.isVN ? q.vi : q.en;
+        
+        document.getElementById('fc-tag').innerText = q.category;
+        document.getElementById('fc-question').innerText = data.question;
+        
+        const codeEl = document.getElementById('fc-code');
+        if (data.code) { codeEl.innerText = data.code; codeEl.classList.remove('hidden'); }
+        else { codeEl.classList.add('hidden'); }
+
+        const ul = document.getElementById('fc-options'); ul.innerHTML = '';
+        state.fcShuffled.forEach((origIdx, i) => {
+            const li = document.createElement('li');
+            li.setAttribute('data-label', String.fromCharCode(65+i));
+            li.innerText = data.options[origIdx].replace(/^[A-Z][\.\)]\s*/, '');
+            li.onclick = (e) => e.stopPropagation();
+            ul.appendChild(li);
+        });
+
+        // Mặt sau
+        const corrects = getCorrectIndices(data, q);
+        const ansBox = document.getElementById('fc-answer'); ansBox.innerHTML = '';
+        corrects.forEach(idx => ansBox.innerHTML += `<div>• ${data.options[idx].replace(/^[A-Z][\.\)]\s*/, '')}</div>`);
+        document.getElementById('fc-explanation').innerText = data.explanation;
+        updateCounter();
+    }
+
+    function navFlashcard(s) {
+        let n = state.fcIdx + s;
+        if(n >= 0 && n < state.filteredFC.length) { state.fcIdx = n; initFCState(); }
+    }
+
+    function shuffleFlashcardOptions() { state.fcShuffled = shuffleArray(state.fcShuffled); renderFlashcard(); }
+
+    function updateCounter() {
+        const t = state.isVN ? uiTexts.vi : uiTexts.en;
+        document.getElementById('fc-counter').innerText = `${t.qOf} ${state.fcIdx + 1} / ${state.filteredFC.length}`;
+    }
+
+    // --- QUIZ LOGIC ---
     function startQuiz() {
         const c = document.getElementById('quiz-category-select').value;
-        const pool = c === 'all' ? [...quizData] : quizData.filter(q => q.category === c);
-        const count = Math.min(parseInt(document.getElementById('quiz-count-input').value), pool.length);
-        state.activeQs = shuffle(pool).slice(0, count).map(q => ({...q, shuffledIdx: shuffle([0,1,2,3])}));
+        let pool = (c === 'all') ? [...quizData] : quizData.filter(q => q.category === c);
+        let count = Math.min(parseInt(document.getElementById('quiz-count-input').value), pool.length);
+        state.activeQs = shuffleArray(pool).slice(0, count).map(q => {
+            const d = q.en;
+            return { ...q, shuffledIdx: shuffleArray(Array.from({ length: (d.options || []).length }, (_, i) => i)) };
+        });
         state.userAns = {}; state.curQIdx = 0; state.qPhase = 'active';
-        switchTab('quiz'); renderQCard(); renderMap();
+        updateView(); renderQuestionCard(); renderMap();
     }
 
-    function renderQCard() {
+    function renderQuestionCard() {
         const q = state.activeQs[state.curQIdx];
-        const d = q[state.lang];
-        const t = ui[state.lang];
+        const data = state.isVN ? q.vi : q.en;
+        const t = state.isVN ? uiTexts.vi : uiTexts.en;
         
         document.getElementById('q-category-badge').innerText = q.category;
         document.getElementById('quiz-progress').innerText = `${t.qOf} ${state.curQIdx + 1} / ${state.activeQs.length}`;
+        document.getElementById('q-question').innerText = data.question;
         
-        let codeHtml = d.code ? `<code class="code-block">${d.code}</code>` : '';
-        document.getElementById('q-content').innerHTML = `<p class="question-text" style="color:#333">${d.question}</p>${codeHtml}`;
-        
+        const codeEl = document.getElementById('q-code');
+        if (data.code) { codeEl.innerText = data.code; codeEl.classList.remove('hidden'); }
+        else { codeEl.classList.add('hidden'); }
+
         const ul = document.getElementById('q-options'); ul.innerHTML = '';
-        q.shuffledIdx.forEach((idx, i) => {
+        q.shuffledIdx.forEach((origIdx, i) => {
             const li = document.createElement('li');
             li.setAttribute('data-label', String.fromCharCode(65+i));
-            li.innerText = d.options[idx].substring(3);
-            if((state.userAns[state.curQIdx] || []).includes(idx)) li.classList.add('selected');
+            li.innerText = data.options[origIdx].replace(/^[A-Z][\.\)]\s*/, '');
+            if ((state.userAns[state.curQIdx] || []).includes(origIdx)) li.classList.add('selected');
             li.onclick = () => {
-                let current = state.userAns[state.curQIdx] || [];
-                state.userAns[state.curQIdx] = [idx]; // Đơn giản hóa thành Single Choice cho bản này
-                renderQCard(); renderMap();
+                const corrects = getCorrectIndices(data, q);
+                if (corrects.length > 1) {
+                    state.userAns[state.curQIdx] = state.userAns[state.curQIdx] || [];
+                    const pos = state.userAns[state.curQIdx].indexOf(origIdx);
+                    if (pos > -1) state.userAns[state.curQIdx].splice(pos, 1);
+                    else state.userAns[state.curQIdx].push(origIdx);
+                } else {
+                    state.userAns[state.curQIdx] = [origIdx];
+                }
+                renderQuestionCard(); renderMap();
             };
             ul.appendChild(li);
         });
+        document.getElementById('btn-prev').disabled = state.curQIdx === 0;
+        document.getElementById('btn-next').disabled = state.curQIdx === state.activeQs.length - 1;
     }
 
     function finishQuiz() {
-        if(!confirm(ui[state.lang].confirm)) return;
+        if(!confirm(state.isVN ? uiTexts.vi.confirm : uiTexts.en.confirm)) return;
         let score = 0;
         state.activeQs.forEach((q, i) => {
-            const correctChar = q.en.answer;
-            const userPick = state.userAns[i] !== undefined ? String.fromCharCode(65 + state.userAns[i][0]) : '';
-            if(userPick === correctChar) score++;
+            const corrects = getCorrectIndices(q.en, q);
+            if(compareArrays(state.userAns[i] || [], corrects)) score++;
         });
         state.qPhase = 'result';
         document.getElementById('score-val').innerText = `${score}/${state.activeQs.length}`;
-        switchTab('quiz');
+        renderResultView(); updateView(); renderMap();
     }
 
-    function resetQuiz() { state.qPhase = 'setup'; switchTab('quiz'); }
+    function renderResultView() {
+        const list = document.getElementById('review-list'); list.innerHTML = '';
+        state.activeQs.forEach((q, idx) => {
+            const data = state.isVN ? q.vi : q.en;
+            const user = state.userAns[idx] || [];
+            const corrects = getCorrectIndices(data, q);
+            const isCorrect = compareArrays(user, corrects);
 
-    function renderMap() {
-        const g = document.getElementById('map-grid'); g.innerHTML = '';
-        state.activeQs.forEach((_, i) => {
-            const b = document.createElement('button'); b.className = 'map-btn'; b.innerText = i+1;
-            if(state.curQIdx === i) b.classList.add('active');
-            if(state.userAns[i] !== undefined) b.classList.add('answered');
-            b.onclick = () => { state.curQIdx = i; renderQCard(); };
-            g.appendChild(b);
+            let optsHtml = '<ul class="options-list result-mode">';
+            q.shuffledIdx.forEach((origIdx, i) => {
+                let cls = corrects.includes(origIdx) ? 'is-correct-answer' : (user.includes(origIdx) ? 'is-wrong-answer' : '');
+                optsHtml += `<li class="${cls}" data-label="${String.fromCharCode(65+i)}">${data.options[origIdx].replace(/^[A-Z][\.\)]\s*/, '')}</li>`;
+            });
+            optsHtml += '</ul>';
+
+            list.innerHTML += `
+                <div class="question-card" id="res-card-${idx}">
+                    <div class="res-header"><span class="res-qnum">#${idx+1}</span> <b>${isCorrect ? '✅' : '❌'}</b></div>
+                    <div class="question-text">${data.question}</div>
+                    ${data.code ? `<pre class="code-snippet">${data.code}</pre>` : ''}
+                    ${optsHtml}
+                    <div style="margin-top:15px; font-size:14px; color:#666; font-style:italic;">${data.explanation}</div>
+                </div>`;
         });
     }
 
-    function navQuiz(s) {
-        let n = state.curQIdx + s;
-        if(n >= 0 && n < state.activeQs.length) { state.curQIdx = n; renderQCard(); renderMap(); }
+    // --- SHARED UTILS ---
+    function switchTab(t) { 
+        state.tab = t; 
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.id.includes(t)));
+        updateView(); 
     }
 
-    // Utils
-    function shuffle(a) { let r = [...a]; for(let i=r.length-1; i>0; i--){ const j=Math.floor(Math.random()*(i+1)); [r[i],r[j]]=[r[j],r[i]]; } return r; }
+    function updateView() {
+        document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active-view'));
+        const phase = state.tab === 'flashcard' ? 'flashcard-view' : (state.qPhase === 'setup' ? 'quiz-setup' : 'quiz-' + state.qPhase);
+        document.getElementById(phase).classList.add('active-view');
+        document.getElementById('quiz-sidebar').classList.toggle('hidden', state.tab === 'flashcard' || state.qPhase === 'setup');
+    }
 
-    // --- HOTKEYS ---
+    function renderMap() {
+        const grid = document.getElementById('map-grid'); grid.innerHTML = '';
+        state.activeQs.forEach((_, i) => {
+            const btn = document.createElement('button'); btn.className = 'map-btn'; btn.innerText = i+1;
+            if(state.curQIdx === i) btn.classList.add('active');
+            if(state.userAns[i]) btn.classList.add('answered');
+            if(state.qPhase === 'result') btn.classList.add(compareArrays(state.userAns[i]||[], getCorrectIndices(state.activeQs[i].en, state.activeQs[i])) ? 'correct' : 'wrong');
+            btn.onclick = () => { 
+                if(state.qPhase==='result') document.getElementById(`res-card-${i}`).scrollIntoView();
+                else { state.curQIdx = i; renderQuestionCard(); }
+            };
+            grid.appendChild(btn);
+        });
+    }
+
+    function getCorrectIndices(data, qObj) {
+        const opts = data.options || [];
+        const raw = Array.isArray(qObj.en.answer) ? qObj.en.answer : [qObj.en.answer];
+        let res = [];
+        raw.forEach(a => {
+            let idx = opts.findIndex(o => o.trim().toLowerCase().replace(/^[a-z][\.\)]\s*/, '') === a.trim().toLowerCase().replace(/^[a-z][\.\)]\s*/, ''));
+            if (idx === -1) {
+                let letters = a.toUpperCase().replace(/[^A-Z]/g, '');
+                for(let l of letters) { let code = l.charCodeAt(0) - 65; if(code >= 0 && code < opts.length) res.push(code); }
+            } else res.push(idx);
+        });
+        return [...new Set(res)];
+    }
+
+    function shuffleArray(a) { let r = [...a]; for(let i=r.length-1; i>0; i--){ const j=Math.floor(Math.random()*(i+1)); [r[i],r[j]]=[r[j],r[i]]; } return r; }
+    function compareArrays(a, b) { return a.length === b.length && a.sort().every((v, i) => v === b.sort()[i]); }
+    function navQuiz(s) { let n = state.curQIdx + s; if(n >= 0 && n < state.activeQs.length) { state.curQIdx = n; renderQuestionCard(); renderMap(); } }
+    function resetQuiz() { state.qPhase = 'setup'; updateView(); }
+
     document.addEventListener('keydown', e => {
-        if (['INPUT','SELECT'].includes(document.activeElement.tagName)) return;
-        if (e.key.toLowerCase() === 'n') toggleLanguage();
-        if (e.key === ' ') { e.preventDefault(); document.getElementById('fc-flip-card').classList.toggle('flipped'); }
-        if (e.key === 'ArrowLeft') state.tab === 'flashcard' ? navFC(-1) : navQuiz(-1);
-        if (e.key === 'ArrowRight') state.tab === 'flashcard' ? navFC(1) : navQuiz(1);
+        if(['INPUT','SELECT'].includes(document.activeElement.tagName)) return;
+        if(e.key.toLowerCase() === 'n') toggleLanguage();
+        if(e.key === ' ') { e.preventDefault(); if(state.tab === 'flashcard') document.getElementById('fc-flip-card').classList.toggle('flipped'); }
+        if(e.key === 'ArrowLeft') state.tab === 'flashcard' ? navFlashcard(-1) : navQuiz(-1);
+        if(e.key === 'ArrowRight') state.tab === 'flashcard' ? navFlashcard(1) : navQuiz(1);
     });
 
-    // --- DATA ---
+    // --- JSON DATA GOES HERE ---
     const quizData = [
     {
         "id": 1,
