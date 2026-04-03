@@ -67,6 +67,21 @@
         .hidden { display: none !important; }
         .flex-between { display: flex; justify-content: space-between; align-items: center; }
 
+        /* --- Controls Group (Phiên bản PRO cũ đẹp mắt) --- */
+        .controls-group {
+            background: white; padding: 15px 25px; border-radius: var(--radius);
+            margin-bottom: 25px; display: flex; gap: 25px; align-items: center; justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05); flex-wrap: wrap; border: 1px solid #f0f0f0;
+        }
+        .control-item { display: flex; align-items: center; }
+        .control-item select { 
+            padding: 8px 12px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 14px; outline: none; cursor: pointer;
+            color: #334155; font-weight: 500; transition: 0.2s;
+        }
+        .control-item select:focus { border-color: var(--primary-color); }
+        .control-item label { font-weight: 600; margin-right: 10px; font-size: 14px; color: #475569; }
+        .control-item input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--primary-color); cursor: pointer; }
+
         /* --- Buttons --- */
         .start-btn, .nav-btn, .submit-btn {
             background: var(--primary-color); color: white; border: none; padding: 14px 30px; border-radius: 30px;
@@ -93,7 +108,7 @@
             border-left: 5px solid #0ea5e9; 
             margin-bottom: 24px; 
             line-height: 1.7;
-            white-space: pre-line; /* Giữ nguyên xuống dòng của Code Java */
+            white-space: pre-line; 
             word-wrap: break-word;
         }
         
@@ -172,9 +187,7 @@
         .card-front { z-index: 2; transform: rotateY(0deg); }
         .card-back { transform: rotateY(180deg); background: #fafafa; }
         
-        #fc-content, #fc-answer, #fc-explanation {
-            white-space: pre-line; word-wrap: break-word; width: 100%;
-        }
+        #fc-content, #fc-answer, #fc-explanation { white-space: pre-line; word-wrap: break-word; width: 100%; }
 
         /* --- Utils --- */
         .category-badge {
@@ -205,8 +218,6 @@
         }
         
         #quiz-setup { background: white; padding: 50px; border-radius: 24px; box-shadow: var(--card-shadow); text-align: center; max-width: 600px; margin: auto; border: 1px solid #f0f0f0; }
-        .custom-select { width: 100%; padding: 12px 20px; border: 2px solid #e0e0e0; border-radius: 12px; font-size: 16px; background: #fff; margin-top: 10px; cursor: pointer; outline: none; transition: 0.2s; }
-        .custom-select:focus { border-color: var(--primary-color); }
 
         /* SCROLLBAR STYLING */
         ::-webkit-scrollbar { width: 8px; height: 8px; }
@@ -227,6 +238,8 @@
             .options-list li::before { left: 12px; width: 28px; height: 28px; line-height: 28px; }
             .card-face { padding: 24px; min-height: 350px; }
             #quiz-setup { padding: 30px 20px; }
+            .controls-group { flex-direction: column; align-items: stretch; padding: 15px; }
+            .control-item { justify-content: space-between; width: 100%; }
         }
     </style>
 </head>
@@ -246,16 +259,15 @@
         <div class="content-area">
 
             <div id="flashcard-view" class="view-section active-view">
-                <div style="max-width: 700px; margin: 0 auto 20px auto; background: white; padding: 15px 20px; border-radius: 16px; box-shadow: var(--shadow-sm); border: 1px solid #f0f0f0;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
-                        <div style="flex: 1; min-width: 200px;">
-                            <label style="font-weight:600; color:var(--text-muted); display:block; margin-bottom:5px; font-size: 14px;">📖 Chọn chủ đề:</label>
-                            <select id="fc-category-select" onchange="updateFlashcardFilter()" class="custom-select" style="margin-top:0; padding: 8px 12px;"></select>
-                        </div>
-                        <div style="display: flex; align-items: center; gap: 10px;">
-                            <label style="font-weight: 600; color: var(--text-muted); font-size: 14px;">🔀 Xáo trộn:</label>
-                            <input type="checkbox" id="fc-shuffle-check" onchange="renderFlashcard()" style="width: 20px; height: 20px; accent-color: var(--primary-color); cursor: pointer;">
-                        </div>
+                
+                <div class="controls-group">
+                    <div class="control-item">
+                        <label id="lbl-fc-topic">Chủ đề:</label>
+                        <select id="fc-category-select" onchange="updateFlashcardFilter()"></select>
+                    </div>
+                    <div class="control-item">
+                        <label id="lbl-fc-shuffle">Xáo trộn:</label>
+                        <input type="checkbox" id="fc-shuffle-check" onchange="renderFlashcard()">
                     </div>
                 </div>
 
@@ -277,33 +289,32 @@
                     </div>
                 </div>
                 <div style="display:flex; justify-content:center; gap:20px; align-items: center;">
-                    <button class="nav-btn secondary" onclick="navFlashcard(-1)">← Trước</button>
+                    <button class="nav-btn secondary" onclick="navFlashcard(-1)" id="btn-fc-prev">← Trước</button>
                     <span id="fc-counter" style="font-weight:700; color:#64748b; font-size: 16px; min-width: 80px; text-align: center;"></span>
-                    <button class="nav-btn secondary" onclick="navFlashcard(1)">Sau →</button>
+                    <button class="nav-btn secondary" onclick="navFlashcard(1)" id="btn-fc-next">Sau →</button>
                 </div>
             </div>
 
             <div id="quiz-setup" class="view-section">
                 <h2 id="txt-setup-title" style="color: var(--primary-color); margin-bottom: 30px;"></h2>
-                <div style="text-align: left; margin-bottom: 25px;">
-                    <label style="font-weight:600; margin-bottom: 8px; display:block; color: var(--text-muted);">1. Chọn chủ đề ôn tập:</label>
-                    <select id="quiz-category-select" onchange="updateQuizCountMax()" class="custom-select"></select>
-                </div>
                 
-                <div style="text-align: left; margin-bottom: 25px;">
-                    <label style="font-weight:600; margin-bottom: 8px; display:block; color: var(--text-muted);">2. Tùy chọn nâng cao:</label>
-                    <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; background: #f8fafc; padding: 12px; border-radius: 8px; border: 1px solid #e2e8f0;">
-                        <input type="checkbox" id="quiz-shuffle-check" style="width: 20px; height: 20px; accent-color: var(--primary-color);">
-                        <span style="font-weight: 500;">🔀 Xáo trộn thứ tự đáp án (Shuffle Options)</span>
-                    </label>
+                <div class="controls-group" style="flex-direction: column; max-width:350px; margin: 0 auto; box-shadow: none; border: none; padding: 0;">
+                    <div class="control-item" style="width:100%; justify-content: space-between; margin-bottom: 15px;">
+                        <label id="lbl-quiz-topic">Chủ đề:</label>
+                        <select id="quiz-category-select" onchange="updateQuizCountMax()"></select>
+                    </div>
+                    <div class="control-item" style="width:100%; justify-content: space-between;">
+                        <label id="lbl-quiz-shuffle">Xáo trộn đáp án:</label>
+                        <input type="checkbox" id="quiz-shuffle-check">
+                    </div>
                 </div>
 
-                <div style="text-align: left; margin-bottom: 35px;">
+                <div style="text-align: left; margin-bottom: 35px; margin-top: 25px;">
                     <label id="txt-q-count" style="font-weight:600; margin-bottom: 8px; display:block; color: var(--text-muted);"></label>
                     <div style="display: flex; align-items: center; gap: 15px; background: #f8fafc; padding: 15px; border-radius: 12px; border: 1px solid #e2e8f0;">
                         <input type="number" id="quiz-count-input" min="1" value="10" style="padding: 12px; border: 2px solid var(--primary-light); border-radius: 8px; font-size: 20px; font-weight:bold; width: 100px; text-align: center; color: var(--primary-color); outline: none;">
                         <div style="font-size: 15px; color: #64748b;">
-                            <span id="txt-total"></span> <strong id="total-qs" style="color:var(--text-main); font-size: 18px;">0</strong> câu
+                            <span id="txt-total"></span> <strong id="total-qs" style="color:var(--text-main); font-size: 18px;">0</strong>
                         </div>
                     </div>
                 </div>
@@ -339,7 +350,7 @@
                     <h2 id="txt-result-title" style="color: var(--text-main);"></h2>
                     <div id="score-val" style="font-size:56px; font-weight:800; color:var(--primary-color);"></div>
                     <p id="score-percent" style="color: #64748b; font-weight: 600; font-size: 20px; margin-top: 0; margin-bottom: 24px;"></p>
-                    <button class="start-btn" onclick="resetQuiz()">Làm đề mới 🔄</button>
+                    <button class="start-btn" onclick="resetQuiz()" id="btn-restart">Làm đề mới 🔄</button>
                 </div>
                 <div id="review-list"></div>
             </div>
@@ -359,600 +370,10 @@
 
 <script>
     // ======================================================
-    // 1. DỮ LIỆU PRO192 (Đã chuẩn hóa 30 câu đầu tiên)
+    // 1. DỮ LIỆU CỦA BẠN (Dán mảng PRO192 của bạn vào đây)
     // ======================================================
     const quizData = [
         {
-            "id": 1,
-            "topic": "Java Basics",
-            "en": {
-                "question": "To run a Java program, which the software must be installed?",
-                "options": ["A. Java Runtime Environment (JRE)", "B. Eclipse", "C. Java Development Kit (JDK)", "D. Netbeans"],
-                "answer": "A",
-                "explanation": "JRE (Java Runtime Environment) contains the JVM and libraries required to *run* a Java program. JDK is needed to *develop* (compile) it, while Eclipse/Netbeans are just IDEs."
-            },
-            "vi": {
-                "question": "Để chạy một chương trình Java, phần mềm nào phải được cài đặt?",
-                "options": ["A. Java Runtime Environment (JRE)", "B. Eclipse", "C. Java Development Kit (JDK)", "D. Netbeans"],
-                "answer": "A",
-                "explanation": "JRE là môi trường thực thi chứa JVM và các thư viện cần thiết để CHẠY phần mềm Java. JDK dùng để code (biên dịch), còn Eclipse và Netbeans chỉ là công cụ soạn thảo (IDE)."
-            }
-        },
-        {
-            "id": 2,
-            "topic": "Java Basics",
-            "en": {
-                "question": "What is the role of the Java Development Kit (JDK) in java programming? Choose multiple correct answers.",
-                "options": [
-                    "A. A cross-platformed software development environment that offers a collection of tools and libraries.",
-                    "B. A core package used in Java programming, along with JVM and JRE to develop and deploy applications",
-                    "C. A software for building applications that combines common developer tools into a single GUI.",
-                    "D. A text editor that can assist in writing software code."
-                ],
-                "answer": ["A", "B"],
-                "explanation": "JDK provides the tools, compilers, and the JRE needed for developing Java applications. Option C and D describe an IDE like Eclipse or NetBeans, not the JDK itself."
-            },
-            "vi": {
-                "question": "Vai trò của Java Development Kit (JDK) trong lập trình Java là gì? Chọn nhiều đáp án đúng.",
-                "options": [
-                    "A. Môi trường phát triển phần mềm đa nền tảng cung cấp tập hợp các công cụ và thư viện.",
-                    "B. Một gói cốt lõi dùng trong lập trình Java, đi kèm với JVM và JRE để phát triển và triển khai ứng dụng.",
-                    "C. Một phần mềm xây dựng ứng dụng kết hợp các công cụ phát triển chung vào một giao diện đồ họa (GUI).",
-                    "D. Một trình soạn thảo văn bản hỗ trợ viết mã phần mềm."
-                ],
-                "answer": ["A", "B"],
-                "explanation": "JDK là bộ công cụ dành cho lập trình viên (bao gồm trình biên dịch, JRE, JVM...). Đáp án C và D mô tả các công cụ IDE (như Eclipse/IntelliJ), không phải là bản chất của JDK."
-            }
-        },
-        {
-            "id": 3,
-            "topic": "OOP Concepts",
-            "en": {
-                "question": "Which of the following concepts does not belong to object-oriented programming features?",
-                "options": ["A. Cross-platform", "B. Inheritance", "C. Polymorphism", "D. Encapsulation"],
-                "answer": "A",
-                "explanation": "The 4 pillars of OOP are: Abstraction, Encapsulation, Inheritance, and Polymorphism. Cross-platform is a feature of the Java language itself, not an OOP concept."
-            },
-            "vi": {
-                "question": "Khái niệm nào sau đây không thuộc về các đặc điểm của lập trình hướng đối tượng (OOP)?",
-                "options": ["A. Đa nền tảng (Cross-platform)", "B. Kế thừa (Inheritance)", "C. Đa hình (Polymorphism)", "D. Đóng gói (Encapsulation)"],
-                "answer": "A",
-                "explanation": "4 tính chất của OOP là Đóng gói (Encapsulation), Kế thừa (Inheritance), Đa hình (Polymorphism) và Trừu tượng (Abstraction). Cross-platform là đặc tính của ngôn ngữ Java (Write once, run anywhere), không phải của OOP."
-            }
-        },
-        {
-            "id": 4,
-            "topic": "Java Basics",
-            "en": {
-                "question": "A Java source code will be compiled to the file in which of the following extensions?",
-                "options": ["A. .class", "B. .java", "C. .exe", "D. .bat"],
-                "answer": "A",
-                "explanation": "Java compiler (javac) converts human-readable .java source code into platform-independent bytecode, which is stored in a .class file."
-            },
-            "vi": {
-                "question": "Mã nguồn Java sẽ được biên dịch sang file có đuôi mở rộng nào sau đây?",
-                "options": ["A. .class", "B. .java", "C. .exe", "D. .bat"],
-                "answer": "A",
-                "explanation": "Trình biên dịch Java (javac) biên dịch file mã nguồn `.java` thành bytecode (mã trung gian) và lưu trong file có đuôi `.class` để JVM có thể đọc và thực thi."
-            }
-        },
-        {
-            "id": 5,
-            "topic": "Java Basics",
-            "en": {
-                "question": "What is the default value of the data type double in Java?",
-                "options": ["A. 0.0", "B. 0", "C. Null", "D. 1.0", "E. -1.0", "F. NaN"],
-                "answer": "A",
-                "explanation": "In Java, uninitialized instance variables of type 'double' have a default value of 0.0."
-            },
-            "vi": {
-                "question": "Giá trị mặc định của kiểu dữ liệu double trong Java là gì?",
-                "options": ["A. 0.0", "B. 0", "C. Null", "D. 1.0", "E. -1.0", "F. NaN"],
-                "answer": "A",
-                "explanation": "Trong Java, các biến instance (thuộc tính của đối tượng) mang kiểu dữ liệu nguyên thủy `double` nếu không được khởi tạo sẽ mang giá trị mặc định là 0.0."
-            }
-        },
-        {
-            "id": 6,
-            "topic": "Java Basics",
-            "en": {
-                "question": "Which of the following is the entry point of the Java program?",
-                "options": ["A. main method", "B. class method", "C. instance method", "D. static method"],
-                "answer": "A",
-                "explanation": "The 'public static void main(String[] args)' method is the starting point for JVM to execute a Java application."
-            },
-            "vi": {
-                "question": "Thành phần nào sau đây là điểm bắt đầu (entry point) của một chương trình Java?",
-                "options": ["A. Phương thức main", "B. class method", "C. instance method", "D. static method"],
-                "answer": "A",
-                "explanation": "Phương thức `public static void main(String[] args)` luôn là điểm xuất phát mà Java Virtual Machine (JVM) tìm kiếm để thực thi một chương trình Java."
-            }
-        },
-        {
-            "id": 7,
-            "topic": "OOP Concepts",
-            "en": {
-                "question": "What will be the output of the following code?\npublic class Test1 {\n   int x;\n   x = 5;\n   public static void main(String[] args) {\n      Test1 t = new Test1();\n      System.out.println(t.x);\n   }\n}",
-                "options": ["A. Compile error", "B. Runtime error", "C. 5", "D. 0"],
-                "answer": "A",
-                "explanation": "You cannot place an assignment statement (like 'x = 5;') directly inside a class body. It must be inside a method, a constructor, or an initialization block."
-            },
-            "vi": {
-                "question": "Đầu ra của đoạn code sau là gì?\npublic class Test1 {\n   int x;\n   x = 5;\n   public static void main(String[] args) {\n      Test1 t = new Test1();\n      System.out.println(t.x);\n   }\n}",
-                "options": ["A. Lỗi biên dịch (Compile error)", "B. Lỗi runtime", "C. 5", "D. 0"],
-                "answer": "A",
-                "explanation": "Lỗi biên dịch! Bạn không thể viết lệnh gán `x = 5;` nằm trơ trọi trực tiếp bên trong body của Class. Lệnh gán phải nằm trong phương thức (method), hàm khởi tạo (constructor) hoặc khối khởi tạo (init block). Cú pháp hợp lệ là `int x = 5;` trên cùng 1 dòng."
-            }
-        },
-        {
-            "id": 8,
-            "topic": "Java Basics",
-            "en": {
-                "question": "What is the output of the following code snippet?\nint yob= 1999;\nif (yob)\n   System.out.print(\"Lower\");\nelse \n   System.out.print(\"Upper\");",
-                "options": ["A. Syntax error", "B. Upper", "C. Lower 2000", "D. Lower"],
-                "answer": "A",
-                "explanation": "Unlike C/C++, Java requires a strictly 'boolean' expression inside an 'if' statement. Passing an 'int' (yob) directly causes a compilation/syntax error."
-            },
-            "vi": {
-                "question": "Đầu ra của đoạn mã sau là gì?\nint yob= 1999;\nif (yob)\n   System.out.print(\"Lower\");\nelse \n   System.out.print(\"Upper\");",
-                "options": ["A. Lỗi cú pháp (Syntax error)", "B. Upper", "C. Lower 2000", "D. Lower"],
-                "answer": "A",
-                "explanation": "Khác với C/C++ (số khác 0 được tính là true), Java bắt buộc điều kiện trong lệnh `if` phải là kiểu `boolean`. Việc truyền một số nguyên `int` vào `if(yob)` sẽ gây lỗi biên dịch."
-            }
-        },
-        {
-            "id": 9,
-            "topic": "Exception Handling",
-            "en": {
-                "question": "Which of the following is one of the exception types in Java?",
-                "options": ["A. RuntimeException", "B. CompileException", "C. SyntaxException", "D. LogicException"],
-                "answer": "A",
-                "explanation": "RuntimeException is a standard built-in class in Java representing unchecked exceptions (e.g., NullPointerException). The others are not standard Java exception classes."
-            },
-            "vi": {
-                "question": "Loại nào sau đây là một trong các kiểu Ngoại lệ (Exception) chuẩn trong Java?",
-                "options": ["A. RuntimeException", "B. CompileException", "C. SyntaxException", "D. LogicException"],
-                "answer": "A",
-                "explanation": "Dựa trên bài giảng Exception Handling, `RuntimeException` là một lớp chuẩn trong Java đại diện cho các ngoại lệ Unchecked (không bị ép buộc phải try-catch). Các đáp án còn lại không phải là class có sẵn của Java."
-            }
-        },
-        {
-            "id": 10,
-            "topic": "Encapsulation",
-            "en": {
-                "question": "What is the purpose of the 'this' keyword in Java?",
-                "options": ["A. It refers to the current class", "B. It refers to the current object", "C. It refers to the superclass", "D. It refers to the subclass"],
-                "answer": "B",
-                "explanation": "The 'this' keyword returns the reference (address) of the current object that is calling the method or constructor."
-            },
-            "vi": {
-                "question": "Mục đích của từ khóa 'this' trong Java là gì?",
-                "options": ["A. Tham chiếu đến lớp hiện tại", "B. Tham chiếu đến đối tượng hiện tại (current object)", "C. Tham chiếu đến lớp cha (superclass)", "D. Tham chiếu đến lớp con (subclass)"],
-                "answer": "B",
-                "explanation": "Từ khóa `this` lưu trữ địa chỉ vùng nhớ của ĐỐI TƯỢNG HIỆN TẠI đang gọi phương thức. Nó giúp phân biệt giữa thuộc tính của object và tham số truyền vào."
-            }
-        },
-        {
-            "id": 11,
-            "topic": "Encapsulation",
-            "en": {
-                "question": "In Java, if a class does not explicitly define a constructor, what type of constructor is automatically provided?",
-                "options": ["A. Parameterized constructor", "B. Default constructor", "C. Private constructor", "D. Static constructor"],
-                "answer": "B",
-                "explanation": "The Java compiler automatically inserts a no-argument, default constructor for any class that does not have any explicitly defined constructors."
-            },
-            "vi": {
-                "question": "Trong Java, nếu một lớp không định nghĩa rõ ràng một constructor, loại constructor nào sẽ được tự động cung cấp?",
-                "options": ["A. Constructor có tham số", "B. Constructor mặc định (Default constructor)", "C. Constructor private", "D. Constructor tĩnh"],
-                "answer": "B",
-                "explanation": "Nếu bạn không tự viết bất kỳ constructor nào, trình biên dịch Java sẽ tự động chèn một 'Default constructor' (constructor không tham số) để giúp khởi tạo đối tượng."
-            }
-        },
-        {
-            "id": 12,
-            "topic": "Polymorphism",
-            "en": {
-                "question": "What is the output of the following code snippet?\nclass Test{\n   void method(int x){ System.out.print(x*x); }\n   void method(int...a){ System.out.print(a.length); }\n   public static void main(String[] args){\n      Test t = new Test();\n      t.method();\n      t.method(2);\n      t.method(3, 4);\n   }\n}",
-                "options": ["A. 042", "B. 034", "C. 234", "D. 242"],
-                "answer": "A",
-                "explanation": "t.method() matches varargs (length 0). t.method(2) exactly matches method(int x), so 2*2 = 4. t.method(3,4) matches varargs (length 2). Output: 042."
-            },
-            "vi": {
-                "question": "Đầu ra của đoạn mã sau là gì?\nclass Test{\n   void method(int x){ System.out.print(x*x); }\n   void method(int...a){ System.out.print(a.length); }\n   public static void main(String[] args){\n      Test t = new Test();\n      t.method();\n      t.method(2);\n      t.method(3, 4);\n   }\n}",
-                "options": ["A. 042", "B. 034", "C. 234", "D. 242"],
-                "answer": "A",
-                "explanation": "Đây là bài toán Nạp chồng (Overloading) kết hợp varargs (đối số biến đổi):\n- `t.method()` không có tham số -> gọi varargs -> mảng a có length = 0 -> In ra 0.\n- `t.method(2)` -> ưu tiên khớp chính xác với `method(int x)` -> In ra 2*2 = 4.\n- `t.method(3,4)` -> gọi varargs -> mảng a có length = 2 -> In ra 2.\nKết quả: 042."
-            }
-        },
-        {
-            "id": 13,
-            "topic": "Polymorphism",
-            "en": {
-                "question": "What is the output following the code snippet?\npublic class DemoClass {\n   void add(int x, int y){ System.out.println(\"1. Addition is: \" +(x+y)); }\n   void add(int y, int x){ System.out.println(\"2. Addition is: \" +(x+y)); }\n}",
-                "options": ["A. Compile error", "B. 2. Addition is: 50", "C. 1. Addition is: 50", "D. 20, 30"],
-                "answer": "A",
-                "explanation": "CORRECTED: Method overloading relies on different parameter TYPES or counts. Declaring two methods with the exact same signature 'add(int, int)' results in a compile error. The variable names 'x' and 'y' do not make the signature unique."
-            },
-            "vi": {
-                "question": "Đầu ra của đoạn mã sau là gì?\npublic class DemoClass {\n   void add(int x, int y){ System.out.println(\"1. Addition is: \" +(x+y)); }\n   void add(int y, int x){ System.out.println(\"2. Addition is: \" +(x+y)); }\n}",
-                "options": ["A. Lỗi biên dịch (Compile error)", "B. 2. Addition is: 50", "C. 1. Addition is: 50", "D. 20, 30"],
-                "answer": "A",
-                "explanation": "ĐÍNH CHÍNH LỖI ĐỀ CŨ: Overloading (Nạp chồng) yêu cầu các phương thức phải khác nhau về TẤT HOẶC KIỂU DỮ LIỆU tham số. Cả 2 phương thức trên đều nhận 2 tham số (int, int). Trình biên dịch không quan tâm tên biến là x hay y. Do đó, việc khai báo trùng lặp này sẽ gây lỗi biên dịch (Compile error) ngay lập tức."
-            }
-        },
-        {
-            "id": 14,
-            "topic": "Polymorphism",
-            "en": {
-                "question": "What is method overriding in Java?",
-                "options": [
-                    "A. Re-implementing a method in the subclass with the same signature as in the superclass",
-                    "B. Creating multiple methods with the same name but different parameters",
-                    "C. Calling a method from another method",
-                    "D. Re-implementing another method in the same class with the same signature"
-                ],
-                "answer": "A",
-                "explanation": "Overriding occurs when a subclass provides a specific implementation for a method that is already defined by its parent class, using the exact same signature."
-            },
-            "vi": {
-                "question": "Ghi đè phương thức (Method overriding) trong Java là gì?",
-                "options": [
-                    "A. Triển khai lại một phương thức ở lớp con (subclass) với cùng chữ ký (signature) như ở lớp cha (superclass)",
-                    "B. Tạo nhiều phương thức cùng tên nhưng khác tham số",
-                    "C. Gọi một phương thức từ một phương thức khác",
-                    "D. Triển khai lại một phương thức khác trong cùng một lớp với cùng chữ ký"
-                ],
-                "answer": "A",
-                "explanation": "Theo bài giảng Polymorphism, Overriding (Ghi đè) là khi lớp con (subclass) định nghĩa lại phần body của một phương thức đã có ở lớp cha, và bắt buộc phải giữ nguyên chữ ký phương thức (tên hàm, kiểu trả về và tham số)."
-            }
-        },
-        {
-            "id": 15,
-            "topic": "Collections & Arrays",
-            "en": {
-                "question": "What is the main difference between HashSet and TreeSet?",
-                "options": [
-                    "A. HashSet uses a hash table; TreeSet uses a balanced tree.",
-                    "B. HashSet allows duplicate elements; TreeSet does not.",
-                    "C. HashSet sorts elements based on natural ordering; TreeSet does not.",
-                    "D. HashSet allows null elements; TreeSet does not."
-                ],
-                "answer": "A",
-                "explanation": "HashSet is backed by a Hash Table (fast operations, unordered). TreeSet is backed by a Red-Black tree (balanced tree) which keeps elements sorted."
-            },
-            "vi": {
-                "question": "Sự khác biệt chính giữa HashSet và TreeSet là gì?",
-                "options": [
-                    "A. HashSet sử dụng bảng băm (hash table); TreeSet sử dụng cây cân bằng (balanced tree).",
-                    "B. HashSet cho phép phần tử trùng lặp; TreeSet thì không.",
-                    "C. HashSet tự động sắp xếp các phần tử; TreeSet thì không.",
-                    "D. HashSet cho phép phần tử null; TreeSet thì không."
-                ],
-                "answer": "A",
-                "explanation": "Bản chất cấu trúc dữ liệu: HashSet hoạt động dựa trên HashTable nên tốc độ truy xuất cực nhanh nhưng không có thứ tự. TreeSet hoạt động dựa trên cây nhị phân cân bằng (Red-Black Tree) giúp dữ liệu luôn được tự động sắp xếp."
-            }
-        },
-        {
-            "id": 16,
-            "topic": "Collections & Arrays",
-            "en": {
-                "question": "What is the output of the following code snippet?\nArrayList<Integer> nums = new ArrayList();\nnums.add(0,2);\nnums.add(1,3);\nnums.add(2,4);\nIterator it = nums.iterator();\nnums.add(3,5);\nwhile(it.hasNext()){\n   System.out.print(it.next());\n}",
-                "options": ["A. 2345", "B. 0123", "C. 02132435", "D. 0325"],
-                "answer": "A",
-                "explanation": "NOTE: Practically, modifying a collection (nums.add(3,5)) AFTER creating an iterator over it throws a ConcurrentModificationException in Java. However, assuming the intended logic of the test ignores fail-fast iterators, it would iterate through all elements yielding 2345."
-            },
-            "vi": {
-                "question": "Đầu ra của đoạn mã sau là gì?\nArrayList<Integer> nums = new ArrayList();\nnums.add(0,2);\nnums.add(1,3);\nnums.add(2,4);\nIterator it = nums.iterator();\nnums.add(3,5);\nwhile(it.hasNext()){\n   System.out.print(it.next());\n}",
-                "options": ["A. 2345", "B. 0123", "C. 02132435", "D. 0325"],
-                "answer": "A",
-                "explanation": "LƯU Ý QUAN TRỌNG: Trên thực tế, Java áp dụng cơ chế 'fail-fast'. Nếu bạn sửa đổi List (nums.add) SAU KHI đã tạo Iterator, khi gọi `it.next()` sẽ ném ra lỗi `ConcurrentModificationException` làm sập chương trình. Tuy nhiên, dựa theo các lựa chọn trong đề bài, đáp án A (2345) thể hiện luồng logic kỳ vọng của người ra đề (mảng sau khi add là [2, 3, 4, 5])."
-            }
-        },
-        {
-            "id": 17,
-            "topic": "File I/O & Streams",
-            "en": {
-                "question": "What classes are best suited for handling the reading and writing of character streams?",
-                "options": ["A. FileReader and FileWriter", "B. FileInputStream and FileOutputStream", "C. BufferedReader and FilePrinter", "D. None of the others"],
-                "answer": "A",
-                "explanation": "Classes ending with 'Reader' and 'Writer' handle 16-bit character streams (text). Classes ending with 'Stream' handle 8-bit raw byte streams."
-            },
-            "vi": {
-                "question": "Những lớp nào phù hợp nhất để xử lý việc đọc và ghi luồng ký tự (character streams)?",
-                "options": ["A. FileReader và FileWriter", "B. FileInputStream và FileOutputStream", "C. BufferedReader và FilePrinter", "D. Không có đáp án nào đúng"],
-                "answer": "A",
-                "explanation": "Trong Java I/O, các lớp kết thúc bằng chữ 'Reader' và 'Writer' (như FileReader/FileWriter) được thiết kế đặc biệt để đọc/ghi file dưới dạng ký tự văn bản (Character stream). Các lớp kết thúc bằng 'Stream' dùng cho dữ liệu nhị phân (Byte stream)."
-            }
-        },
-        {
-            "id": 18,
-            "topic": "Exception Handling",
-            "en": {
-                "question": "How does the try-catch-finally statement work?",
-                "options": [
-                    "A. The code inside the try block is executed, if an exception occurs, it is handled by the catch block. The finally block is executed regardless of whether an exception occurred or not.",
-                    "B. The code inside the try block is executed, if an exception occurs, it is handled by the finally block.",
-                    "C. The finally block is executed only if an exception occurred.",
-                    "D. The finally block is executed only if an exception occurred and was not caught."
-                ],
-                "answer": "A",
-                "explanation": "The 'finally' block is always executed whether an exception is thrown or caught or not. It is typically used for resource cleanup."
-            },
-            "vi": {
-                "question": "Câu lệnh try-catch-finally hoạt động như thế nào?",
-                "options": [
-                    "A. Mã trong block try được thực thi, nếu có ngoại lệ, nó sẽ được xử lý bởi block catch. Block finally luôn được thực thi bất kể có ngoại lệ hay không.",
-                    "B. Block finally dùng để bắt và xử lý ngoại lệ.",
-                    "C. Block finally chỉ thực thi nếu có ngoại lệ xảy ra.",
-                    "D. Block finally chỉ thực thi nếu ngoại lệ không được block catch bắt."
-                ],
-                "answer": "A",
-                "explanation": "Theo bài giảng Exception Handling, block `finally` sinh ra để chứa các đoạn code dọn dẹp tài nguyên (đóng file, ngắt kết nối mạng...). Do đó, nó LUÔN LUÔN được JVM thực thi bất chấp việc chương trình có xảy ra lỗi hay chạy bình thường."
-            }
-        },
-        {
-            "id": 19,
-            "topic": "Inheritance",
-            "en": {
-                "question": "What is the primary purpose of using a superclass and subclass relationship in Java?",
-                "options": [
-                    "A. To restrict access to certain methods or fields.",
-                    "B. To create multiple instances of a class.",
-                    "C. To implement multiple inheritance.",
-                    "D. To achieve code reusability and facilitate polymorphism."
-                ],
-                "answer": "D",
-                "explanation": "Inheritance allows a subclass to reuse the properties and methods of a parent class, and enables polymorphic behavior through method overriding."
-            },
-            "vi": {
-                "question": "Mục đích chính của việc sử dụng mối quan hệ lớp cha (superclass) và lớp con (subclass) trong Java là gì?",
-                "options": [
-                    "A. Để hạn chế quyền truy cập vào các phương thức hoặc trường nhất định.",
-                    "B. Để tạo nhiều thể hiện của một lớp.",
-                    "C. Để triển khai đa kế thừa (multiple inheritance).",
-                    "D. Để đạt được khả năng tái sử dụng mã (code reusability) và tạo điều kiện cho đa hình (polymorphism)."
-                ],
-                "answer": "D",
-                "explanation": "Theo bài giảng Inheritance, kế thừa giúp bạn không phải viết lại những đoạn code lặp lại (reusability). Lớp con sẽ thừa hưởng trọn vẹn đặc tính của lớp cha và có khả năng mở rộng/ghi đè để tạo ra Đa hình (Polymorphism)."
-            }
-        },
-        {
-            "id": 20,
-            "topic": "Polymorphism",
-            "en": {
-                "question": "Consider an abstract class 'Shape' with an abstract method 'calculateArea()'. If a concrete subclass 'Circle' extends 'Shape' and provides an implementation, what happens when a Circle object invokes 'calculateArea()'?",
-                "options": [
-                    "A. The abstract method in the superclass is executed.",
-                    "B. The concrete method in the subclass is executed.",
-                    "C. The program will not compile.",
-                    "D. An exception is thrown at runtime."
-                ],
-                "answer": "B",
-                "explanation": "When an overridden method is called on an object, Java uses dynamic method dispatch to execute the subclass's concrete version of the method."
-            },
-            "vi": {
-                "question": "Xem xét một lớp trừu tượng 'Shape' có phương thức trừu tượng 'calculateArea()'. Nếu lớp con 'Circle' kế thừa 'Shape' và cung cấp phần body cho phương thức này. Điều gì xảy ra khi đối tượng Circle gọi 'calculateArea()'?",
-                "options": [
-                    "A. Phương thức trừu tượng ở lớp cha được thực thi.",
-                    "B. Phương thức cụ thể (concrete) ở lớp con được thực thi.",
-                    "C. Chương trình sẽ không biên dịch được.",
-                    "D. Một ngoại lệ bị ném ra lúc runtime."
-                ],
-                "answer": "B",
-                "explanation": "Tính Đa hình (Dynamic Binding / Late Binding) đảm bảo rằng tại lúc chạy (runtime), JVM sẽ nhìn vào kiểu thực tế của object (là Circle) và gọi đúng phần thân hàm (concrete method) đã được triển khai trong lớp con."
-            }
-        },
-        {
-            "id": 21,
-            "topic": "Inheritance",
-            "en": {
-                "question": "What is the purpose of the \"super\" keyword in Java?",
-                "options": [
-                    "A. To call the constructor or methods of the parent class",
-                    "B. To call the constructor or methods of the child class",
-                    "C. To call the members of the same class",
-                    "D. To define a static method"
-                ],
-                "answer": "A",
-                "explanation": "The 'super' keyword is a reference variable used to refer to the immediate parent class object. It is used to call parent class methods, and to access the parent class constructor."
-            },
-            "vi": {
-                "question": "Mục đích của từ khóa \"super\" trong Java là gì?",
-                "options": [
-                    "A. Để gọi constructor hoặc các phương thức của lớp cha",
-                    "B. Để gọi constructor hoặc các phương thức của lớp con",
-                    "C. Để gọi các thành viên của cùng một lớp",
-                    "D. Để định nghĩa một phương thức tĩnh"
-                ],
-                "answer": "A",
-                "explanation": "Từ khóa 'super' được sử dụng để tham chiếu đến đối tượng của lớp cha gần nhất. Nó thường được dùng để gọi constructor của lớp cha hoặc truy cập các phương thức/thuộc tính bị lớp con ghi đè/che khuất."
-            }
-        },
-        {
-            "id": 22,
-            "topic": "Encapsulation",
-            "en": {
-                "question": "Choose multiple correct answers regarding access modifiers.",
-                "options": [
-                    "A. private access modifier should be used for a variable or method to only be accessed within the same class",
-                    "B. public access modifier should be used for a variable or method that should be accessible from any class, regardless of the package",
-                    "C. protected access modifier should be used for a variable or method that should only be accessed within the same class and subclasses, in the same package",
-                    "D. default (no modifier) access modifier only allows access in the same class"
-                ],
-                "answer": ["A", "B"],
-                "explanation": "A and B are correct. C is partially incorrect because 'protected' ALSO allows access from subclasses in DIFFERENT packages. D is incorrect because 'default' allows access from ANY class within the SAME package, not just the same class."
-            },
-            "vi": {
-                "question": "Chọn các đáp án đúng về phạm vi truy cập (access modifiers).",
-                "options": [
-                    "A. private: chỉ cho phép truy cập biến hoặc phương thức bên trong cùng một lớp",
-                    "B. public: cho phép truy cập biến hoặc phương thức từ bất kỳ lớp nào, bất kể package",
-                    "C. protected: chỉ cho phép truy cập trong cùng lớp, các lớp con và cùng package",
-                    "D. default (không có modifier): chỉ cho phép truy cập trong cùng một lớp"
-                ],
-                "answer": ["A", "B"],
-                "explanation": "A và B đúng. C sai vì 'protected' CÒN cho phép lớp con ở KHÁC package truy cập. D sai vì 'default' cho phép truy cập từ các lớp KHÁC nằm trong CÙNG package, chứ không chỉ nội bộ 1 lớp."
-            }
-        },
-        {
-            "id": 23,
-            "topic": "Java Basics",
-            "en": {
-                "question": "What is the output of the following Java program?\nclass A {\n   int i, j;\n   A() { i = 1; j = 2; }\n}\npublic class Main {\n   public static void main(String args[]) {\n      A obj1 = new A();\n      A obj2 = new A();\n      System.out.println(obj1.equals(obj2));\n   }\n}",
-                "options": ["A. false", "B. true", "C. obj1.equals(obj2)", "D. Runtime error"],
-                "answer": "A",
-                "explanation": "Since class A does not override the equals() method, it uses the default Object.equals() which compares memory references. obj1 and obj2 are two distinct objects in memory, so it returns false."
-            },
-            "vi": {
-                "question": "Đầu ra của chương trình Java sau là gì?\nclass A {\n   int i, j;\n   A() { i = 1; j = 2; }\n}\npublic class Main {\n   public static void main(String args[]) {\n      A obj1 = new A();\n      A obj2 = new A();\n      System.out.println(obj1.equals(obj2));\n   }\n}",
-                "options": ["A. false", "B. true", "C. obj1.equals(obj2)", "D. Runtime error"],
-                "answer": "A",
-                "explanation": "Do class A không ghi đè (override) phương thức equals(), nó sẽ sử dụng equals() mặc định của class Object dùng để so sánh địa chỉ vùng nhớ. Vì obj1 và obj2 được cấp phát ở 2 vùng nhớ khác nhau (2 lần dùng từ khóa 'new'), kết quả là false."
-            }
-        },
-        {
-            "id": 24,
-            "topic": "Inheritance",
-            "en": {
-                "question": "What is the \"instanceof\" operator used for?",
-                "options": [
-                    "A. To check whether an object is an instance of a particular class or not",
-                    "B. To create a new instance of a class",
-                    "C. To compare two objects for equality",
-                    "D. To check if an object is null"
-                ],
-                "answer": "A",
-                "explanation": "The 'instanceof' operator is used to test if an object is of a specified type (class, subclass, or interface)."
-            },
-            "vi": {
-                "question": "Toán tử \"instanceof\" được sử dụng để làm gì?",
-                "options": [
-                    "A. Để kiểm tra xem một đối tượng có phải là thể hiện (instance) của một lớp cụ thể hay không",
-                    "B. Để tạo một thể hiện mới của một lớp",
-                    "C. Để so sánh hai đối tượng xem có bằng nhau không",
-                    "D. Để kiểm tra xem một đối tượng có null hay không"
-                ],
-                "answer": "A",
-                "explanation": "Toán tử 'instanceof' dùng để kiểm tra kiểu thực tế của một đối tượng tại runtime xem nó có thuộc về một Class, Subclass hoặc Interface nào đó hay không."
-            }
-        },
-        {
-            "id": 25,
-            "topic": "Polymorphism",
-            "en": {
-                "question": "What is the output following the code snippet?\npublic class DemoClass {\n   void add(int x, int y){ System.out.println(\"1. Addition is: \" +(x+y)); }\n   void add(int y, int x){ System.out.println(\"2. Addition is: \" +(x+y)); }\n   public static void main(String[] args){\n      DemoClass obj = new DemoClass();\n      obj.add(20, 30);\n   }\n}",
-                "options": ["A. Compile error", "B. 2. Addition is: 50", "C. 1. Addition is: 50", "D. 20, 30"],
-                "answer": "A",
-                "explanation": "CORRECTION: Overloading requires different parameter types or counts. Naming the parameters (x, y vs y, x) does not change the method signature (int, int). The compiler will throw an error for duplicate methods."
-            },
-            "vi": {
-                "question": "Đầu ra của đoạn mã sau là gì?\npublic class DemoClass {\n   void add(int x, int y){ System.out.println(\"1. Addition is: \" +(x+y)); }\n   void add(int y, int x){ System.out.println(\"2. Addition is: \" +(x+y)); }\n   public static void main(String[] args){\n      DemoClass obj = new DemoClass();\n      obj.add(20, 30);\n   }\n}",
-                "options": ["A. Lỗi biên dịch (Compile error)", "B. 2. Addition is: 50", "C. 1. Addition is: 50", "D. 20, 30"],
-                "answer": "A",
-                "explanation": "ĐÍNH CHÍNH LỖI ĐỀ CŨ: Overloading (Nạp chồng) yêu cầu các phương thức phải khác nhau về KIỂU DỮ LIỆU hoặc SỐ LƯỢNG tham số. Cả 2 phương thức trên đều có chữ ký là add(int, int) (trình biên dịch không quan tâm tên biến x hay y). Do đó mã sẽ bị lỗi Compile Error vì khai báo trùng lặp."
-            }
-        },
-        {
-            "id": 26,
-            "topic": "Polymorphism",
-            "en": {
-                "question": "What is the term for the ability of a single method name to represent multiple implementations based on the method signature or parameters?",
-                "options": ["A. Overloading", "B. Overriding", "C. Abstracting", "D. Encapsulation", "E. Inheritance", "F. Derivation"],
-                "answer": "A",
-                "explanation": "Overloading allows multiple methods in the same class to share the same name as long as their parameter lists (signatures) are different."
-            },
-            "vi": {
-                "question": "Thuật ngữ nào chỉ khả năng một tên phương thức có thể đại diện cho nhiều cách triển khai khác nhau dựa trên chữ ký (signature) hoặc tham số của phương thức?",
-                "options": ["A. Nạp chồng (Overloading)", "B. Ghi đè (Overriding)", "C. Trừu tượng (Abstracting)", "D. Đóng gói (Encapsulation)", "E. Kế thừa (Inheritance)", "F. Dẫn xuất (Derivation)"],
-                "answer": "A",
-                "explanation": "Nạp chồng phương thức (Method Overloading) cho phép tạo ra nhiều phương thức cùng tên trong một class, miễn là chúng khác nhau về kiểu dữ liệu hoặc số lượng tham số truyền vào."
-            }
-        },
-        {
-            "id": 27,
-            "topic": "Polymorphism",
-            "en": {
-                "question": "What is method overriding in Java?",
-                "options": [
-                    "A. Re-implementing a method in the subclass with the same signature as in the superclass",
-                    "B. Creating multiple methods with the same name but different parameters",
-                    "C. Calling a method from another method",
-                    "D. Re-implementing another method in the same class with the same signature"
-                ],
-                "answer": "A",
-                "explanation": "Method overriding means giving a specific implementation in a subclass to a method that is already defined in its parent class, strictly keeping the exact same signature."
-            },
-            "vi": {
-                "question": "Ghi đè phương thức (Method overriding) trong Java là gì?",
-                "options": [
-                    "A. Triển khai lại một phương thức ở lớp con với cùng chữ ký (signature) như ở lớp cha",
-                    "B. Tạo nhiều phương thức cùng tên nhưng khác tham số",
-                    "C. Gọi một phương thức từ một phương thức khác",
-                    "D. Triển khai lại một phương thức khác trong cùng một lớp với cùng chữ ký"
-                ],
-                "answer": "A",
-                "explanation": "Ghi đè (Overriding) là việc lớp con (subclass) viết lại phần body cho một phương thức đã có ở lớp cha, và bắt buộc phải giữ nguyên hoàn toàn chữ ký phương thức (tên, kiểu trả về, tham số)."
-            }
-        },
-        {
-            "id": 28,
-            "topic": "Inheritance",
-            "en": {
-                "question": "In Java, can an abstract class have instance variables?",
-                "options": [
-                    "A. Yes, abstract classes can have both instance and static variables.",
-                    "B. No, abstract classes cannot have instance variables.",
-                    "C. Yes, but only if the instance variables are declared as \"static\"",
-                    "D. Yes, but only if the abstract class has no methods."
-                ],
-                "answer": "A",
-                "explanation": "Unlike interfaces (before Java 8), abstract classes can behave like regular classes with states, meaning they can define normal instance variables and static variables."
-            },
-            "vi": {
-                "question": "Trong Java, một lớp trừu tượng (abstract class) có thể có các biến instance (thuộc tính đối tượng) không?",
-                "options": [
-                    "A. Có, các lớp trừu tượng có thể có cả biến instance và biến static.",
-                    "B. Không, các lớp trừu tượng không thể có biến instance.",
-                    "C. Có, nhưng chỉ khi các biến instance được khai báo là \"static\"",
-                    "D. Có, nhưng chỉ khi lớp trừu tượng không có phương thức nào."
-                ],
-                "answer": "A",
-                "explanation": "Lớp trừu tượng (Abstract class) hoàn toàn có thể chứa các thuộc tính (instance variables), biến tĩnh (static variables), và cả các phương thức bình thường (concrete methods) bên cạnh các phương thức trừu tượng."
-            }
-        },
-        {
-            "id": 29,
-            "topic": "OOP Concepts",
-            "en": {
-                "question": "What is the term for creating objects from a class in OOP to manage a collection of vehicles?",
-                "options": ["A. Instantiation", "B. Inheritance", "C. Encapsulation", "D. Abstraction", "E. Composition", "F. Polymorphism"],
-                "answer": "A",
-                "explanation": "The process of creating an object (instance) from a class blueprint is called Instantiation, usually done using the 'new' keyword."
-            },
-            "vi": {
-                "question": "Thuật ngữ dùng để chỉ việc tạo ra các đối tượng từ một lớp trong OOP (ví dụ để quản lý một tập hợp xe cộ) là gì?",
-                "options": ["A. Khởi tạo thể hiện (Instantiation)", "B. Kế thừa (Inheritance)", "C. Đóng gói (Encapsulation)", "D. Trừu tượng (Abstraction)", "E. Thành phần (Composition)", "F. Đa hình (Polymorphism)"],
-                "answer": "A",
-                "explanation": "Quá trình tạo ra một đối tượng (Object) từ một khuôn mẫu (Class) được gọi là Instantiation (Khởi tạo thể hiện), thường được thực hiện qua từ khóa 'new'."
-            }
-        },
-        {
-            "id": 30,
-            "topic": "Inheritance",
-            "en": {
-                "question": "What is the output of the following Java program?\nabstract class A {\n   private int a, b;\n   public void call(int a, int b) {\n      this.a = a; this.b = b;\n      System.out.println(a + b);\n   }\n}\npublic class Main {\n   public static void main(String args[]) {\n      A m = new A() {};\n      m.call(12, 25);\n   }\n}",
-                "options": ["A. 37", "B. 12", "C. 25", "D. Compiler error at statement A m = new A() {};"],
-                "answer": "A",
-                "explanation": "'A m = new A() {};' creates an instance of an Anonymous inner class that extends the abstract class A. The 'call' method adds 12 + 25 and prints 37."
-            },
-            "vi": {
-                "question": "Đầu ra của chương trình Java sau là gì?\nabstract class A {\n   private int a, b;\n   public void call(int a, int b) {\n      this.a = a; this.b = b;\n      System.out.println(a + b);\n   }\n}\npublic class Main {\n   public static void main(String args[]) {\n      A m = new A() {};\n      m.call(12, 25);\n   }\n}",
-                "options": ["A. 37", "B. 12", "C. 25", "D. Lỗi biên dịch ở câu lệnh A m = new A() {};"],
-                "answer": "A",
-                "explanation": "Cú pháp `A m = new A() {};` không phải là khởi tạo trực tiếp abstract class, mà là đang tạo một Anonymous Class (Lớp ẩn danh) kế thừa từ A. Do đó không có lỗi biên dịch. Khi gọi `m.call(12, 25)`, chương trình tính tổng 12 + 25 và in ra 37."
-            }
-        },
-         {
         "id": 31,
         "topic": "OOP Concepts",
         "en": {
@@ -2783,7 +2204,7 @@
     ];
 
     // ======================================================
-    // 2. TỰ ĐỘNG PHÂN LOẠI CHỦ ĐỀ PRO192 (JAVA OOP)
+    // 2. TỰ ĐỘNG NHẬN DIỆN & PHÂN LOẠI CHỦ ĐỀ
     // ======================================================
     (function autoTagTopics() {
         if (!quizData || quizData.length === 0) return;
@@ -2802,11 +2223,22 @@
             if (q.topic) return; 
             let found = "General";
             for (let m of mapping) {
-                if (m.ids.includes(q.id)) { found = m.topic; break; }
+                if (m.ids && m.ids.includes(q.id)) { found = m.topic; break; }
             }
             q.topic = found;
         });
     })();
+
+    // Helper: Trích xuất dữ liệu thông minh (Chống sập do cấu trúc Flat JSON)
+    function getQData(qObj) {
+        if (!qObj) return {};
+        // Nếu data có cấu trúc "en"/"vi"
+        if (qObj.en || qObj.vi) {
+            return state.isVietnamese ? (qObj.vi || qObj.en) : (qObj.en || qObj.vi);
+        }
+        // Nếu data là cấu trúc phẳng (không có en/vi)
+        return qObj;
+    }
 
     // ======================================================
     // 3. LOGIC APP
@@ -2831,16 +2263,17 @@
 
     function getCorrectIndices(data, qObj) {
         const rawAnswers = Array.isArray(data.answer) ? data.answer : [data.answer];
-        const options = data.options;
+        const options = data.options || [];
         let originalIndices = [];
         const clean = (str) => (typeof str === 'string') ? str.replace(/^[A-F][\.\)]\s*/i, '').trim().toLowerCase() : '';
 
         rawAnswers.forEach(ans => {
+            if(!ans) return;
             let idx = -1;
             const cleanAns = clean(ans);
             idx = options.findIndex(opt => clean(opt) === cleanAns);
-            if (idx === -1 && ans.trim().length === 1) {
-                const charCode = ans.trim().toUpperCase().charCodeAt(0) - 65; 
+            if (idx === -1 && String(ans).trim().length === 1) {
+                const charCode = String(ans).trim().toUpperCase().charCodeAt(0) - 65; 
                 if (charCode >= 0 && charCode < options.length) idx = charCode;
             }
             if (idx === -1) {
@@ -2859,18 +2292,22 @@
 
     const texts = {
         vi: {
-            setupTitle: "Cấu hình luyện tập", total: "Có sẵn:", qCount: "3. Số lượng câu làm bài:", start: "Bắt đầu làm bài 🚀", mapTitle: "Bản đồ Câu hỏi",
+            setupTitle: "Cấu hình luyện tập", total: "Có sẵn:", qCount: "Số lượng câu làm bài:", start: "Bắt đầu làm bài 🚀", mapTitle: "Bản đồ Câu hỏi",
             submit: "Nộp bài", resultTitle: "Kết quả bài làm", prev: "Quay lại", next: "Tiếp theo", fcAnsLabel: "ĐÁP ÁN", fcExpLabel: "Giải thích chi tiết:",
             legCur: "Đang làm", legCor: "Đúng", legWro: "Sai", qOf: "Câu", correctAns: "Đáp án đúng:", unanswered: "⚪ Chưa làm", correct: "✔ Tuyệt vời! Đáp án chính xác.",
             wrong: "✘ Rất tiếc, đáp án sai.", chapter: "Chủ đề:", confirmSubmit: "Bạn có chắc chắn muốn nộp bài để xem điểm?", 
-            chooseOne: "Chọn 1 đáp án đúng", chooseMulti: "Hãy chọn {n} đáp án đúng", checkBtn: "Kiểm tra đáp án ✨", explanation: "Giải thích:"
+            chooseOne: "Chọn 1 đáp án đúng", chooseMulti: "Hãy chọn {n} đáp án đúng", checkBtn: "Kiểm tra đáp án ✨", explanation: "Giải thích:",
+            allTopics: "-- Tất cả các chủ đề --", lblTopic: "Chủ đề:", lblShuffle: "Xáo trộn:", btnRestart: "Làm đề mới 🔄",
+            fcPrev: "← Trước", fcNext: "Sau →"
         },
         en: {
-            setupTitle: "Practice Configuration", total: "Available:", qCount: "3. Number of questions:", start: "Start Quiz 🚀", mapTitle: "Question Map",
+            setupTitle: "Practice Configuration", total: "Available:", qCount: "Number of questions:", start: "Start Quiz 🚀", mapTitle: "Question Map",
             submit: "Submit", resultTitle: "Quiz Results", prev: "Back", next: "Next", fcAnsLabel: "ANSWER", fcExpLabel: "Detailed Explanation:",
             legCur: "Current", legCor: "Correct", legWro: "Wrong", qOf: "Question", correctAns: "Correct answer:", unanswered: "⚪ Unanswered", correct: "✔ Correct!",
             wrong: "✘ Incorrect.", chapter: "Topic:", confirmSubmit: "Are you sure you want to submit and view your score?", 
-            chooseOne: "Choose 1 answer", chooseMulti: "Choose {n} correct answers", checkBtn: "Check Answer ✨", explanation: "Explanation:"
+            chooseOne: "Choose 1 answer", chooseMulti: "Choose {n} correct answers", checkBtn: "Check Answer ✨", explanation: "Explanation:",
+            allTopics: "-- All Topics --", lblTopic: "Topic:", lblShuffle: "Shuffle:", btnRestart: "Restart 🔄",
+            fcPrev: "← Prev", fcNext: "Next →"
         }
     };
 
@@ -2885,14 +2322,14 @@
         uniqueCats.sort(naturalSort);
         const populate = (id) => {
             const sel = document.getElementById(id);
-            sel.innerHTML = '<option value="all">-- Tất cả các chủ đề (All Topics) --</option>';
+            sel.innerHTML = '<option value="all"></option>'; // Sẽ được điền chữ bởi hàm updateLanguageTexts
             uniqueCats.forEach(cat => { sel.innerHTML += `<option value="${cat}">${cat}</option>`; });
         };
         populate('fc-category-select');
         populate('quiz-category-select');
+        updateLanguageTexts();
         updateFlashcardFilter();
         updateQuizCountMax();
-        updateLanguageTexts();
         updateView();
     }
 
@@ -2936,16 +2373,17 @@
         wrapper.style.display = 'flex';
         
         const q = state.filteredFlashcards[state.fcIndex];
-        const data = state.isVietnamese ? (q.vi || q.en) : (q.en || q.vi);
+        const data = getQData(q); 
         const shouldShuffle = document.getElementById('fc-shuffle-check').checked;
         
         document.querySelector('.flashcard').classList.remove('flipped');
         
-        const codeHtml = (q.en && q.en.code) ? `<pre style="background:#1e293b; color:#f8f8f2; padding:16px; border-radius:8px; margin-top:16px; overflow-x:auto; font-size:14px; text-align:left; box-shadow:inset 0 2px 4px rgba(0,0,0,0.1); white-space:pre-line;">${q.en.code}</pre>` : '';
+        const codeHtml = data.code ? `<pre style="background:#1e293b; color:#f8f8f2; padding:16px; border-radius:8px; margin-top:16px; overflow-x:auto; font-size:14px; text-align:left; box-shadow:inset 0 2px 4px rgba(0,0,0,0.1); white-space:pre-line;">${data.code}</pre>` : '';
         
-        let contentHtml = `<div class="question-highlight">${data.question}</div>` + codeHtml;
+        let contentHtml = `<div class="category-badge">${q.category || q.topic || "General"}</div>
+                           <div class="question-highlight">${data.question || ""}</div>` + codeHtml;
         
-        if (data.options) {
+        if (data.options && Array.isArray(data.options)) {
             let displayOptions = shouldShuffle ? shuffleArray(data.options) : data.options;
             contentHtml += '<ul class="options-list" style="pointer-events:none;">';
             displayOptions.forEach((o, i) => contentHtml += `<li data-label="${labelChars[i]}">${o.replace(/^[A-F][\.\)]\s*/i, '')}</li>`);
@@ -2953,12 +2391,12 @@
         }
         document.getElementById('fc-content').innerHTML = contentHtml;
 
-        let correctLabelRaw = String(data.answer); 
+        let correctLabelRaw = String(data.answer || ""); 
         let validAnswers = correctLabelRaw.split(',').map(s => s.trim().charAt(0).toUpperCase());
         let correctTextDisplay = validAnswers.map(label => { 
             const lIdx = labelChars.indexOf(label); 
-            return lIdx >= 0 ? data.options[lIdx].replace(/^[A-Z]\.\s*/i, '') : ''; 
-        }).join("<br><hr style='margin:12px 0; border:0; border-top:1px dashed #ccc;'><br>"); 
+            return (lIdx >= 0 && data.options) ? data.options[lIdx].replace(/^[A-Z]\.\s*/i, '') : ''; 
+        }).filter(Boolean).join("<br><hr style='margin:12px 0; border:0; border-top:1px dashed #ccc;'><br>"); 
         
         document.getElementById('fc-answer').innerHTML = correctTextDisplay || correctLabelRaw;
         document.getElementById('fc-explanation').innerHTML = data.explanation || (state.isVietnamese ? "Không có giải thích chi tiết." : "No explanation provided.");
@@ -2973,11 +2411,16 @@
     // --- QUIZ ---
     function updateQuizCountMax() {
         const cat = document.getElementById('quiz-category-select').value;
-        let count = (cat === 'all') ? quizData.length : quizData.filter(q => (q.category || q.topic || "Khác") === cat).length;
-        document.getElementById('total-qs').innerText = count;
+        let poolCount = (cat === 'all') ? quizData.length : quizData.filter(q => (q.category || q.topic || "Khác") === cat).length;
+        document.getElementById('total-qs').innerText = poolCount;
+        
         const input = document.getElementById('quiz-count-input');
-        input.max = count;
-        input.value = Math.min(parseInt(input.value) || 20, count);
+        input.max = poolCount;
+        
+        // Đảm bảo không bị vượt quá số lượng tối đa và mặc định là 10
+        let currentVal = parseInt(input.value);
+        if(isNaN(currentVal) || currentVal <= 0) currentVal = 10;
+        input.value = Math.min(currentVal, poolCount);
     }
 
     function startQuiz() {
@@ -2986,13 +2429,17 @@
         let pool = (cat === 'all') ? [...quizData] : quizData.filter(q => (q.category || q.topic || "Khác") === cat);
         if (pool.length === 0) return;
         
-        let count = Math.min(parseInt(document.getElementById('quiz-count-input').value), pool.length);
-        if (isNaN(count) || count <= 0) count = 1;
+        let countInput = document.getElementById('quiz-count-input').value;
+        let count = parseInt(countInput);
+        if (isNaN(count) || count <= 0) count = 10;
+        if (count > pool.length) count = pool.length;
 
+        // Cắt ĐÚNG số lượng câu người dùng yêu cầu
         const selectedQuestions = shuffleArray([...pool]).slice(0, count);
         
         state.activeQuestions = selectedQuestions.map(q => {
-            const tempOpts = (q.en || q.vi).options || [];
+            const dataObj = getQData(q);
+            const tempOpts = dataObj.options || [];
             let p = Array.from(Array(tempOpts.length).keys());
             if (state.quizShuffle) p = shuffleArray(p);
             return { ...q, shuffledIndices: p };
@@ -3014,8 +2461,9 @@
         const t = state.isVietnamese ? texts.vi : texts.en;
         const idx = state.currentQuizIndex;
         const qObj = state.activeQuestions[idx];
-        const data = state.isVietnamese ? (qObj.vi || qObj.en) : (qObj.en || qObj.vi);
-        const codeHtml = (qObj.en && qObj.en.code) ? `<pre style="background:#1e293b; color:#f8f8f2; padding:16px; border-radius:8px; margin-bottom:24px; overflow-x:auto; font-size:14px; text-align:left; box-shadow:inset 0 2px 4px rgba(0,0,0,0.1); white-space:pre-line;">${qObj.en.code}</pre>` : '';
+        const data = getQData(qObj);
+        
+        const codeHtml = data.code ? `<pre style="background:#1e293b; color:#f8f8f2; padding:16px; border-radius:8px; margin-bottom:24px; overflow-x:auto; font-size:14px; text-align:left; box-shadow:inset 0 2px 4px rgba(0,0,0,0.1); white-space:pre-line;">${data.code}</pre>` : '';
         
         const userSelections = state.userAnswers[idx] || [];
         const correctIndices = getCorrectIndices(data, qObj);
@@ -3033,19 +2481,10 @@
             hintBadge.style.color = '#475569'; hintBadge.style.backgroundColor = '#f1f5f9'; hintBadge.style.border = 'none';
         }
         
+        document.getElementById('q-category-badge').innerText = qObj.category || qObj.topic || "General";
         document.getElementById('quiz-progress').innerText = `${t.qOf} ${idx + 1}/${state.activeQuestions.length}`;
         
-        let statusBadge = `<span class="status-badge badge-practice" id="txt-doing">${t.doing}</span>`;
-        if (isAnswered = !!state.userAnswers[idx] && isChecked) {
-            if (state.quizResults[idx].isCorrect) statusBadge = `<span class="status-badge badge-correct">✔ ${t.legCor}</span>`;
-            else statusBadge = `<span class="status-badge badge-wrong">✘ ${t.legWro}</span>`;
-        }
-        document.getElementById('quiz-progress').nextElementSibling.outerHTML = statusBadge; 
-        
-        const progressPct = ((idx + 1) / state.activeQuestions.length) * 100;
-        document.getElementById('quiz-progress-bar').style.width = progressPct + '%';
-
-        document.getElementById('q-content').innerHTML = `<div class="question-highlight">${data.question}</div>` + codeHtml;
+        document.getElementById('q-content').innerHTML = `<div class="question-highlight">${data.question || ""}</div>` + codeHtml;
         
         const ul = document.getElementById('q-options');
         ul.innerHTML = '';
@@ -3145,7 +2584,7 @@
         let correctCount = 0;
         state.activeQuestions.forEach((q, i) => {
             if (!state.checkedQuestions[i]) {
-                 const data = state.isVietnamese ? (q.vi || q.en) : (q.en || q.vi);
+                 const data = getQData(q);
                  const correctIndices = getCorrectIndices(data, q);
                  const userIndices = state.userAnswers[i] || [];
                  state.quizResults[i] = { isCorrect: compareArrays(userIndices, correctIndices) };
@@ -3167,20 +2606,20 @@
         const list = document.getElementById('review-list');
         list.innerHTML = '';
         state.activeQuestions.forEach((qObj, idx) => {
-            const data = state.isVietnamese ? (qObj.vi || qObj.en) : (qObj.en || qObj.vi);
+            const data = getQData(qObj);
             const result = state.quizResults[idx];
-            const codeHtml = (qObj.en && qObj.en.code) ? `<pre style="background:#1e293b; color:#f8f8f2; padding:16px; border-radius:8px; margin-bottom:16px; overflow-x:auto; font-size:14px; text-align:left; white-space:pre-line;">${qObj.en.code}</pre>` : '';
+            const codeHtml = data.code ? `<pre style="background:#1e293b; color:#f8f8f2; padding:16px; border-radius:8px; margin-bottom:16px; overflow-x:auto; font-size:14px; text-align:left; white-space:pre-line;">${data.code}</pre>` : '';
             
-            const status = result ? (result.isCorrect ? `<span class="status-badge badge-correct" style="float:right;">✔ Đúng</span>` : `<span class="status-badge badge-wrong" style="float:right;">✘ Sai</span>`) : `<span class="status-badge" style="float:right; background:#e2e8f0; color:#475569;">⚪ Chưa làm</span>`;
+            const status = result ? (result.isCorrect ? `<span style="color:var(--secondary-color); font-weight:700;">✔ ${t.legCor}</span>` : `<span style="color:var(--danger-color); font-weight:700;">✘ ${t.legWro}</span>`) : `<span style="color:#64748b; font-weight:500;">⚪ ${t.unanswered}</span>`;
             
-            let correctLabelRaw = String(data.answer); 
+            let correctLabelRaw = String(data.answer || ""); 
             let validAnswers = correctLabelRaw.split(',').map(s => s.trim().charAt(0).toUpperCase());
             
             let html = `<div class="question-card review-card" id="review-q-${idx}" style="background:#fff; border:1px solid #e2e8f0; padding:24px;">
                 <div style="margin-bottom:16px; display:flex; justify-content:space-between; align-items:center;">
                     <strong style="color:var(--text-muted); font-size:14px; letter-spacing:0.5px;">${t.qOf.toUpperCase()} ${idx + 1}</strong> ${status}
                 </div>
-                <div class="question-highlight">${data.question}</div>
+                <div class="question-highlight">${data.question || ""}</div>
                 ${codeHtml}
                 <ul class="options-list" style="margin-top:20px;">`;
             
@@ -3257,33 +2696,33 @@
         document.getElementById('leg-correct').innerText = t.legCor;
         document.getElementById('leg-wrong').innerText = t.legWro;
         document.getElementById('txt-map-title').innerText = t.mapTitle;
+        document.getElementById('lbl-fc-topic').innerText = t.lblTopic;
+        document.getElementById('lbl-fc-shuffle').innerText = t.lblShuffle;
+        document.getElementById('lbl-quiz-topic').innerText = t.lblTopic;
+        document.getElementById('lbl-quiz-shuffle').innerText = t.lblShuffle;
+        document.getElementById('btn-restart').innerText = t.btnRestart;
+        document.getElementById('btn-fc-prev').innerText = t.fcPrev;
+        document.getElementById('btn-fc-next').innerText = t.fcNext;
         
         if(document.getElementById('fc-category-select').options.length > 0) {
-            document.getElementById('fc-category-select').options[0].text = state.isVietnamese ? "-- Tất cả các chủ đề --" : "-- All Topics --";
-            document.getElementById('quiz-category-select').options[0].text = state.isVietnamese ? "-- Tất cả các chủ đề --" : "-- All Topics --";
-        }
-        
-        const txtDoing = document.getElementById('txt-doing');
-        if (txtDoing && txtDoing.classList.contains('badge-practice')) {
-            txtDoing.innerText = t.doing;
+            document.getElementById('fc-category-select').options[0].text = t.allTopics;
+            document.getElementById('quiz-category-select').options[0].text = t.allTopics;
         }
     }
 
+    // Sự kiện bàn phím
     document.addEventListener('keydown', e => {
         if (['INPUT', 'SELECT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
 
         if (e.key === 'Enter') {
-            e.preventDefault();
-            toggleLanguage();
-            return; 
+            e.preventDefault(); toggleLanguage(); return; 
         }
 
         if (state.activeTab === 'flashcard') {
             if (e.key === 'ArrowLeft') navFlashcard(-1);
             if (e.key === 'ArrowRight') navFlashcard(1);
             if ([' ', 'ArrowUp', 'ArrowDown'].includes(e.key)) {
-                e.preventDefault(); 
-                document.querySelector('.flashcard').classList.toggle('flipped');
+                e.preventDefault(); document.querySelector('.flashcard').classList.toggle('flipped');
             }
         } 
         else if (state.activeTab === 'quiz' && state.quizPhase === 'active') {
@@ -3293,16 +2732,13 @@
             if (e.key >= '1' && e.key <= '8') {
                 const displayIndex = parseInt(e.key) - 1; 
                 const idx = state.currentQuizIndex;
-                
                 if (state.activeQuestions[idx] && !state.checkedQuestions[idx]) {
                     const qObj = state.activeQuestions[idx];
-                    const data = state.isVietnamese ? (qObj.vi || qObj.en) : (qObj.en || qObj.vi);
-                    
+                    const data = getQData(qObj);
                     if (displayIndex < (data.options || []).length) {
                         const originalIndex = qObj.shuffledIndices[displayIndex];
                         const correctIndices = getCorrectIndices(data, qObj);
-                        const isMulti = correctIndices.length > 1;
-                        handleAnswer(idx, originalIndex, isMulti, false, correctIndices);
+                        handleAnswer(idx, originalIndex, correctIndices.length > 1, false, correctIndices);
                     }
                 }
             }
@@ -3310,9 +2746,7 @@
             if (e.key === ' ') {
                 e.preventDefault(); 
                 const checkBtn = document.getElementById('btn-manual-check');
-                if (checkBtn && !checkBtn.parentElement.classList.contains('hidden') && !checkBtn.disabled) {
-                    checkBtn.click();
-                }
+                if (checkBtn && !checkBtn.parentElement.classList.contains('hidden') && !checkBtn.disabled) checkBtn.click();
             }
         }
     });
