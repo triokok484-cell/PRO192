@@ -2910,11 +2910,13 @@
              document.getElementById('fc-counter').innerText = `0 / 0`;
              return;
         }
-        const q = state.fcFilteredData[state.fcIndex]; const data = state.isVietnamese ? q.vi : q.en; const code = (q.en && q.en.code) ? `<pre>${q.en.code}</pre>` : '';
+        
+        const q = state.fcFilteredData[state.fcIndex]; 
+        const data = state.isVietnamese ? q.vi : q.en; 
+        const code = (q.en && q.en.code) ? `<pre>${q.en.code}</pre>` : '';
         const shouldShuffle = document.getElementById('fc-shuffle-check').checked;
         document.querySelector('.flashcard').classList.remove('flipped');
         
-        // Highlight Câu hỏi Flashcard
         let html = `<div style="margin-bottom:12px; font-weight:700; color: var(--primary);">Flashcard ${state.fcIndex + 1}</div>
                     <div style="font-size:13px; color:var(--text-muted); margin-bottom:16px; font-weight:500;">Topic: ${q.topic}</div>
                     <div class="question-highlight">${data.question}</div>` + code;
@@ -2925,7 +2927,15 @@
         html += `</ul>`;
         
         document.getElementById('fc-content').innerHTML = html;
-        document.getElementById('fc-answer').innerText = data.answer;
+
+        let correctLabelRaw = String(data.answer); 
+        let validAnswers = correctLabelRaw.split(',').map(s => s.trim().charAt(0));
+        let correctTextDisplay = validAnswers.map(label => { 
+            const lIdx = labelChars.indexOf(label); 
+            return lIdx >= 0 ? data.options[lIdx].replace(/^[A-Z]\.\s*/, '') : ''; 
+        }).join("<br><br>"); 
+        
+        document.getElementById('fc-answer').innerHTML = correctTextDisplay;
         document.getElementById('fc-explanation').innerHTML = data.explanation || "Không có giải thích chi tiết.";
         document.getElementById('fc-counter').innerText = `${state.fcIndex + 1} / ${state.fcFilteredData.length}`;
     }
