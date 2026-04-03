@@ -91,14 +91,31 @@
         .badge-correct { background: #ecfdf5; color: #10b981; border: 1px solid #a7f3d0; }
         .badge-practice { background: var(--primary-light); color: var(--primary); border: 1px solid #c7d2fe; }
 
-        /* FLASHCARD */
+        /* FLASHCARD - ĐÃ ĐƯỢC TỐI ƯU AUTO-HEIGHT */
         .flashcard-wrapper { perspective: 1200px; margin-bottom: 30px; }
-        .flashcard { width: 100%; max-width: 600px; margin: 0 auto; height: 450px; position: relative; transform-style: preserve-3d; transition: transform 0.6s; cursor: pointer; }
+        .flashcard { 
+            width: 100%; 
+            max-width: 600px; 
+            margin: 0 auto; 
+            /* Bỏ height cố định, dùng grid để tự động co giãn theo nội dung dài nhất */
+            display: grid; 
+            position: relative; 
+            transform-style: preserve-3d; 
+            transition: transform 0.6s; 
+            cursor: pointer; 
+        }
         .flashcard.flipped { transform: rotateY(180deg); }
         .card-face {
-            position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
-            border-radius: var(--radius); box-shadow: var(--shadow-lg); background: var(--surface);
-            padding: 30px; display: flex; flex-direction: column; overflow-y: auto; border: 1px solid var(--border-color);
+            /* Gom 2 mặt vào cùng 1 ô grid để chúng đè lên nhau, khung sẽ tự co giãn theo mặt cao hơn */
+            grid-area: 1 / 1;
+            backface-visibility: hidden;
+            border-radius: var(--radius); 
+            box-shadow: var(--shadow-lg); 
+            background: var(--surface);
+            padding: 30px; 
+            display: flex; 
+            flex-direction: column; 
+            border: 1px solid var(--border-color);
         }
         .card-back { transform: rotateY(180deg); background: #fafafa; }
 
@@ -113,7 +130,7 @@
             border-left: 5px solid #0ea5e9;
             margin-bottom: 24px;
             line-height: 1.7;
-            white-space: pre-line; /* Giữ lại các dấu xuống dòng của Code Java */
+            white-space: pre-line;
             word-wrap: break-word;
         }
 
@@ -185,7 +202,6 @@
             .controls-group { flex-direction: column; align-items: stretch; padding: 16px; gap: 16px; }
             .control-item { justify-content: space-between; }
             .content-area { padding: 20px 12px; }
-            .flashcard { height: 500px; }
             .question-highlight { font-size: 1.05rem; padding: 16px; }
             .options-list li { font-size: 1rem; padding: 14px 14px 14px 50px; }
             .options-list li::before { left: 12px; width: 26px; height: 26px; line-height: 26px; }
@@ -221,7 +237,6 @@
                 <div class="flashcard-wrapper">
                     <div class="flashcard" onclick="this.classList.toggle('flipped')">
                         <div class="card-face card-front">
-                            <small style="color: var(--text-muted); margin-bottom: 16px; font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; font-size: 11px;">Click thẻ hoặc Space/↑/↓ để lật</small>
                             <div id="fc-content" style="width: 100%;"></div>
                         </div>
                         <div class="card-face card-back">
@@ -334,7 +349,7 @@
     // 1. DỮ LIỆU CỦA BẠN SẼ ĐƯỢC ĐẶT VÀO ĐÂY
     // ======================================================
     const quizData = [
-       {
+      {
         "id": 1,
         "topic": "Java Basics",
         "en": {
@@ -2443,11 +2458,533 @@
             "answer": "A",
             "explanation": "ĐÍNH CHÍNH LỖI ĐỀ CŨ: Đề gốc hỏi về `finally` (dùng trong xử lý ngoại lệ Exception) nhưng các đáp án lại giải thích cho từ khóa `final`. Từ khóa `final` đứng trước method dùng để cấm lớp con ghi đè (override). Đứng trước Class sẽ cấm tuyệt đối việc kế thừa."
         }
+    },
+{
+        "id": 61,
+        "topic": "OOP Concepts",
+        "en": {
+            "question": "Which of the following statements is one of the advantages of OOP?",
+            "options": [
+                "A. The systems can be easily upgraded from small to large systems.",
+                "B. OOP leads to higher programmer productivity, better software quality, and higher maintenance costs.",
+                "C. OOP language did not allow breaking the program into bit-sized problems that can be solved easily",
+                "D. All of the others"
+            ],
+            "answer": "A",
+            "explanation": "OOP makes it easier to scale, maintain, and upgrade systems due to modularity, encapsulation, and inheritance. Option B is wrong because OOP LOWERS maintenance costs. Option C is the exact opposite of OOP's benefits."
+        },
+        "vi": {
+            "question": "Phát biểu nào sau đây là một trong những lợi thế của Lập trình Hướng đối tượng (OOP)?",
+            "options": [
+                "A. Các hệ thống có thể dễ dàng nâng cấp từ hệ thống nhỏ lên lớn (Dễ mở rộng).",
+                "B. OOP dẫn đến chi phí bảo trì cao hơn.",
+                "C. Ngôn ngữ OOP không cho phép chia chương trình thành các bài toán nhỏ.",
+                "D. Tất cả các đáp án trên"
+            ],
+            "answer": "A",
+            "explanation": "OOP giúp tạo ra các module (Class/Object) độc lập, giúp hệ thống cực kỳ dễ nâng cấp, tái sử dụng và mở rộng quy mô. Đáp án B sai vì OOP thực chất làm GIẢM chi phí bảo trì. Đáp án C sai hoàn toàn với triết lý của OOP."
+        }
+    },
+    {
+        "id": 62,
+        "topic": "OOP Concepts",
+        "en": {
+            "question": "Which of the following statements is correct to declare a class named Cat?",
+            "options": [
+                "A. class Cat{ // something}",
+                "B. class public Cat(){ // something}",
+                "C. Class Cat{ // something}",
+                "D. public Cat class{ // something}"
+            ],
+            "answer": "A",
+            "explanation": "CORRECTION: The provided key was B, which is grammatically invalid in Java ('class public Cat()' has wrong order and illegal parentheses). The correct syntax is 'class Cat { }' or 'public class Cat { }'."
+        },
+        "vi": {
+            "question": "Phát biểu nào sau đây là ĐÚNG để khai báo một class có tên là Cat?",
+            "options": [
+                "A. class Cat{ // something}",
+                "B. class public Cat(){ // something}",
+                "C. Class Cat{ // something}",
+                "D. public Cat class{ // something}"
+            ],
+            "answer": "A",
+            "explanation": "ĐÍNH CHÍNH LỖI KEY GỐC: Đáp án gốc của đề ghi là B nhưng B hoàn toàn sai cú pháp (sai thứ tự từ khóa và thừa dấu ngoặc tròn). Khai báo class hợp lệ phải là `class Cat {}` hoặc `public class Cat {}`. Chữ 'class' bắt buộc phải viết thường (loại C)."
+        }
+    },
+    {
+        "id": 63,
+        "topic": "OOP Concepts",
+        "en": {
+            "question": "Which of the following statements related to the constructors is false?",
+            "options": [
+                "A. The constructor can be overridden.",
+                "B. The constructor can be overloaded.",
+                "C. The \"this\" keyword and \"super\" keyword can be used in the constructor.",
+                "D. All of the others"
+            ],
+            "answer": "A",
+            "explanation": "Constructors CANNOT be overridden in Java because they belong to the specific class itself, and subclass constructors must have a different name. However, they CAN be overloaded."
+        },
+        "vi": {
+            "question": "Phát biểu nào sau đây liên quan đến constructors (hàm khởi tạo) là SAI?",
+            "options": [
+                "A. Constructor có thể bị ghi đè (overridden).",
+                "B. Constructor có thể được nạp chồng (overloaded).",
+                "C. Từ khóa \"this\" và \"super\" có thể được sử dụng trong constructor.",
+                "D. Tất cả các đáp án trên"
+            ],
+            "answer": "A",
+            "explanation": "Đây là kiến thức kinh điển: Constructor KHÔNG THỂ bị ghi đè (override) vì các class con luôn có tên khác hoàn toàn với lớp cha. Tuy nhiên, Constructor có thể được Nạp chồng (overload - tạo nhiều constructor khác tham số trong cùng 1 class)."
+        }
+    },
+    {
+        "id": 64,
+        "topic": "OOP Concepts",
+        "en": {
+            "question": "Choose the correct statement related to the constructors.",
+            "options": [
+                "A. Constructor is a block of codes similar to the method. It is called when an instance of the class is created",
+                "B. Constructor is a special type of method that is used to initialize default members of the object only",
+                "C. Constructor is an abstract method with an empty body",
+                "D. Constructor is a method that does not allow parameters"
+            ],
+            "answer": "A",
+            "explanation": "A constructor is a special method its code will execute when an object of this class is initialized[cite: 2067]."
+        },
+        "vi": {
+            "question": "Chọn phát biểu đúng liên quan đến constructors.",
+            "options": [
+                "A. Constructor là một khối mã tương tự như phương thức. Nó được gọi khi một thể hiện của lớp được tạo ra",
+                "B. Constructor chỉ được dùng để khởi tạo các thành viên mặc định của đối tượng",
+                "C. Constructor là một phương thức trừu tượng có phần thân rỗng",
+                "D. Constructor là một phương thức không cho phép có tham số"
+            ],
+            "answer": "A",
+            "explanation": "Constructor (Hàm khởi tạo) là một phương thức đặc biệt, mã của nó sẽ thực thi khi một đối tượng của lớp này được khởi tạo [cite: 2067] bằng từ khóa `new`."
+        }
+    },
+    {
+        "id": 65,
+        "topic": "Encapsulation",
+        "en": {
+            "question": "What is the output of the following code snippet?\npublic class Person {\n   protected String id;\n   public Person(String id) { id = id; }\n   public static void main(String[] args) {\n      Person p = new Person(\"FPTU\");\n      System.out.println(p.id);\n   }\n}",
+            "options": [
+                "A. null",
+                "B. FPTU",
+                "C. Runtime error",
+                "D. None of the others"
+            ],
+            "answer": "A",
+            "explanation": "In the constructor, parameter names are the same as those in declared data filed[cite: 2385]. The assignment 'id = id;' assigns the parameter to itself. You must use 'this' to distinguish the field from the parameter[cite: 2386]. The field remains uninitialized (null)."
+        },
+        "vi": {
+            "question": "Đầu ra của đoạn mã sau là gì?\npublic class Person {\n   protected String id;\n   public Person(String id) { id = id; }\n   public static void main(String[] args) {\n      Person p = new Person(\"FPTU\");\n      System.out.println(p.id);\n   }\n}",
+            "options": [
+                "A. null",
+                "B. FPTU",
+                "C. Lỗi Runtime",
+                "D. Không có đáp án nào đúng"
+            ],
+            "answer": "A",
+            "explanation": "Trong constructor, tên tham số truyền vào giống với tên trường dữ liệu đã khai báo[cite: 2385]. Câu lệnh `id = id;` gặp lỗi Shadowing (Che khuất biến), trình biên dịch hiểu bạn đang gán tham số cho chính nó. Phải dùng từ khóa `this` để phân biệt[cite: 2386]. Do đó thuộc tính `id` của đối tượng không được gán gì, mang giá trị mặc định là null."
+        }
+    },
+    {
+        "id": 66,
+        "topic": "Polymorphism",
+        "en": {
+            "question": "What is the output of the following code snippet?\npublic class Main {\n   public void test(long b) { System.out.println(\"long b\"); }\n   public void test(int a) { System.out.println(\"int a\"); }\n   public static void main(String[] args) {\n      Main e=new Main();\n      e.test(9*1000000000);\n   }\n}",
+            "options": [
+                "A. int a",
+                "B. long a",
+                "C. long b",
+                "D. Runtime error"
+            ],
+            "answer": "A",
+            "explanation": "CORRECTION: The provided key was C. However, 9 and 1000000000 are integer literals. Their multiplication evaluates in 32-bit int space, overflows, but results in an 'int'. Thus, it invokes test(int). To explicitly call test(long), it must be 9L * 1000000000."
+        },
+        "vi": {
+            "question": "Đầu ra của đoạn mã sau là gì?\npublic class Main {\n   public void test(long b) { System.out.println(\"long b\"); }\n   public void test(int a) { System.out.println(\"int a\"); }\n   public static void main(String[] args) {\n      Main e=new Main();\n      e.test(9*1000000000);\n   }\n}",
+            "options": [
+                "A. int a",
+                "B. long a",
+                "C. long b",
+                "D. Lỗi Runtime"
+            ],
+            "answer": "A",
+            "explanation": "ĐÍNH CHÍNH CÚ LỪA CỦA ĐỀ CŨ (Key gốc chọn C): Cả số 9 và 1000000000 đều được Java hiểu là kiểu `int` mặc định. Phép nhân 2 số `int` sẽ sinh ra 1 số `int` (mặc dù phép tính này bị TRÀN SỐ). Vì kết quả truyền vào mang kiểu `int`, phương thức `test(int a)` sẽ được gọi. Để in ra C, bạn phải ép kiểu `long` bằng cách viết `9L * 1000000000`."
+        }
+    },
+    {
+        "id": 67,
+        "topic": "Inheritance",
+        "en": {
+            "question": "Which of the following is the superclass of all classes in Java?",
+            "options": [
+                "A. Object",
+                "B. Number",
+                "C. Class",
+                "D. System"
+            ],
+            "answer": "A",
+            "explanation": "In Java, every class implicitly inherits from the 'java.lang.Object' class[cite: 637]. It is the root of the Java class hierarchy."
+        },
+        "vi": {
+            "question": "Lớp nào sau đây là lớp cha (superclass) của tất cả các lớp trong Java?",
+            "options": [
+                "A. Object",
+                "B. Number",
+                "C. Class",
+                "D. System"
+            ],
+            "answer": "A",
+            "explanation": "Trong Java, `java.lang.Object` là lớp cội nguồn[cite: 637]. Bất kể bạn có khai báo từ khóa extends hay không, mọi class đều tự động kế thừa từ lớp Object một cách ngầm định."
+        }
+    },
+    {
+        "id": 68,
+        "topic": "Inheritance",
+        "en": {
+            "question": "Which keyword is used to declare inheritance between two classes in Java?",
+            "options": [
+                "A. extends",
+                "B. imports",
+                "C. super",
+                "D. implement"
+            ],
+            "answer": "A",
+            "explanation": "The extends keyword is used to create sub-class[cite: 1400]."
+        },
+        "vi": {
+            "question": "Từ khóa nào được sử dụng để khai báo sự kế thừa giữa hai lớp (classes) trong Java?",
+            "options": [
+                "A. extends",
+                "B. imports",
+                "C. super",
+                "D. implement"
+            ],
+            "answer": "A",
+            "explanation": "Từ khóa `extends` được sử dụng để tạo một lớp con kế thừa từ một lớp cha[cite: 1400]. (Lưu ý: `implements` dùng để kế thừa Interface)."
+        }
+    },
+    {
+        "id": 69,
+        "topic": "Encapsulation",
+        "en": {
+            "question": "Which of the following is an example of encapsulation in Java?",
+            "options": [
+                "A. Creating a private field and providing public getter and setter methods",
+                "B. Creating a public field and directly accessing it from other classes",
+                "C. Creating a protected field and accessing it from subclasses only",
+                "D. Creating a default (no modifier) field and accessing it from the same package"
+            ],
+            "answer": "A",
+            "explanation": "Implementing getter and setter is one of the ways to enforce encapsulation in the program's code[cite: 2068], ensuring data hiding and integrity."
+        },
+        "vi": {
+            "question": "Điều nào sau đây là một ví dụ về tính đóng gói (encapsulation) trong Java?",
+            "options": [
+                "A. Tạo một trường (biến) private và cung cấp các phương thức getter và setter public",
+                "B. Tạo một trường public và truy cập trực tiếp từ các lớp khác",
+                "C. Tạo một trường protected và chỉ truy cập từ các lớp con",
+                "D. Tạo một trường default và truy cập từ cùng một package"
+            ],
+            "answer": "A",
+            "explanation": "Triển khai các phương thức getter và setter là một trong những cách để thực thi tính đóng gói trong mã chương trình[cite: 2068]. Việc này giúp khóa chặt các thuộc tính bằng `private` và kiểm soát truy cập an toàn."
+        }
+    },
+    {
+        "id": 70,
+        "topic": "Inheritance",
+        "en": {
+            "question": "Which constructor is called first when an object of a subclass is created in Java?",
+            "options": [
+                "A. The constructor of the superclass",
+                "B. The constructor of the subclass",
+                "C. The toString method",
+                "D. The equals method"
+            ],
+            "answer": "A",
+            "explanation": "Constructors in an inheritance hierarchy execute in order from the super class to the derived class[cite: 1613]."
+        },
+        "vi": {
+            "question": "Hàm khởi tạo (constructor) nào được gọi đầu tiên khi một đối tượng của lớp con được tạo ra trong Java?",
+            "options": [
+                "A. Constructor của lớp cha (superclass)",
+                "B. Constructor của lớp con (subclass)",
+                "C. Phương thức toString",
+                "D. Phương thức equals"
+            ],
+            "answer": "A",
+            "explanation": "Các hàm khởi tạo (Constructors) trong một hệ thống phân cấp kế thừa sẽ thực thi theo thứ tự từ lớp cha (super class) xuống lớp con (derived class)[cite: 1613]."
+        }
+    },
+    {
+        "id": 71,
+        "topic": "Inheritance",
+        "en": {
+            "question": "What is the primary purpose of using a superclass and subclass relationship in Java?",
+            "options": [
+                "A. To restrict access to certain methods or fields.",
+                "B. To create multiple instances of a class.",
+                "C. To implement multiple inheritance.",
+                "D. To achieve code reusability and facilitate polymorphism."
+            ],
+            "answer": "D",
+            "explanation": "Object-oriented languages implement reusability of coding structure through inheritance[cite: 1610]. It also serves as the foundation for polymorphism."
+        },
+        "vi": {
+            "question": "Mục đích chính của việc sử dụng mối quan hệ lớp cha và lớp con trong Java là gì?",
+            "options": [
+                "A. Để hạn chế truy cập vào các hàm/biến nhất định.",
+                "B. Để tạo nhiều thể hiện của một lớp.",
+                "C. Để triển khai đa kế thừa.",
+                "D. Để tái sử dụng code và tạo điều kiện cho Tính đa hình (Polymorphism)."
+            ],
+            "answer": "D",
+            "explanation": "Các ngôn ngữ lập trình hướng đối tượng triển khai khả năng tái sử dụng (reusability) cấu trúc mã thông qua tính kế thừa[cite: 1610]. Đồng thời nó tạo tiền đề cho phép áp dụng tính Đa hình (Polymorphism)."
+        }
+    },
+    {
+        "id": 72,
+        "topic": "Java Basics",
+        "en": {
+            "question": "What is a way to group related classes in Java and it is called a namespace?",
+            "options": [
+                "A. package",
+                "B. file",
+                "C. software",
+                "D. folder"
+            ],
+            "answer": "A",
+            "explanation": "A package is a namespace that organizes a set of related classes and interfaces [cite: 2532] to avoid naming conflicts."
+        },
+        "vi": {
+            "question": "Cách gom nhóm các class có liên quan lại với nhau trong Java (được gọi là namespace) là gì?",
+            "options": [
+                "A. package",
+                "B. file",
+                "C. software",
+                "D. folder"
+            ],
+            "answer": "A",
+            "explanation": "Một package là một không gian tên (namespace) dùng để tổ chức một tập hợp các lớp và interface có liên quan với nhau[cite: 2532], giúp tránh việc đặt tên trùng lặp."
+        }
+    },
+    {
+        "id": 73,
+        "topic": "Polymorphism",
+        "en": {
+            "question": "What is the output of the following Java program?\nclass Demo {\n   void m1(String x) { System.out.println(\"One\"); }\n}\nclass DemoChild extends Demo {\n   public void m2(String x) { System.out.println(\"Two\"); super.m1(x); }\n}\npublic class Test {\n   public static void main(String[] args) {\n      Demo obj = new DemoChild();\n      obj.m2(\"PE\");\n   }\n}",
+            "options": [
+                "A. Compile error",
+                "B. Runtime error",
+                "C. Output is: Two One",
+                "D. Output is: One Two"
+            ],
+            "answer": "A",
+            "explanation": "The reference variable 'obj' is of type 'Demo' (superclass). The superclass 'Demo' does not declare the method 'm2'. Trying to call 'obj.m2()' causes a compile-time error. You must cast it to DemoChild first."
+        },
+        "vi": {
+            "question": "Đầu ra của chương trình Java sau là gì?\nclass Demo {\n   void m1(String x) { System.out.println(\"One\"); }\n}\nclass DemoChild extends Demo {\n   public void m2(String x) { System.out.println(\"Two\"); super.m1(x); }\n}\npublic class Test {\n   public static void main(String[] args) {\n      Demo obj = new DemoChild();\n      obj.m2(\"PE\");\n   }\n}",
+            "options": [
+                "A. Lỗi biên dịch (Compile error)",
+                "B. Lỗi Runtime",
+                "C. Đầu ra là: Two One",
+                "D. Đầu ra là: One Two"
+            ],
+            "answer": "A",
+            "explanation": "Biến 'obj' được khai báo dưới dạng kiểu cha (Demo). Class Demo KHÔNG HỀ có phương thức m2(). Trình biên dịch chỉ nhìn vào kiểu khai báo lúc viết code. Việc gọi `obj.m2()` sẽ sinh ra lỗi biên dịch vì phương thức này không tồn tại trong class cha."
+        }
+    },
+    {
+        "id": 74,
+        "topic": "Polymorphism",
+        "en": {
+            "question": "What is the output of the following Java program?\nclass A {\n   void displayMessage() { System.out.println(\"A Display\"); }\n}\nclass B extends A {\n   @Override void displayMessage() { System.out.println(\"B Display\"); }\n}\npublic class Main {\n   public static void main(String[] args) {\n      A objA = new B();\n      objA.displayMessage();\n   }\n}",
+            "options": [
+                "A. B Display",
+                "B. A Display",
+                "C. A Display B Display",
+                "D. Compile error"
+            ],
+            "answer": "A",
+            "explanation": "Because of polymorphism (dynamic binding), the JVM looks at the actual object created in memory, which is 'new B()'. Thus, the overridden method in class B is executed."
+        },
+        "vi": {
+            "question": "Đầu ra của chương trình Java sau là gì?\nclass A {\n   void displayMessage() { System.out.println(\"A Display\"); }\n}\nclass B extends A {\n   @Override void displayMessage() { System.out.println(\"B Display\"); }\n}\npublic class Main {\n   public static void main(String[] args) {\n      A objA = new B();\n      objA.displayMessage();\n   }\n}",
+            "options": [
+                "A. B Display",
+                "B. A Display",
+                "C. A Display B Display",
+                "D. Lỗi biên dịch"
+            ],
+            "answer": "A",
+            "explanation": "Đây là cốt lõi của Đa hình (Polymorphism). Mặc dù biến tham chiếu mang kiểu A, nhưng đối tượng được sinh ra ở vùng nhớ là `new B()`. Tại lúc chạy (Runtime), JVM sẽ gọi hàm đã bị ghi đè (Override) nằm trong Class B."
+        }
+    },
+    {
+        "id": 75,
+        "topic": "Polymorphism",
+        "en": {
+            "question": "What is the output of the following Java program?\nclass Test { void m1(String x) { System.out.println(\"Parent\"); } }\nclass TestChild extends Test {\n   public void m2(String x) { System.out.println(\"Child\"); super.m1(x); }\n}\npublic class Main {\n   public static void main(String[] args) {\n      Test obj = new TestChild();\n      if (obj instanceof TestChild) { obj.m2(\"FE\"); }\n   }\n}",
+            "options": [
+                "A. Compile error",
+                "B. Child Parent",
+                "C. Child Child",
+                "D. Parent Parent"
+            ],
+            "answer": "A",
+            "explanation": "CORRECTION: The original key might be B, but it is WRONG. 'obj' is declared as type 'Test'. 'Test' does not have method 'm2()'. The compiler will throw an error at 'obj.m2()'. To fix it, you must cast: '((TestChild)obj).m2(\"FE\");'."
+        },
+        "vi": {
+            "question": "Đầu ra của chương trình Java sau là gì?\nclass Test { void m1(String x) { System.out.println(\"Parent\"); } }\nclass TestChild extends Test {\n   public void m2(String x) { System.out.println(\"Child\"); super.m1(x); }\n}\npublic class Main {\n   public static void main(String[] args) {\n      Test obj = new TestChild();\n      if (obj instanceof TestChild) { obj.m2(\"FE\"); }\n   }\n}",
+            "options": [
+                "A. Lỗi biên dịch (Compile error)",
+                "B. Child Parent",
+                "C. Child Child",
+                "D. Parent Parent"
+            ],
+            "answer": "A",
+            "explanation": "ĐÍNH CHÍNH LỖI ĐỀ CŨ (Đề gốc chọn B): Biến `obj` được định nghĩa là kiểu `Test` (lớp cha). Lớp cha không hề chứa phương thức m2(). Việc gọi `obj.m2()` sẽ gây lỗi Compiler Error ngay lập tức. Phải ép kiểu `((TestChild)obj).m2(\"FE\");` thì mã mới chạy ra đáp án B."
+        }
+    },
+    {
+        "id": 76,
+        "topic": "OOP Concepts",
+        "en": {
+            "question": "What is the output of the following Java program?\ninterface IA{void show();}\ninterface IB{void show();}\nclass MyClass implements IA, IB{\n   @Override public void show() { System.out.println(\"@MyClass\"); }\n}\npublic class Main {\n   public static void main(String args[]) {\n      IA objA = new MyClass();\n      objA.show();\n   }\n}",
+            "options": [
+                "A. @MyClass",
+                "B. Runtime error in the statement: objA.show();",
+                "C. Compile error in the statement: IA objA = new MyClass();",
+                "D. None of the others"
+            ],
+            "answer": "A",
+            "explanation": "Java allows a class to implement multiple interfaces. Even if both interfaces define 'show()', the class provides a single concrete implementation for it, satisfying both interfaces without any diamond problem ambiguity."
+        },
+        "vi": {
+            "question": "Đầu ra của chương trình Java sau là gì?\ninterface IA{void show();}\ninterface IB{void show();}\nclass MyClass implements IA, IB{\n   @Override public void show() { System.out.println(\"@MyClass\"); }\n}\npublic class Main {\n   public static void main(String args[]) {\n      IA objA = new MyClass();\n      objA.show();\n   }\n}",
+            "options": [
+                "A. @MyClass",
+                "B. Lỗi Runtime",
+                "C. Lỗi biên dịch",
+                "D. Không đáp án nào đúng"
+            ],
+            "answer": "A",
+            "explanation": "Java cho phép một class implements nhiều Interface. Mặc dù cả 2 Interface IA và IB đều chứa khai báo hàm `show()`, nhưng `MyClass` chỉ cần cung cấp MỘT phần thân triển khai duy nhất là đủ đáp ứng điều kiện cho cả hai. Code chạy bình thường."
+        }
+    },
+    {
+        "id": 77,
+        "topic": "OOP Concepts",
+        "en": {
+            "question": "Which of the following statements is correct for a declaration of the interface named MyInterface?",
+            "options": [
+                "A. interface MyInterface{ /* something */ }",
+                "B. public MyInterface interface{ /* something */ }",
+                "C. final interface MyInterface{ /* something */ }",
+                "D. default interface MyInterface { /* something */ }"
+            ],
+            "answer": "A",
+            "explanation": "The correct syntax to define an interface is 'interface InterfaceName { }'. Interfaces cannot be marked as 'final' (Option C) because they are meant to be implemented/extended by other classes."
+        },
+        "vi": {
+            "question": "Câu lệnh nào sau đây ĐÚNG để khai báo một interface có tên là MyInterface?",
+            "options": [
+                "A. interface MyInterface{ /* something */ }",
+                "B. public MyInterface interface{ /* something */ }",
+                "C. final interface MyInterface{ /* something */ }",
+                "D. default interface MyInterface { /* something */ }"
+            ],
+            "answer": "A",
+            "explanation": "Cú pháp đúng là `interface TenInterface {}`. Interface KHÔNG ĐƯỢC PHÉP đi kèm từ khóa `final` (vì bản chất Interface sinh ra là để các class khác kết thừa/implement nó, khóa final sẽ gây mâu thuẫn và cấm kế thừa)."
+        }
+    },
+    {
+        "id": 78,
+        "topic": "Polymorphism",
+        "en": {
+            "question": "Consider an abstract class \"Shape\" with an abstract method \"calculateArea()\". If a concrete subclass \"Circle\" extends \"Shape\" and provides an implementation for \"calculateArea()\", what happens when an object of the \"Circle\" class is created and invokes the method?",
+            "options": [
+                "A. The abstract method in the superclass is executed.",
+                "B. The concrete method in the subclass is executed.",
+                "C. The program will not compile.",
+                "D. An exception is thrown at runtime.",
+                "E. Both the abstract method in the superclass and the concrete method in the subclass are executed."
+            ],
+            "answer": "B",
+            "explanation": "To replace an inherited abstract method with a concrete version, the subclass need merely override it[cite: 472]. The concrete method in the subclass is executed via dynamic binding."
+        },
+        "vi": {
+            "question": "Xem xét class trừu tượng 'Shape' có method trừu tượng 'calculateArea()'. Nếu lớp con 'Circle' kế thừa và cung cấp code thực thi cho 'calculateArea()', điều gì sẽ xảy ra khi một object 'Circle' được sinh ra và gọi hàm này?",
+            "options": [
+                "A. Method trừu tượng ở lớp cha được chạy.",
+                "B. Method cụ thể (concrete) ở lớp con được chạy.",
+                "C. Lỗi biên dịch.",
+                "D. Bắn ra Exception tại lúc chạy.",
+                "E. Cả method trừu tượng ở cha và method cụ thể ở con đều chạy."
+            ],
+            "answer": "B",
+            "explanation": "Để thay thế một phương thức trừu tượng được kế thừa bằng một phiên bản cụ thể (concrete), lớp con chỉ cần ghi đè nó[cite: 472]. Khi chạy, phương thức cụ thể ở lớp con sẽ được thực thi."
+        }
+    },
+    {
+        "id": 79,
+        "topic": "Inheritance",
+        "en": {
+            "question": "Choose multiple correct answers regarding Inheritance.",
+            "options": [
+                "A. Inheritance allows a class to inherit the properties and methods of another class",
+                "B. The keyword \"extends\" is used to indicate inheritance in Java. It is used in the declaration of a subclass to specify the superclass that it is inheriting from.",
+                "C. A subclass can inherit the private members of the superclass",
+                "D. Java supports both multiple inheritance of classes and interfaces"
+            ],
+            "answer": "A, B",
+            "explanation": "Inheritance is a relationship where objects share a common structure[cite: 1399]. The extends keyword is used to create sub-class[cite: 1400]. Private members are NOT inherited. Java DOES NOT support multiple inheritance of classes."
+        },
+        "vi": {
+            "question": "Chọn các phát biểu ĐÚNG về Kế thừa (Inheritance).",
+            "options": [
+                "A. Kế thừa cho phép một lớp được hưởng các thuộc tính và phương thức của một lớp khác",
+                "B. Từ khóa \"extends\" được sử dụng để chỉ định sự kế thừa trong khai báo lớp con",
+                "C. Một lớp con có thể kế thừa các thành viên private của lớp cha",
+                "D. Java hỗ trợ đa kế thừa đối với cả class và interface"
+            ],
+            "answer": "A, B",
+            "explanation": "Kế thừa là mối quan hệ chia sẻ cấu trúc chung [cite: 1399] và dùng từ khóa `extends`[cite: 1400]. Lớp con KHÔNG THỂ kế thừa các thành phần private. Java KHÔNG hỗ trợ đa kế thừa Class (chỉ 1 class cha), chỉ hỗ trợ đa kế thừa Interface."
+        }
+    },
+    {
+        "id": 80,
+        "topic": "Java Basics",
+        "en": {
+            "question": "What is the purpose of the \"finally\" keyword in Java? (Note: Adjusted from original typo asking for 'finally' but providing options for 'final')",
+            "options": [
+                "A. To indicate that a method cannot be overridden",
+                "B. To indicate that an abstract class",
+                "C. To hide a method of the superclass",
+                "D. To indicate that a class can only be inherited once"
+            ],
+            "answer": "A",
+            "explanation": "CORRECTION: The original question incorrectly used 'finally' but the options described the 'final' keyword. The 'final' keyword on a method prevents subclasses from overriding it. On a class, it prevents inheritance completely."
+        },
+        "vi": {
+            "question": "Mục đích của từ khóa \"final\" trong Java là gì? (Lưu ý: Đề gốc viết nhầm thành finally)",
+            "options": [
+                "A. Để chỉ định rằng một phương thức KHÔNG THỂ bị ghi đè (overridden)",
+                "B. Để chỉ định một lớp trừu tượng",
+                "C. Để che giấu một phương thức của lớp cha",
+                "D. Để chỉ định rằng một lớp chỉ được kế thừa một lần"
+            ],
+            "answer": "A",
+            "explanation": "ĐÍNH CHÍNH LỖI ĐỀ CŨ: Đề gốc hỏi về `finally` (dùng trong xử lý ngoại lệ Exception) nhưng các đáp án lại giải thích cho từ khóa `final`. Từ khóa `final` đứng trước method dùng để cấm lớp con ghi đè (override). Đứng trước Class sẽ cấm tuyệt đối việc kế thừa."
+        }
     }
     ];
 
     // ======================================================
-    // 2. TỰ ĐỘNG PHÂN LOẠI CHỦ ĐỀ (NẾU CẦN)
+    // 2. TỰ ĐỘNG PHÂN LOẠI CHỦ ĐỀ
     // ======================================================
     (function autoTagTopics() {
         if (!quizData || quizData.length === 0) return;
@@ -2518,7 +3055,6 @@
             document.getElementById('quiz-topic-select').options[0].text = t.all;
         }
         
-        // Update badge text if exists
         const txtDoing = document.getElementById('txt-doing');
         if (txtDoing && txtDoing.classList.contains('badge-practice')) {
             txtDoing.innerText = t.doing;
@@ -2563,12 +3099,13 @@
              return;
         }
         const q = state.fcFilteredData[state.fcIndex]; const data = state.isVietnamese ? q.vi : q.en; 
+        const code = (q.en && q.en.code) ? `<pre>${q.en.code}</pre>` : '';
         const shouldShuffle = document.getElementById('fc-shuffle-check').checked;
         document.querySelector('.flashcard').classList.remove('flipped');
         
         let html = `<div style="margin-bottom:12px; font-weight:700; color: var(--primary);">Flashcard ${state.fcIndex + 1}</div>
                     <div style="font-size:13px; color:var(--text-muted); margin-bottom:16px; font-weight:600; text-transform: uppercase;">Topic: ${q.topic}</div>
-                    <div class="question-highlight">${data.question}</div>`;
+                    <div class="question-highlight">${data.question}</div>` + code;
         
         let displayOptions = shouldShuffle ? shuffleArray(data.options) : data.options;
         html += `<ul class="options-list">`;
@@ -2606,6 +3143,7 @@
     
     function renderQuestionCard() {
         const idx = state.currentQuizIndex; const q = state.activeQuestions[idx]; const data = state.isVietnamese ? q.vi : q.en; const t = state.isVietnamese ? texts.vi : texts.en;
+        const code = (q.en && q.en.code) ? `<pre>${q.en.code}</pre>` : '';
         const ansState = state.userAnswers[idx]; const isAnswered = !!ansState;
         
         let statusBadge = `<span class="status-badge badge-practice" id="txt-doing">${t.doing}</span>`;
@@ -2620,7 +3158,7 @@
         const progressPct = ((idx + 1) / state.activeQuestions.length) * 100;
         document.getElementById('quiz-progress-bar').style.width = progressPct + '%';
 
-        document.getElementById('q-content').innerHTML = `<div class="question-highlight">${data.question}</div>`;
+        document.getElementById('q-content').innerHTML = `<div class="question-highlight">${data.question}</div>` + code;
         
         const ul = document.getElementById('q-options'); ul.innerHTML = ''; const expBox = document.getElementById('q-explanation');
         let correctLabelRaw = String(data.answer); let validAnswers = correctLabelRaw.split(',').map(s => s.trim().charAt(0));
@@ -2680,11 +3218,12 @@
         const list = document.getElementById('review-list'); list.innerHTML = '';
         state.activeQuestions.forEach((q, idx) => {
             const data = state.isVietnamese ? q.vi : q.en; const ans = state.userAnswers[idx];
+            const code = (q.en && q.en.code) ? `<pre>${q.en.code}</pre>` : '';
             const card = document.createElement('div'); card.className = 'question-card review-card'; card.id = `review-q-${idx}`;
             let statusHtml = ans ? (ans.isCorrect ? `<span class="status-badge badge-correct" style="float:right;">✔ Đúng</span>` : `<span class="status-badge badge-wrong" style="float:right;">✘ Sai</span>`) : `<span class="status-badge" style="float:right; background:#e5e7eb; color:#4b5563;">⚪ Chưa làm</span>`;
             
             let html = `<div style="margin-bottom:16px; color:var(--text-muted); font-weight: 600; font-size:14px;">QUESTION ${idx + 1} ${statusHtml}</div>
-                        <div class="question-highlight">${data.question}</div>`;
+                        <div class="question-highlight">${data.question}</div>` + code;
                         
             let validAnswers = String(data.answer).split(',').map(s => s.trim().charAt(0));
             html += `<ul class="options-list">`;
