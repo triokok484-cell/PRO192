@@ -11,6 +11,8 @@
             --secondary-color: #28a745;
             --danger-color: #dc3545;
             --warning-color: #fd7e14;
+            --selected-border: #6f42c1;
+            --selected-bg: #e0d4fc;
             --light-bg: #f4f7f6;
             --dark-text: #2c3e50;
             --card-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
@@ -47,7 +49,7 @@
         /* --- Main Layout --- */
         .main-container { display: flex; flex: 1; overflow: hidden; position: relative; height: 100%; }
         .content-area {
-            flex: 1; padding: 30px; overflow-y: auto; width: 100%;
+            flex: 1; padding: 30px; overflow-y: auto; width: 100%; scroll-behavior: smooth;
             display: flex; flex-direction: column; align-items: center; position: relative; 
         }
         .view-section { display: none !important; width: 100%; max-width: 900px; animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
@@ -67,7 +69,7 @@
         .nav-btn.secondary { background: #e9ecef; color: #495057; box-shadow: none; }
         .nav-btn.secondary:hover { background: #dee2e6; }
         .nav-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-        .action-btn { background: #fff3cd; color: #856404; border: 1px solid #ffeeba; }
+        .action-btn { background: #fff3cd; color: #856404; border: 1px solid #ffeeba; margin-bottom: 15px;}
         .action-btn:hover { background: #ffe8a1; }
 
         /* --- Question Card Styling --- */
@@ -77,24 +79,28 @@
         .options-list { list-style: none; padding: 0; display: grid; gap: 12px; width: 100%; }
         .options-list li {
             background: #fff; border: 2px solid #f0f0f0; border-radius: 10px; padding: 15px 20px 15px 50px;
-            cursor: pointer; position: relative; transition: all 0.15s; font-size: 15px; user-select: none; text-align: left; color: #444;
+            cursor: pointer; position: relative; transition: all 0.15s; font-size: 15px; text-align: left; color: #444;
         }
+        
+        /* Chỉ cho hover khi ở dạng Interactive (Quiz) */
         .options-list.interactive li:hover:not(.disabled) { border-color: var(--primary-color); background: #fcfaff; }
         
+        /* Label A, B, C */
         .options-list li::before {
             content: attr(data-label); position: absolute; left: 15px; top: 50%; transform: translateY(-50%);
             width: 28px; height: 28px; background: #e9ecef; color: #495057; border-radius: 6px;
             text-align: center; line-height: 28px; font-weight: 700; font-size: 13px; transition: all 0.2s;
         }
 
+        /* STATES: SELECTED */
         .options-list li.selected {
             border-color: var(--primary-color); background-color: var(--primary-light);
             box-shadow: 0 0 0 1px var(--primary-color) inset; font-weight: 600;
         }
         .options-list li.selected::before { background-color: var(--primary-color); color: white; }
 
-        /* RESULT HIGHLIGHTS */
-        .options-list.result-mode li { cursor: default; opacity: 0.6; }
+        /* STATES: CHECKED (ĐÚNG/SAI HIGHLIGHT TRONG TRANG KẾT QUẢ) */
+        .options-list.result-mode li { cursor: default; opacity: 0.65; }
         .options-list.result-mode li.is-correct-answer {
             background-color: #d1e7dd !important; border-color: #0f5132 !important;
             color: #0f5132 !important; opacity: 1 !important; font-weight: 600; box-shadow: 0 0 0 1px #0f5132 inset;
@@ -122,19 +128,25 @@
             backface-visibility: hidden; -webkit-backface-visibility: hidden;
             border-radius: 16px; border: 1px solid #eaeaea;
             box-shadow: var(--card-shadow); background: white; padding: 40px; display: flex; flex-direction: column;
-            justify-content: flex-start; align-items: center; text-align: center;
+            justify-content: flex-start; align-items: center; text-align: center; overflow-y: auto;
         }
         .card-front { z-index: 2; transform: rotateY(0deg); }
         .card-back { transform: rotateY(180deg); background: #fff; justify-content: flex-start; text-align: left; align-items: flex-start; }
         
-        /* LEARN MODE: HIGHLIGHT QUESTION */
+        /* LEARN MODE: HIGHLIGHT QUESTION & ANSWER */
         .fc-question-highlight {
             font-size: 20px; font-weight: 700; color: var(--primary-color); background: var(--primary-light);
             padding: 20px; border-radius: 12px; border-left: 5px solid var(--primary-color);
-            margin-bottom: 25px; text-align: left; line-height: 1.5; width: 100%;
+            margin-bottom: 25px; text-align: left; line-height: 1.5; width: 100%; box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
-        /* Vô hiệu hóa click và hover ở options phần học */
-        #fc-options li { cursor: default; }
+        .fc-answer-box {
+            background-color: #d1e7dd; border: 1px solid #badbcc; border-left: 5px solid #0f5132;
+            color: #0f5132; padding: 15px 20px; border-radius: 8px; font-size: 16px; font-weight: 600; 
+            width: 100%; margin-bottom: 20px; text-align: left; white-space: pre-wrap;
+        }
+        
+        /* Vô hiệu hóa click và cursor ở options phần học */
+        .options-list.read-only li { cursor: default; }
 
         /* --- Utils --- */
         .category-badge {
@@ -163,6 +175,8 @@
         
         .custom-select { width: 100%; padding: 12px 15px; border: 1px solid #ced4da; border-radius: 8px; font-size: 15px; background: #fff; margin-top: 10px; cursor: pointer; }
 
+        .res-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+        .res-qnum { font-weight: 700; font-size: 18px; color: #2c3e50; }
         .res-status.wrong { color: var(--danger-color); font-weight: 600; }
         .res-status.correct { color: var(--secondary-color); font-weight: 600; }
 
@@ -178,7 +192,7 @@
 
     <div class="top-bar">
         <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab('flashcard')">📖 Học (Learn)</button>
+            <button class="tab-btn active" onclick="switchTab('flashcard')">📖 Thẻ ghi nhớ (Learn)</button>
             <button class="tab-btn" onclick="switchTab('quiz')">📝 Thi (Quiz)</button>
         </div>
         <button class="lang-btn" onclick="toggleLanguage()" title="Phím tắt: Enter hoặc N">
@@ -207,16 +221,22 @@
                                     <span id="fc-multi-badge" class="multi-select-hint hidden"></span>
                                 </div>
                                 <div id="fc-content" class="fc-question-highlight"></div>
-                                <ul class="options-list" id="fc-options"></ul>
+                                <ul class="options-list read-only" id="fc-options"></ul>
+                                <div style="margin-top: auto; padding-top:20px; font-size: 13px; color: #aaa; font-weight: 600;">(Nhấn Phím Space hoặc Click chuột để lật thẻ)</div>
                             </div>
                             
                             <div class="card-face card-back">
-                                <div id="fc-answer-label" class="category-badge" style="background:var(--secondary-color); color:white;">Đáp án đúng</div>
-                                <div id="fc-answer" style="font-size: 18px; font-weight: bold; margin-bottom: 20px; color:var(--dark-text); width: 100%; white-space: pre-wrap;"></div>
+                                <div class="category-badge" style="background:var(--secondary-color); color:white;">Đáp án đúng</div>
+                                
+                                <div id="fc-question-reminder" style="font-size: 14px; color: #666; margin-bottom: 10px; font-style: italic; width: 100%;"></div>
+                                
+                                <div id="fc-answer" class="fc-answer-box"></div>
+                                
                                 <div style="width: 100%; font-size: 15px; color: #333; background: #f8f9fa; padding: 20px; border-radius: 10px; border-left: 4px solid var(--primary-color); line-height: 1.6;">
                                     <strong id="fc-explanation-label" style="color:var(--primary-color);">Giải thích:</strong><br>
                                     <span id="fc-explanation" style="display: block; margin-top: 8px;"></span>
                                 </div>
+                                <div style="margin-top: auto; padding-top:20px; font-size: 13px; color: #aaa; width: 100%; text-align: center; font-weight: 600;">(Nhấn Phím Space hoặc Click chuột để quay lại mặt trước)</div>
                             </div>
                         </div>
                     </div>
@@ -237,7 +257,7 @@
                         <select id="quiz-category-select" onchange="updateQuizCountMax()" class="custom-select" style="margin-top:0;"></select>
                     </div>
                     <div style="text-align: left; margin-bottom: 35px;">
-                        <label id="txt-q-count" style="font-weight:600; margin-bottom: 5px; display:block;">2. Số lượng câu hỏi (Randomized):</label>
+                        <label id="txt-q-count" style="font-weight:600; margin-bottom: 5px; display:block;">2. Số lượng câu hỏi (Sẽ được Random):</label>
                         <div style="display: flex; align-items: center; gap: 15px;">
                             <input type="number" id="quiz-count-input" min="1" value="30" style="padding: 10px 15px; border: 1px solid #ced4da; border-radius: 8px; font-size: 16px; font-weight:600; width: 100px; text-align: center; color: var(--primary-color);">
                             <div style="font-size: 14px; color: #6c757d;">
@@ -305,7 +325,6 @@
     
     const naturalSort = (a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' });
     
-    // Xáo trộn mảng (Fisher-Yates)
     function shuffleArray(array) {
         let arr = [...array];
         for (let i = arr.length - 1; i > 0; i--) {
@@ -374,6 +393,7 @@
             submit: "Nộp bài", resultTitle: "Kết quả làm bài", prev: "← Câu trước", next: "Câu sau →", 
             legCur: "Đang chọn", legCor: "Đúng", legWro: "Sai", qOf: "Câu", correctAns: "Đáp án đúng:", unanswered: "Chưa làm", correct: "✔ Chính xác!",
             wrong: "✘ Sai rồi", chapter: "Chủ đề:", confirmSubmit: "Bạn có chắc muốn nộp bài?", 
+            shortcutHelp: "Phím tắt: 1-8 (Chọn) | Enter/N (Ngôn ngữ) | M (Đảo đáp án) | Space (Lật thẻ) | ⬅/➡ (Chuyển câu)",
             chooseOne: "Chọn 1 đáp án", chooseMulti: "Hãy chọn {n} đáp án", explanation: "Giải thích:"
         },
         en: {
@@ -381,12 +401,16 @@
             submit: "Submit", resultTitle: "Quiz Results", prev: "← Prev", next: "Next →", 
             legCur: "Current", legCor: "Correct", legWro: "Wrong", qOf: "Question", correctAns: "Correct Answer:", unanswered: "Unanswered", correct: "✔ Correct!",
             wrong: "✘ Wrong", chapter: "Topic:", confirmSubmit: "Are you sure you want to submit the quiz?", 
+            shortcutHelp: "Shortcuts: 1-8 (Select) | Enter/N (Lang) | M (Shuffle) | Space (Flip Card) | ⬅/➡ (Navigate)",
             chooseOne: "Single Choice", chooseMulti: "Multiple Choice ({n})", explanation: "Explanation:"
         }
     };
 
     function init() {
-        if (typeof quizData === 'undefined' || quizData.length === 0) return;
+        if (typeof quizData === 'undefined' || quizData.length === 0) {
+            document.body.innerHTML = `<div style="padding:20px; text-align:center; color:red;"><h2>Chưa có dữ liệu. Vui lòng dán JSON vào code (biến quizData).</h2></div>`;
+            return;
+        }
         
         quizData.forEach((q, i) => {
             if(!q.id) q.id = i+1;
@@ -428,7 +452,7 @@
     function switchTab(tab) { state.activeTab = tab; updateView(); }
     
     // ==========================================
-    // LEARN MODE (FLASHCARD)
+    // LEARN MODE 
     // ==========================================
     function updateFlashcardFilter() {
         const cat = document.getElementById('fc-category-select').value;
@@ -476,10 +500,11 @@
         hintBadge.classList.remove('hidden');
         hintBadge.innerText = isMulti ? t.chooseMulti.replace('{n}', correctIndices.length) : t.chooseOne;
 
-        // Nội dung câu hỏi được highlight
+        // HIỂN THỊ CÂU HỎI
         document.getElementById('fc-content').innerText = data.question;
+        document.getElementById('fc-question-reminder').innerText = "Q: " + data.question;
         
-        // Render options (Không cho phép click, chỉ hiển thị)
+        // MẶT TRƯỚC - Render Options
         const ul = document.getElementById('fc-options');
         ul.innerHTML = '';
         const labels = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
@@ -488,19 +513,29 @@
             const li = document.createElement('li');
             li.innerText = (data.options[origIdx] || '').replace(/^[A-F][\.\)]\s*/, ''); 
             li.setAttribute('data-label', labels[displayPos]);
-            li.onclick = (e) => { e.stopPropagation(); }; // Chặn click để thẻ ko bị lật nếu vô tình click trúng option
+            // KO cho click chọn đáp án ở phần học
+            li.onclick = (e) => { e.stopPropagation(); }; 
             ul.appendChild(li);
         });
 
-        // Mặt sau
+        // MẶT SAU - Render Đáp án & Giải thích
         const answerTexts = correctIndices.map(i => {
             let txt = data.options[i];
             return txt ? txt.replace(/^[A-F][\.\)]\s*/, '') : '';
-        }).filter(x=>x).join('\n');
+        }).filter(x=>x);
         
-        document.getElementById('fc-answer').innerText = answerTexts || data.answer;
+        const answerBox = document.getElementById('fc-answer');
+        answerBox.innerHTML = '';
+        if(answerTexts.length > 0) {
+            answerTexts.forEach((ansTxt, idx) => {
+                answerBox.innerHTML += `<div>${labels[idx]}. ${ansTxt}</div>`;
+            });
+        } else {
+            answerBox.innerText = data.answer;
+        }
+
         document.getElementById('fc-explanation-label').innerText = t.explanation;
-        document.getElementById('fc-explanation').innerHTML = data.explanation || "Không có giải thích chi tiết.";
+        document.getElementById('fc-explanation').innerHTML = data.explanation || "Chưa có thông tin giải thích chi tiết.";
     }
 
     function navFlashcard(dir) {
@@ -564,6 +599,7 @@
 
     function renderQuestionCard() {
         if (!state.activeQuestions[state.currentQuizIndex]) return;
+
         const t = state.isVietnamese ? texts.vi : texts.en;
         const idx = state.currentQuizIndex;
         const qObj = state.activeQuestions[idx];
@@ -571,13 +607,12 @@
         const userSelections = state.userAnswers[idx] || [];
         
         const correctIndices = getCorrectIndices(data, qObj);
-        const numCorrect = correctIndices.length;
-        const isMulti = numCorrect > 1;
+        const isMulti = correctIndices.length > 1;
 
         const hintBadge = document.getElementById('multi-select-badge');
         hintBadge.classList.remove('hidden');
         if(isMulti) {
-            hintBadge.innerText = t.chooseMulti.replace('{n}', numCorrect);
+            hintBadge.innerText = t.chooseMulti.replace('{n}', correctIndices.length);
             hintBadge.style.color = '#856404'; hintBadge.style.backgroundColor = '#fff3cd'; hintBadge.style.border = '1px solid #ffeeba';
         } else {
             hintBadge.innerText = t.chooseOne;
@@ -697,7 +732,7 @@
             if(data.explanation){
                 explainHtml = `
                     <div class="res-exp">
-                        <strong>${t.explanation}</strong><br>
+                        <strong style="color: var(--primary-color);">${t.explanation}</strong><br>
                         <span style="display:block; margin-top:5px;">${data.explanation}</span>
                     </div>`;
             }
@@ -746,7 +781,7 @@
                     const targetCard = document.getElementById(`result-card-${i}`);
                     if(targetCard) {
                         targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        targetCard.style.boxShadow = "0 0 0 3px var(--primary-color)";
+                        targetCard.style.boxShadow = "0 0 0 3px var(--warning-color)";
                         setTimeout(() => targetCard.style.boxShadow = "var(--card-shadow)", 1500);
                     }
                 } else {
@@ -783,6 +818,7 @@
         document.getElementById('leg-cor').innerText = t.legCor;
         document.getElementById('leg-wro').innerText = t.legWro;
         document.getElementById('txt-map-title').innerText = t.mapTitle;
+        document.getElementById('shortcut-help').innerText = t.shortcutHelp;
         
         const setupTitles = document.querySelectorAll('.tab-btn');
         if(setupTitles.length >= 2) {
@@ -796,8 +832,10 @@
         if (['INPUT', 'SELECT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
         const key = e.key.toLowerCase();
 
+        // N hoặc Enter: Đổi ngôn ngữ
         if (key === 'n' || e.key === 'Enter') { e.preventDefault(); toggleLanguage(); return; }
 
+        // M: Xáo trộn đáp án 
         if (key === 'm') {
             e.preventDefault();
             if (state.activeTab === 'flashcard') shuffleFlashcardOptions();
@@ -805,6 +843,7 @@
             return;
         }
 
+        // Chuyển câu
         if (e.key === 'ArrowLeft') {
             if (state.activeTab === 'flashcard') navFlashcard(-1);
             else if (state.activeTab === 'quiz' && state.quizPhase === 'active') navQuiz(-1);
@@ -814,7 +853,7 @@
             else if (state.activeTab === 'quiz' && state.quizPhase === 'active') navQuiz(1);
         }
         
-        // CHỈ cho chọn số 1-8 trong Quiz. Disable trong Flashcard.
+        // CHỈ cho chọn số 1-8 trong lúc làm Quiz.
         if (e.key >= '1' && e.key <= '8') {
             const displayIndex = parseInt(e.key) - 1; 
             if (state.activeTab === 'quiz' && state.quizPhase === 'active') {
@@ -830,7 +869,7 @@
             }
         }
 
-        // Lật thẻ 2 chiều (Lật đi lật lại)
+        // Lật thẻ bằng phím Space
         if (e.key === ' ') {
             e.preventDefault(); 
             if (state.activeTab === 'flashcard') {
@@ -841,7 +880,7 @@
 
     // ======================================================
     // DATA TRỐNG 
-    // Em dán chuỗi JSON vào mảng này
+    // Em dán 186 câu hỏi JSON vào trong mảng này nhé!
     // ======================================================
     const quizData = [
     {
