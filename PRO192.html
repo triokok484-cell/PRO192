@@ -828,142 +828,1690 @@
     // Phân loại tự động dựa trên cấu trúc chương trình
     // ======================================================
     const quizData = [
-        // --- JAVA FUNDAMENTALS ---
-        { "category": "Java Fundamentals", "en": { "question": "To run a Java program, which the software must be installed?", "options": ["A. Java Runtime Environment (JRE)", "B. Eclipse", "C. Java Development Kit (JDK)", "D. Netbeans"], "answer": "A", "explanation": "The JRE (Java Runtime Environment) provides the libraries, the Java Virtual Machine (JVM), and other components to run applets and applications written in the Java programming language." } },
-        { "category": "Java Fundamentals", "en": { "question": "What is the role of the Java Development Kit (JDK) in java programming? Choose multiple correct answers.", "options": ["A. A cross-platformed software development environment that offers a collection of tools and libraries necessary for developing Java-based software applications.", "B. A core package used in Java programming, along with the JVM (Java Virtual Machine) and the JRE (JavaRuntime Environment) to develop and deploy applications", "C. A software for building applications that combines common developer tools into a single graphical user interface (GUI).", "D. A text editor that can assist in writing software code with features such as syntax highlighting with visual cues."], "answer": "AB" } },
-        { "category": "Java Fundamentals", "en": { "question": "A Java source code will be compiled to the file in which of the following extensions?", "options": ["A. .class", "B. .java", "C. .exe", "D. .bat"], "answer": "A", "explanation": "The javac compiler compiles .java source files into .class files which contain bytecode." } },
-        { "category": "Java Fundamentals", "en": { "question": "What is the file extension of Java source code?", "options": ["A. .java", "B. .class", "C. .jar", "D. .rar"], "answer": "A" } },
-        { "category": "Java Fundamentals", "en": { "question": "Which of the following is the entry point of the Java program?", "options": ["A. main method", "B. class method", "C. instance method", "D. static method"], "answer": "A", "explanation": "The JVM looks for the `public static void main(String[] args)` method to start executing a Java program." } },
-        { "category": "Java Fundamentals", "en": { "question": "Which of the following statements about the Java language is true?", "options": ["A. Java language is case-sensitive.", "B. Java is not a fully object-oriented language.", "C. Using a colon to end the command.", "D. The Java code only runs on the Windows platform."], "answer": "A" } },
-        { "category": "Java Fundamentals", "en": { "question": "What is the purpose of a Java Virtual Machine(JVM)?", "options": ["A. It is used to interpret and execute Java bytecode", "B. It is used to write the bytecode into the class file", "C. It is used to verify and improve performance the of Java programs", "D. All of the others"], "answer": "A", "explanation": "The JVM is the engine that drives the Java code. It converts Java bytecode into machine language and executes it." } },
-        { "category": "Java Fundamentals", "en": { "question": "Which of the following is NOT a Java feature?", "options": ["A. Use of pointers.", "B. Ease of learning.", "C. It is a secure language.", "D. Independent Platform."], "answer": "A", "explanation": "Java eliminates the explicit use of pointers to ensure security and robustness." } },
-        { "category": "Java Fundamentals", "en": { "question": "Which of the following statements is used to compile the program.java file?", "options": ["A. javac program.java", "B. java -java program.java", "C. javac -c program.java", "D. java -j program.java"], "answer": "A" } },
-        { "category": "Java Fundamentals", "en": { "question": "What is the meaning of platform-independent?", "options": ["A. write once, run anywhere", "B. not easy to execute on any system after compilation.", "C. the execution of the program is restricted by the type of OS environment provided.", "D. All of the others"], "answer": "A", "explanation": "Java compiled code (bytecode) can run on all operating systems that have a JVM." } },
-        { "category": "Java Fundamentals", "en": { "question": "Which of the following related to the comment in Java is false?", "options": ["A. /* comment", "B. /* comment */", "C. /** comment */", "D. //comment"], "answer": "A", "explanation": "Block comments must be properly closed with */." } },
-        { "category": "Java Fundamentals", "en": { "question": "Which of the following are components of the Java platform?", "options": ["A. JVM(Java Virtual Machine), the java application programming interface (API)", "B. JVM(Java Virtual Machine), Java Run-time Environment", "C. JVM(Java Virtual Machine), java compiler", "D. Java compiler, java"], "answer": "A" } },
-
-        // --- DATA TYPES & VARIABLES ---
-        { "category": "Data Types & Arrays", "en": { "question": "What is the default value of the data type double in Java?", "options": ["A. 0.0", "B. 0", "C. Null", "D. 1.0"], "answer": "A" } },
-        { "category": "Data Types & Arrays", "en": { "question": "Choose multiple correct answers regarding Reference and Primitive types.", "options": ["A. The value of a reference type variable is the address refer to an object.", "B. The null constant refers to an empty or uninitialized reference variable.", "C. Reference variables usually must be initialized with the new keyword.", "D. For Primitive types, memory location that stores data."], "answer": "ABD" } },
-        { "category": "Data Types & Arrays", "en": { "question": "What is the default value of boolean elements in an array if NOT initialized?", "options": ["A. false", "B. 0", "C. null", "D. true"], "answer": "A" } },
-        { "category": "Data Types & Arrays", "en": { "question": "Which of the following is a primitive data type in Java?", "options": ["A. String", "B. Float", "C. boolean", "D. ArrayList"], "answer": "C" } },
-        { "category": "Data Types & Arrays", "en": { "question": "What is a correct statement about an array in Java?", "options": ["A. The array can store elements that are the same data types.", "B. The index of the array can be a float or double data type.", "C. The size() is a method that returns the number of elements in an array.", "D. The array has a dynamic size."], "answer": "A" } },
-        { "category": "Data Types & Arrays", "en": { "question": "What is the output of the following code snippet?\npublic static void main(String[] args) {\n  int[] arr={{1,2,3}, {4,5,6,6}, {6,7,8}};\n  int copy[]={9,10,11,12};\n  arr[2]=copy;\n  System.out.println(arr[2][2]);\n}", "options": ["A. 11", "B. 8", "C. 6", "D. 9"], "answer": "A", "explanation": "arr[2] is replaced by the 'copy' array {9, 10, 11, 12}. arr[2][2] is the element at index 2 of 'copy', which is 11." } },
-        { "category": "Data Types & Arrays", "en": { "question": "What will be the output of the following code?\npublic class Test10 {\n  public static void main(String[] args) {\n    Integer x = new Integer(5);\n    Integer y= new Integer(10);\n    System.out.println((String)(x+y));\n  }\n}", "options": ["A. 15", "B. 510", "C. Runtime error", "D. Compiler Error"], "answer": "D", "explanation": "You cannot cast an Integer (or primitive int) directly to a String using (String)." } },
-        { "category": "Data Types & Arrays", "en": { "question": "Choose multiple correct answers regarding variables.", "options": ["A. The default value of an uninitialized int variable in Java is 0", "B. Constants can be changed during the execution of a program", "C. Variables and constants are both used to store values in Java", "D. Variables can be changed during the execution of a program"], "answer": "ACD" } },
-        { "category": "Data Types & Arrays", "en": { "question": "Concerning rules and conventions for naming variables in Java, choose an incorrect statement.", "options": ["A. An identifier can begin with any character except '$' and '_'", "B. An identifier can begin with a character.", "C. An identifier can begin with the dollar sign character.", "D. An identifier can begin with the underscore character."], "answer": "A", "explanation": "Identifiers CAN begin with '$' and '_' in Java." } },
-        { "category": "Data Types & Arrays", "en": { "question": "What is the output of the code snippet?\npublic class Test {\n  public static void main(String[] args) {\n    int result;\n    System.out.println(result = true ? 100 : 5);\n  }\n}", "options": ["A. 100", "B. 5", "C. 0", "D. Runtime error."], "answer": "A" } },
-        { "category": "Data Types & Arrays", "en": { "question": "What is the output of the code snippet?\npublic class Test {\n  public static void main(String[] args) {\n    int[] a = new int[5];\n    for (int i : a) {\n      i = 1;\n    }\n    System.out.println(a[1]);\n  }\n}", "options": ["A. 0", "B. 1", "C. null", "D. Compile error"], "answer": "A", "explanation": "The enhanced for loop uses a copy of the element ('i'). Modifying 'i' does not modify the original array 'a'." } },
-        { "category": "Data Types & Arrays", "en": { "question": "Given the following code snippet:\nint[] arr = new int[100];\nWhich of the following statements is correct?", "options": ["A. The maximum number of elements of the arr is 100", "B. The maximum index of the arr is 100", "C. arr[100]=100", "D. Each element in the arr will be 1 by default"], "answer": "A" } },
-        { "category": "Data Types & Arrays", "en": { "question": "What happens when you try to assign an array to another array in Java? (e.g., arr1 = arr2)", "options": ["A. Both arrays reference to the same memory location.", "B. A new copy of the array is created.", "C. It results in a compilation error.", "D. Java does not allow array assignment."], "answer": "A" } },
-        { "category": "Data Types & Arrays", "en": { "question": "Given the following code snippet: float[] arr = new float[100]; \narr[0]=3.4;\nChoose the correct statement.", "options": ["A. 3.4 is a double type by default so we need to explicitly cast it to float", "B. 3.4 is a float type by default so we don't need to explicitly cast it to float", "C. There is no problem with these code lines", "D. Line 1 will throw the indexOutOfBound exception"], "answer": "A" } },
-        { "category": "Data Types & Arrays", "en": { "question": "What is the output of the following code snippet:\nint sum=0;\nfor(int i=0;i<=10;i++){\n  sum+= (i%2==0?i:-i);\n}\nSystem.out.println(sum);", "options": ["A. 5", "B. 2", "C. The program will raise an exception.", "D. 3"], "answer": "A" } },
-        { "category": "Data Types & Arrays", "en": { "question": "What is the output of the following code snippet:\nint i = 0;\nint[] list = {1, 2, 3, 4, 5};\ndo {\n  list[i] = ++i;\n} while (i < 4);\nSystem.out.println(list[0] + list[list.length]);", "options": ["A. 5", "B. 1", "C. 6", "D. The program will raise an exception."], "answer": "D", "explanation": "list[list.length] accesses list[5], which throws ArrayIndexOutOfBoundsException." } },
-        { "category": "Data Types & Arrays", "en": { "question": "Which data type is not a reference data type?", "options": ["A. byte", "B. Class", "C. Array", "D. Interface"], "answer": "A" } },
-
-        // --- OOP CONCEPTS (GENERAL) ---
-        { "category": "OOP Concepts", "en": { "question": "Which of the following statements is one of the advantages of OOP?", "options": ["A. The systems can be easily upgraded from small to large systems.", "B. OOP leads to higher programmer productivity, better software quality, and higher maintenance costs.", "C. OOP language did not allow breaking the program into bit-sized problems that can be solved easily", "D. All of the others"], "answer": "A" } },
-        { "category": "OOP Concepts", "en": { "question": "Which of the following is the best description of polymorphism?", "options": ["A. It is the ability for a message/data to be processed in more than one form.", "B. It is the ability for many messages/data to be processed in one way", "C. It is the ability for a message/data to be processed in only one form", "D. None of the others"], "answer": "A" } },
-
-        // --- CLASSES & OBJECTS ---
-        { "category": "Classes & Objects", "en": { "question": "What will be the output of the following code?\npublic class Test1 {\n  int x;\n  x = 5;\n  public static void main(String[] args) {\n    Test1 t = new Test1();\n    System.out.println(t.x);\n  }\n}", "options": ["A. compile error", "B. runtime error", "C. 5", "D. 0"], "answer": "A", "explanation": "The assignment `x = 5;` is outside of any method or constructor, which causes a compilation error." } },
-        { "category": "Classes & Objects", "en": { "question": "What is the purpose of the \"this\" keyword in Java?", "options": ["A. It refers to the current class", "B. It refers to the current object", "C. It refers to the superclass", "D. It refers to the subclass"], "answer": "B" } },
-        { "category": "Classes & Objects", "en": { "question": "In Java, if a class does not explicitly define a constructor, what type of constructor is automatically provided?", "options": ["A. Parameterized constructor", "B. Default constructor", "C. Private constructor", "D. Static constructor"], "answer": "B" } },
-        { "category": "Classes & Objects", "en": { "question": "What are components of a class in Java OOP? Choose multiple correct answers.", "options": ["A. Constructors are responsible for object creation", "B. Attributes, Fields, Properties of a class represents by variables", "C. Behaviours, Modification code represent by methods or functions", "D. main() method for execution of the class."], "answer": "ABC" } },
-        { "category": "Classes & Objects", "en": { "question": "Which of the following statements is correct to declare a class named Cat?", "options": ["A. class Cat{ // something}", "B. public class Cat{ // something}", "C. Class Cat{ // something}", "D. public Cat class{ // something}"], "answer": "AB" } },
-        { "category": "Classes & Objects", "en": { "question": "Which of the following is one of the characteristics of the constructors?", "options": ["A. They have the same name as the class in which they are declared.", "B. They may be inherited from a superclass.", "C. They may not make exceptions.", "D. They must be declared public."], "answer": "A" } },
-        { "category": "Classes & Objects", "en": { "question": "Assume the following code snippet:\nObject objA = new Object();\nObject objB = new Object();\nWhich of the following statements is correct to compare objA with objB?", "options": ["A. objA.equals(objB)", "B. compareObjects(objA, objB)", "C. Object.compareTo(objA, objB)", "D. Object.compare(objA,objB)"], "answer": "A" } },
-        { "category": "Classes & Objects", "en": { "question": "What is the output of the following Java program?\nclass A { int i, j; A() { i = 1; j = 2; } }\npublic class Main {\n  public static void main(String args[]) {\n    A obj1 = new A(); A obj2 = new A();\n    System.out.println(obj1.equals(obj2));\n  }\n}", "options": ["A. false", "B. true", "C. obj1.equals(obj2)", "D. Runtime error"], "answer": "A", "explanation": "By default, the `equals()` method in the Object class compares memory references. Since obj1 and obj2 are two different objects in memory, it returns false." } },
-        { "category": "Classes & Objects", "en": { "question": "What is the \"instanceof\" operator used for?", "options": ["A. To check whether an object is an instance of a particular class or not", "B. To create a new instance of a class", "C. To compare two objects for equality", "D. To check if an object is null"], "answer": "A" } },
-        { "category": "Classes & Objects", "en": { "question": "What is the term for creating objects from a class in OOP to manage a collection of vehicles?", "options": ["A. Instantiation", "B. Inheritance", "C. Encapsulation", "D. Abstraction"], "answer": "A" } },
-        { "category": "Classes & Objects", "en": { "question": "What operator is used to access the member (field or method) of the object?", "options": ["A. .", "B. {}", "C. []", "D. :"], "answer": "A" } },
-        { "category": "Classes & Objects", "en": { "question": "What is the output of the following code snippet?\npublic class Person {\n  protected String id = \"New Id\";\n  public static void main(String[] args) {\n    Person p = new Person();\n    p.id = \"FPTU\";\n    System.out.println(p.id);\n  }\n}", "options": ["A. FPTU", "B. null", "C. New Id", "D. Runtime error"], "answer": "A" } },
-        { "category": "Classes & Objects", "en": { "question": "What is the output of the following code snippet?\npublic class Person {\n  protected String id;\n  public void calPerson(Person p){\n    p.id = \"HCM\";\n    System.out.print(p.id);\n  }\n  public static void main(String[] args) {\n    Person p = new Person();\n    p.id = \"FPT\";\n    p.calPerson(p);\n  }\n}", "options": ["A. HCM", "B. FPT", "C. FPTHCM", "D. HCMFPT"], "answer": "A", "explanation": "Java passes object references by value. The method `calPerson()` modifies the exact same 'Person' object created in main()." } },
-        { "category": "Classes & Objects", "en": { "question": "What is the output following the code snippet?\nclass DemoClass {\n  static void m() { System.out.println(\"A\"); }\n}\nclass DemoClassChild extends DemoClass {\n  static void m() { System.out.println(\"B\"); }\n}\npublic class Main {\n  public static void main(String[] args) {\n    DemoClass obj = new DemoClassChild();\n    obj.m();\n  }\n}", "options": ["A. A", "B. B", "C. AB", "D. BA"], "answer": "A", "explanation": "Static methods are bound at compile time based on the reference type (DemoClass), not the object type (DemoClassChild). This is known as method hiding, not overriding." } },
-        { "category": "Classes & Objects", "en": { "question": "What is the difference between a class and an object?", "options": ["A. A class is a blueprint to make an object", "B. An object is a blueprint to make a class", "C. A class is only like an object", "D. None of the others"], "answer": "A" } },
-        { "category": "Classes & Objects", "en": { "question": "What is the output of the following code snippet?\npublic class Person {\n  String id = \"P1\";\n  public Person(String id) { this.id = id; }\n  public String getId() { return id; }\n  public void setId(String id) { this.id = id; }\n  public static void main(String[] args) {\n    Person p = new Person();\n    p.setId(\"FPTU\");\n    System.out.println(p.getId());\n  }\n}", "options": ["A. Compile error", "B. FPTU", "C. P1", "D. Runtime error"], "answer": "A", "explanation": "Because a custom constructor `Person(String)` is defined, the compiler does not provide a default no-arg constructor. Therefore, `new Person()` in main() causes a compile error." } },
-        { "category": "Classes & Objects", "en": { "question": "What is the output of the following code snippet?\npublic class Test {\n  int x = 5;\n  int y = 2;\n  public static void main (String[] args) {\n    Test obj;\n    obj.x = 10;\n    obj.y = 20;\n    System.out.println(obj.x + obj.y);\n  }\n}", "options": ["A. Compile error", "B. 7", "C. 30", "D. 90"], "answer": "A", "explanation": "The reference variable `obj` is declared but not initialized (no `new Test()`). Accessing its members will cause a compile-time error." } },
-        { "category": "Classes & Objects", "en": { "question": "Which of the following methods belongs to the Object class?", "options": ["A. equals", "B. compareTo", "C. concat", "D. compare"], "answer": "A" } },
-
-        // --- ENCAPSULATION ---
-        { "category": "Encapsulation", "en": { "question": "Which access modifier is commonly used for setter methods in Java?", "options": ["A. public", "B. private", "C. protected", "D. static"], "answer": "A" } },
-        { "category": "Encapsulation", "en": { "question": "Choose multiple correct answers about access modifiers.", "options": ["A. private access modifier should be used for a variable or method to only be accessed within the same class", "B. public access modifier should be used for a variable or method that should be accessible from any class, regardless of the package", "C. protected access modifier should be used for a variable or method that should only be accessed within the same class and subclasses, in the same package", "D. default (no modifier) access modifier only allows access in the same class"], "answer": "AB" } },
-        { "category": "Encapsulation", "en": { "question": "Choose the correct statement related to the encapsulation concept in Java.", "options": ["A. Data hiding", "B. Method hiding", "C. Hiding constructor", "D. Class hiding"], "answer": "A" } },
-        { "category": "Encapsulation", "en": { "question": "Which of the following is an example of encapsulation in Java?", "options": ["A. Creating a private field and providing public getter and setter methods", "B. Creating a public field and directly accessing it from other classes", "C. Creating a protected field and accessing it from subclasses only", "D. Creating a default field and accessing it from the same package"], "answer": "A" } },
-        { "category": "Encapsulation", "en": { "question": "Which of the following statements related to the protected access modifier is true?", "options": ["A. It allows the outside package access to subclasses", "B. It does not allow within-package access", "C. The protected members must be initialized before use", "D. None of the above"], "answer": "A" } },
-        { "category": "Encapsulation", "en": { "question": "Choose multiple correct answers regarding getters and setters.", "options": ["A. The purpose of a getter method in Java is to get the value of a variable", "B. The purpose of a setter method in Java is to set the value of a variable", "C. return keyword used to define getter and setter method in Java", "D. Access modifiers often used for getter or setter method is public"], "answer": "ABD" } },
-        { "category": "Encapsulation", "en": { "question": "Which of the following modifiers is used to hide information of a class from the classes outside?", "options": ["A. private", "B. public", "C. protected", "D. default"], "answer": "A" } },
-
-        // --- INHERITANCE ---
-        { "category": "Inheritance", "en": { "question": "What is the purpose of the \"super\" keyword in Java?", "options": ["A. To call the constructor or methods of the parent class", "B. To call the constructor or methods of the child class", "C. To call the members of the same class", "D. To define a static method"], "answer": "A" } },
-        { "category": "Inheritance", "en": { "question": "Which of the following is the superclass of all classes in Java?", "options": ["A. Object", "B. Number", "C. Class", "D. System"], "answer": "A" } },
-        { "category": "Inheritance", "en": { "question": "Which keyword is used to declare inheritance between two classes in Java?", "options": ["A. extends", "B. imports", "C. super", "D. implement"], "answer": "A" } },
-        { "category": "Inheritance", "en": { "question": "Which method is called first when an object of a subclass is created in Java?", "options": ["A. The constructor of the superclass", "B. The constructor of the subclass", "C. The toString method", "D. The equals method"], "answer": "A", "explanation": "If not explicitly called, the Java compiler automatically inserts a call to the no-argument constructor of the superclass (`super()`) as the first line in the subclass constructor." } },
-        { "category": "Inheritance", "en": { "question": "What is the primary purpose of using a superclass and subclass relationship in Java?", "options": ["A. To restrict access to certain methods or fields.", "B. To create multiple instances of a class.", "C. To implement multiple inheritance.", "D. To achieve code reusability and facilitate polymorphism."], "answer": "D" } },
-        { "category": "Inheritance", "en": { "question": "What is the difference between composition and inheritance in Java?", "options": ["A. Composition is a way to create objects dynamically, while inheritance is a way to reuse code", "B. Composition is a way to create objects statically, while inheritance is a way to create objects dynamically", "C. Composition is a way to reuse code, while inheritance is a way to create objects dynamically", "D. Composition is a way to create objects by combining existing objects, while inheritance is a way to reuse code"], "answer": "D" } },
-        { "category": "Inheritance", "en": { "question": "What does Java not support?", "options": ["A. Multiple inheritances for classes", "B. Inheritance", "C. Multiple inheritances of interfaces", "D. Compile-time polymorphism"], "answer": "A" } },
-        { "category": "Inheritance", "en": { "question": "Which of the following statements is true about superclass and subclass relationships in Java?", "options": ["A. A subclass can access private members of its superclass.", "B. A superclass can extend multiple subclasses simultaneously", "C. A subclass constructor must always call the superclass constructor explicitly or implicitly.", "D. A superclass reference can be used to directly access subclass-specific methods."], "answer": "C" } },
-        { "category": "Inheritance", "en": { "question": "What is a subclass in Java inheritance?", "options": ["A. The class that inherits from another class", "B. The class that is inherited from multiple classes", "C. The final class in the inheritance chain", "D. The class that has abstract methods"], "answer": "A" } },
-        { "category": "Inheritance", "en": { "question": "What will be the output of the following Java code?\nclass A {\n  int a = 5;\n  public int getA() { return a; }\n}\nclass B extends A {\n  private int a = 6;\n  public void rollBackA() {\n    a++;\n    a = super.getA();\n  }\n}\npublic class Main {\n  public static void main(String[] args) {\n    A objA = new A();\n    B objB = new B();\n    objB.rollBackA();\n    System.out.format(\"%d, %d%n\", objA.getA(), objB.getA());\n  }\n}", "options": ["A. 5, 5", "B. 6, 6", "C. 5, 6", "D. 6, 5"], "answer": "A", "explanation": "`objB.getA()` calls the inherited method `getA()` from class A, which returns A's `a` (which is 5). The variable `a` in B hides `a` in A, but `getA()` still sees A's `a`." } },
-        { "category": "Inheritance", "en": { "question": "What is the output of the following Java program?\nclass A{ int i= 100; public void printValue(){ System.out.print(\"A\"); } }\nclass B extends A{ int i= 120; public void printValue(){ System.out.print(\"B\"); } }\npublic class Main{\n  public static void main(String args[]){\n    A a = new B(); a.printValue(); System.out.print(a.i);\n  }\n}", "options": ["A. B100", "B. B120", "C. A100", "D. A120"], "answer": "A", "explanation": "Variables are bound at compile time based on reference type `A` (so `a.i` = 100). Methods are bound at runtime based on object type `B` (so `printValue()` prints B)." } },
-
-        // --- POLYMORPHISM & ABSTRACTION ---
-        { "category": "Polymorphism", "en": { "question": "What is the term for the ability of a single method name to represent multiple implementations based on the method signature or parameters?", "options": ["A. Overloading", "B. Overriding", "C. Abstracting", "D. Encapsulation"], "answer": "A" } },
-        { "category": "Polymorphism", "en": { "question": "What is method overriding in Java?", "options": ["A. Re-implementing a method in the subclass with the same signature as in the superclass", "B. Creating multiple methods with the same name but different parameters", "C. Calling a method from another method", "D. Re-implementing another method in the same class with the same signature"], "answer": "A" } },
-        { "category": "Polymorphism", "en": { "question": "In Java, can an abstract class have instance variables?", "options": ["A. Yes, abstract classes can have both instance and static variables.", "B. No, abstract classes cannot have instance variables.", "C. Yes, but only if the instance variables are declared as \"static\"", "D. Yes, but only if the abstract class has no methods."], "answer": "A" } },
-        { "category": "Polymorphism", "en": { "question": "What is the output of the following Java program?\nabstract class A {\n  private int a, b;\n  public void call(int a, int b) {\n    this.a = a; this.b = b;\n    System.out.println(a + b);\n  }\n}\npublic class Main {\n  public static void main(String args[]) {\n    A m = new A() {};\n    m.call(12, 25);\n  }\n}", "options": ["A. 37", "B. 12", "C. 25", "D. Compiler error"], "answer": "A", "explanation": "`new A() {}` uses an anonymous inner class to instantiate the abstract class." } },
-        { "category": "Polymorphism", "en": { "question": "What is the output of the following Java program?\nclass Demo { void m1(String x) { System.out.println(\"One\"); } }\nclass DemoChild extends Demo { public void m2(String x) { System.out.println(\"Two\"); super.m1(x); } }\npublic class Test {\n  public static void main(String[] args) {\n    Demo obj = new DemoChild();\n    obj.m2(\"PE\");\n  }\n}", "options": ["A. Compile error", "B. Runtime error", "C. Output is: Two One", "D. Output is: One Two"], "answer": "A", "explanation": "The reference `obj` is of type `Demo`. The `Demo` class does not have the method `m2()`, leading to a compile error." } },
-        { "category": "Polymorphism", "en": { "question": "What is the output of the following Java program?\nclass Test { void m1(String x) { System.out.println(\"Parent\"); } }\nclass TestChild extends Test { public void m2(String x) { System.out.println(\"Child\"); super.m1(x); } }\npublic class Main {\n  public static void main(String[] args) {\n    Test obj = new TestChild();\n    if (obj instanceof TestChild) {\n      ((TestChild) obj).m2(\"FE\");\n    }\n  }\n}", "options": ["A. Compile error", "B. Child \\n Parent", "C. Child Child", "D. Parent Parent"], "answer": "B" } },
-        { "category": "Polymorphism", "en": { "question": "What is the output of the following Java program?\ninterface IA{void show();}\ninterface IB{void show();}\nclass MyClass implements IA, IB{\n  @Override public void show() { System.out.println(\"@MyClass\"); }\n}\npublic class Main {\n  public static void main(String args[]) {\n    IA objA = new MyClass();\n    objA.show();\n  }\n}", "options": ["A. @MyClass", "B. Runtime error", "C. Compile error", "D. None of the others"], "answer": "A" } },
-        { "category": "Polymorphism", "en": { "question": "Which of the following statements is correct for a declaration of the interface named MyInterface?", "options": ["A. interface MyInterface{ /* something */ }", "B. public MyInterface interface{ /* something */ }", "C. final interface MyInterface{ /* something */ }", "D. default interface MyInterface { /* something */ }"], "answer": "A" } },
-        { "category": "Polymorphism", "en": { "question": "Consider an abstract class \"Shape\" with an abstract method \"calculateArea().\" If a concrete subclass \"Circle\"extends \"Shape\" and provides an implementation for \"calculateArea(),\" what happens when an object of the \"Circle\" class is created and the \"calculateArea()\" is called?", "options": ["A. The abstract method in the superclass is executed.", "B. The concrete method in the subclass is executed.", "C. The program will not compile.", "D. An exception is thrown at runtime."], "answer": "B" } },
-        { "category": "Polymorphism", "en": { "question": "Which of the following statements about abstract classes in Java is correct?", "options": ["A. An abstract class can be instantiated using the \"new\" keyword.", "B. Abstract classes can only have abstract methods.", "C. Abstract classes can have both abstract and concrete (non-abstract) methods.", "D. Abstract classes cannot have constructors."], "answer": "C" } },
-        { "category": "Polymorphism", "en": { "question": "Choose the correct statement about the anonymous class", "options": ["A. An anonymous class can be used to implement an interface", "B. Anonymous class used to extend methods", "C. Anonymous class is used to define a set of constants", "D. All of the others"], "answer": "A" } },
-        { "category": "Polymorphism", "en": { "question": "What is the output of the following Java program?\ninterface InfA {\n  static String message = \"hello\";\n  String getName();\n}\npublic class Main implements InfA {\n  public String getName() { return InfA.message; }\n  public static void main(String[] args) {\n    Main t = new Main();\n    System.out.println(t.getName());\n  }\n}", "options": ["A. hello", "B. Compile error", "C. Runtime error", "D. None of the others"], "answer": "A" } },
-        { "category": "Polymorphism", "en": { "question": "What is the output of the following Java program?\nclass A { public A() { System.out.print(\"A,\"); } }\nclass B extends A{ public B() { System.out.print(\"B,\"); } }\nclass C extends B{ public C() { System.out.println(\"C\"); } }\npublic class Test {\n  public static void main(String[] args) { C c = new C(); }\n}", "options": ["A. A,B,C", "B. B,C,A", "C. B,A,C", "D. A,C,B"], "answer": "A", "explanation": "Constructors execute from the top of the inheritance hierarchy down to the bottom (A -> B -> C)." } },
-        { "category": "Polymorphism", "en": { "question": "What is the output of the following Java program?\ninterface A {\n  public int setValue(int value);\n}\npublic class Main {\n  public static void main(String[] args) {\n    int value = 1;\n    A objA = new A() {\n      public int setValue(int value) {\n        value++;\n        return value;\n      }\n    };\n    System.out.println(objA.setValue(++value));\n  }\n}", "options": ["A. 3", "B. 1", "C. 2", "D. Compile error"], "answer": "A", "explanation": "`++value` passes 2 into the anonymous class method, which then increments it to 3." } },
-        { "category": "Polymorphism", "en": { "question": "Which of the following statements is TRUE about method overriding in Java?", "options": ["A. An overriding method can have a different return type than the method it overrides, as long as the new return type is a subtype of the original return type.", "B. An overriding method must have exactly the same return type.", "C. An overriding method must have less restrictive access than the method it overrides.", "D. Methods that are declared final cannot be overridden."], "answer": "A", "explanation": "Java supports covariant return types for overridden methods." } },
-        { "category": "Polymorphism", "en": { "question": "What is method overloading in Java?", "options": ["A. Having two methods in a class with the same name and parameters but different return types", "B. Having two methods in a class with the same name but different parameters", "C. Having two methods in a class with the same name and parameters but different access modifiers", "D. Having two methods in a class with the same name and the same parameters"], "answer": "B" } },
-        { "category": "Polymorphism", "en": { "question": "What is the result of overriding the toString() method in a subclass?", "options": ["A. The subclass objects will provide a custom string representation.", "B. The subclass objects will use the default string representation provided by the Object class.", "C. The toString() method cannot be overridden.", "D. The toString() method must be called explicitly to get a string representation."], "answer": "A" } },
-        { "category": "Polymorphism", "en": { "question": "In a banking application, you need to represent customer accounts using object arrays. Which OOP concept allows you to create a blueprint for the Account class?", "options": ["A. Inheritance", "B. Abstraction", "C. Encapsulation", "D. Polymorphism"], "answer": "B" } },
-
-        // --- EXCEPTION HANDLING ---
-        { "category": "Exception Handling", "en": { "question": "How are exceptions handled in Java?", "options": ["A. By using try-catch blocks to catch and handle exceptions.", "B. By using throw statements to throw exceptions.", "C. By using the throws keyword to declare that a method may throw an exception", "D. All of the mentioned."], "answer": "D" } },
-        { "category": "Exception Handling", "en": { "question": "Which of the following is an example of a checked exception in Java?", "options": ["A. NullPointerException", "B. ArrayIndexOutOfBoundsException", "C. FileNotFoundException", "D. ArithmeticException"], "answer": "C" } },
-        { "category": "Exception Handling", "en": { "question": "What is the purpose of the \"finally\" keyword in Java?", "options": ["A. It is used to execute code after try and catch blocks, regardless of whether an exception was thrown.", "B. To indicate that an abstract class is complete", "C. To hide a method of the superclass", "D. To indicate that a class can only be inherited once"], "answer": "A" } },
-        { "category": "Exception Handling", "en": { "question": "What is a checked exception in Java?", "options": ["A. Checked exceptions are the ones that are checked during compilation time", "B. Checked exceptions are the ones that are checked during the execution time", "C. Checked exceptions are syntax errors", "D. Checked exceptions are runtime errors"], "answer": "A" } },
-        { "category": "Exception Handling", "en": { "question": "How can you handle multiple exception types in a try block in Java?", "options": ["A. By writing a separate catch clause for each exception type.", "B. By using a single catch clause to handle all exceptions.", "C. By nesting multiple try blocks within a single catch clause.", "D. By declaring all exception types in the try block."], "answer": "A" } },
-
-        // --- JAVA COLLECTIONS ---
-        { "category": "Java Collections", "en": { "question": "Which of the following classes is used for shuffling an ArrayList in Java?", "options": ["A. Collections", "B. CollectionList", "C. Arrays", "D. ArrayUtil"], "answer": "A", "explanation": "The Collections.shuffle() method is used to randomly permute elements in a List." } },
-        { "category": "Java Collections", "en": { "question": "All abstract data structures: List, Set, Map is implemented in which of the following types?", "options": ["A. Interface", "B. Abstract class", "C. Concrete class", "D. Derived class"], "answer": "A" } },
-        { "category": "Java Collections", "en": { "question": "Which method is used to find the maximum element in a collection of the Collections class?", "options": ["A. max()", "B. findMax()", "C. getMax()", "D. maxElement()"], "answer": "A" } },
-        { "category": "Java Collections", "en": { "question": "Which of the following statements related to inserting a new element into an ArrayList is true?", "options": ["A. We use the add() method to insert a new element into the ArrayList object", "B. We cannot insert a new element in the middle of the ArrayList object", "C. We cannot insert a new element at the beginning of the ArrayList object", "D. We use the put() method to insert a new element into the ArrayList object"], "answer": "A" } },
-        { "category": "Java Collections", "en": { "question": "What is the output of the following code snippet?\nArrayList<Integer> nums = new ArrayList();\nnums.add(0,2);\nnums.add(1,3);\nnums.add(2,4);\nIterator it = nums.iterator();\nnums.add(3,5);\nwhile(it.hasNext()){\n  System.out.print(it.next());\n}", "options": ["A. ConcurrentModificationException", "B. 0123", "C. 02132435", "D. 0325"], "answer": "A", "explanation": "Modifying a collection (nums.add) after an Iterator has been created throws a ConcurrentModificationException when `it.next()` is called." } },
-        { "category": "Java Collections", "en": { "question": "Which method is used to convert an array to a List in Java?", "options": ["A. Arrays.asList()", "B. Arrays.toList()", "C. Arrays.convertToList()", "D. Arrays.arrayToList()"], "answer": "A" } },
-        { "category": "Java Collections", "en": { "question": "You are tasked with implementing a system that tracks the frequency of words in a large text document. Explain how you would use a Java collection to efficiently achieve this.", "options": ["A. Utilize a HashMap<String, Integer> for efficient word frequency tracking.", "B. Implement a LinkedList<String> to store words and their occurrences.", "C. Use a PriorityQueue<String> to prioritize words based on frequency.", "D. Employ a HashSet<String> for unique word storage."], "answer": "A" } },
-        { "category": "Java Collections", "en": { "question": "How do you find the frequency of occurrence of an element in a collection using the Collections class?", "options": ["A. frequency()", "B. countOccurrence()", "C. frequencyOf()", "D. findFrequency()"], "answer": "A" } },
-        { "category": "Java Collections", "en": { "question": "Can we add a duplicated element into a Set in Java?", "options": ["A. No, if we add a duplicated element into a Set, the Set will keep the old element and ignore the new one.", "B. No, the procedure will raise an exception", "C. Yes, we can add a duplicated element into a Set and the Set will keep the new element and remove the old one", "D. Yes, we can add a duplicated element into a Set and the Set will maintain 2 elements"], "answer": "A" } },
-        { "category": "Java Collections", "en": { "question": "Which of the following statements related to removing an element in an ArrayList is true?", "options": ["A. The remove(int index) method will return the deleted value for the user.", "B. The remove operation will raise an exception if the element does not exist in the ArrayList", "C. The remove method returns the new size of the ArrayList.", "D. The put method is used to remove elements."], "answer": "A" } },
-        { "category": "Java Collections", "en": { "question": "What is the size of an ArrayList if capacity is NOT specified during initialization?", "options": ["A. 0", "B. 1", "C. 16", "D. 10"], "answer": "D", "explanation": "The default initial capacity of an ArrayList in Java is 10." } },
-        { "category": "Java Collections", "en": { "question": "How do you convert an ArrayList to an array?", "options": ["A. toArray()", "B. copyToArray()", "C. convertArray()", "D. makeArray()"], "answer": "A" } },
-        { "category": "Java Collections", "en": { "question": "Which method is used to compare two arrays for equality in Java?", "options": ["A. Arrays.equals()", "B. Arrays.equal()", "C. Arrays.compare()", "D. Arrays.comparison()"], "answer": "A" } },
-        { "category": "Java Collections", "en": { "question": "In a financial application, you need to store unique customer IDs efficiently, ensuring rapid lookup and insertion. Describe the Java collection you would choose.", "options": ["A. Choose a TreeSet<Integer> to automatically handle duplicates and ensure quick lookups.", "B. Utilize a LinkedHashSet<Integer> to maintain insertion order while ensuring uniqueness.", "C. Choose a HashSet<Integer> for efficient storage of unique associations.", "D. Use an ArrayList for fastest access."], "answer": "C", "explanation": "HashSet provides O(1) constant time performance for basic operations like add, remove, and contains, making it the most efficient choice for rapid lookup and insertion of unique IDs." } },
-
-        // --- FILE I/O ---
-        { "category": "File I/O", "en": { "question": "Which of the following exceptions is thrown when an attempt is made to open a file that CANNOT be found by the FileInputStream class?", "options": ["A. FileNotFoundException", "B. IOException", "C. FileAccessException", "D. NotFoundIOException"], "answer": "A" } },
-        { "category": "File I/O", "en": { "question": "In the RandomAccessFile class, which mode supports metadata changes (file attributes) of the file immediately?", "options": ["A. \"rws\"", "B. \"rw\"", "C. \"rwd\"", "D. \"r\""], "answer": "A", "explanation": "\"rws\" (read, write, sync) ensures that every update to the file's content or metadata is written synchronously to the underlying storage device." } },
-        { "category": "File I/O", "en": { "question": "Which of the following statements is used to add the content to an existing text file?", "options": ["A. Set the append parameter to true in the constructor of the FileWriter object", "B. Set the append parameter to true in the constructor of the File object", "C. Set append parameter of true in the constructor of OutputStream object", "D. All of the others"], "answer": "A", "explanation": "`new FileWriter(\"filename.txt\", true);` opens the file in append mode." } },
-        { "category": "File I/O", "en": { "question": "Which of the following methods of File class is used to check if a file is hidden?", "options": ["A. isHidden()", "B. isDisplay()", "C. isWrite()", "D. isRead()"], "answer": "A" } },
-        { "category": "File I/O", "en": { "question": "In the object stream, which of the following members of an object won't be serialized?", "options": ["A. transient variables", "B. final variables", "C. inherited variables", "D. All of the others"], "answer": "A", "explanation": "The `transient` keyword in Java is used to indicate that a field should not be serialized." } },
-        { "category": "File I/O", "en": { "question": "For the low-level binary stream class FileInputStream, which of the following methods is used to retrieve a byte from a source stream?", "options": ["A. read()", "B. readByte()", "C. fetch()", "D. fetchLine()"], "answer": "A" } },
-        { "category": "File I/O", "en": { "question": "What is the purpose of the FileOutputStream class in Java?", "options": ["A. To write raw bytes to a file", "B. To write primitive data types to a file", "C. To create an object stream for a file", "D. All of the others"], "answer": "A" } },
-        { "category": "File I/O", "en": { "question": "Which of the following classes is the superclass of the PrintWriter and FileWriter classes?", "options": ["A. Writer class", "B. Input class", "C. File class", "D. Object class"], "answer": "A" } },
-        { "category": "File I/O", "en": { "question": "Which of the following classes is used for reading byte-oriented data (streams of raw bytes) such as image data, audio, and video?", "options": ["A. FileInputStream class", "B. BufferedReader class", "C. PrintWriter class", "D. DataOutputStream class"], "answer": "A" } },
-        { "category": "File I/O", "en": { "question": "Which of the following classes is used to iterate through lines in a text file when reading line by line?", "options": ["A. BufferedReader", "B. FileReader", "C. FileInputStream", "D. InputStreamReader"], "answer": "A", "explanation": "BufferedReader has the `readLine()` method which is specifically designed for this purpose." } },
-        { "category": "File I/O", "en": { "question": "What is the way to instantiate a Scanner object to read data from a file \"data.txt\" with UTF-8 character encoding?", "options": ["A. Scanner in = new Scanner(Path.of(\"data.txt\"), StandardCharsets.UTF_8);", "B. Scanner in = new Scanner(data.txt, StandardCharsets.UTF_8);", "C. Scanner in = new Scanner(new FileInput(\"data.txt\"));", "D. Scanner in = new Scanner(new Stream(\"data.txt\"), StandardCharsets.UTF_8);"], "answer": "A" } },
-        { "category": "File I/O", "en": { "question": "Which of the following statements about the low-level stream and the high-level stream is true?", "options": ["A. The low-level stream's data unit is a byte, high-level stream's data unit is a primitive type or object.", "B. The low-level stream's data unit is character UTF-8, high-level stream's data unit is character UNICODE.", "C. The low-level stream's data unit is a character type, high-level stream's data unit is an object type.", "D. The low-level stream's data unit is primitive, high-level stream's data unit is character."], "answer": "A" } }
-    ];
+        [
+  {
+    "id": 1,
+    "category": "Java Fundamentals",
+    "en": {
+      "question": "(Choose 1 answers) To run a Java program, which the software must be installed?",
+      "options": ["A. Java Runtime Environment (JRE)", "B. Eclipse", "C. Java Development Kit (JDK)", "D. Netbeans"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 2,
+    "category": "Java Fundamentals",
+    "en": {
+      "question": "(Choose 2 answers) What is the role of the Java Development Kit (JDK) in java programming? Choose multiple correct answers.",
+      "options": ["A. A cross-platformed software development environment that offers a collection of tools and libraries necessary for developing Java-based software applications.", "B. A core package used in Java programming, along with the JVM (Java Virtual Machine) and the JRE (JavaRuntime Environment) to develop and deploy applications", "C. A software for building applications that combines common developer tools into a single graphical user interface (GUI).", "D. A text editor that can assist in writing software code with features such as syntax highlighting with visual cues."],
+      "answer": "AB"
+    }
+  },
+  {
+    "id": 3,
+    "category": "OOP Concepts",
+    "en": {
+      "question": "(Choose 1 answer) Which of the following concepts does not belong to object-oriented programming features?",
+      "options": ["A. Cross-platform", "B. Inheritance", "C. Polymorphism", "D. Encapsulation"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 4,
+    "category": "Java Fundamentals",
+    "en": {
+      "question": "(Choose 1 answer) A Java source code will be compiled to the file in which of the following extensions?",
+      "options": ["A. .class", "B. .java", "C. .exe", "D. .bat"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 5,
+    "category": "Java Fundamentals",
+    "en": {
+      "question": "(Choose 1 answer) What is the file extension of Java source code?",
+      "options": ["A. .java", "B. .class", "C. .jar", "D. .rar"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 6,
+    "category": "Data Types & Variables",
+    "en": {
+      "question": "(Choose 1 answer) What is the default value of the data type double in Java?",
+      "options": ["A. 0.0", "B. 0", "C. Null", "D. 1.0", "E. -1.0", "F. NaN"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 7,
+    "category": "Java Fundamentals",
+    "en": {
+      "question": "(Choose 1 answer) Which of the following is the entry point of the Java program?",
+      "options": ["A. main method", "B. class method", "C. instance method", "D. static method"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 8,
+    "category": "Classes & Objects",
+    "en": {
+      "question": "(Choose 1 answer) Assume that all library files are imported. What is the output of the following code snippet?\npublic static void main(String[] args){\nDate a=new Date();\nboolean result = a instanceof Date;\nSystem.out.print(\"a is an instance of \"+result); }",
+      "options": ["A. a is an instance of true", "B. a is an instance of Object", "C. a is an instance of Date", "D. a is an instance of false"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 9,
+    "category": "Classes & Objects",
+    "en": {
+      "question": "(Choose 1 answer) What will be the output of the following code?\npublic class Test1 {\nint x;\nx = 5;\npublic static void main(String[] args) {\nTest1 t = new Test1();\nSystem.out.println(t.x);}\n}",
+      "options": ["A. complie error", "B. runtime error", "C. 5", "D. 0"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 10,
+    "category": "Data Types & Variables",
+    "en": {
+      "question": "(Choose 3 answers) Choose multiple correct answers.",
+      "options": ["A. The value of a reference type variable is the address refer to an object.", "B. The null constant refers to an empty or uninitialized reference variable.", "C. Reference variables usually must be initialized with the new keyword.", "D. For Primitive types, memory location that stores data."],
+      "answer": "ABD"
+    }
+  },
+  {
+    "id": 11,
+    "category": "Data Types & Variables",
+    "en": {
+      "question": "(Choose 1 answer) What is the output of the following code snippet?\npublic static void main(String[] args){\nint yob= 1999;\nif (yob)\nSystem.out.print(\"Lower\");\nelse System.out.print(\"Upper\");\nSystem.out.println(\"2000\");}",
+      "options": ["A. Syntax error", "B. Upper", "C. Lower 2000", "D. Lower"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 12,
+    "category": "Exception Handling",
+    "en": {
+      "question": "(Choose 1 answer) Which of the following is one of the exception types in Java?",
+      "options": ["A. RuntimeException", "B. CompileException", "C. SyntaxException", "D. LogicException"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 13,
+    "category": "Classes & Objects",
+    "en": {
+      "question": "(Choose 1 answer) What is the purpose of the \"this\" keyword in Java?",
+      "options": ["A. It refers to the current class", "B. It refers to the current object", "C. It refers to the superclass", "D. It refers to the subclass", "E. It initializes a variable", "F. It denotes a static method"],
+      "answer": "B"
+    }
+  },
+  {
+    "id": 14,
+    "category": "Classes & Objects",
+    "en": {
+      "question": "(Choose 1 answer) In Java, if a class does not explicitly define a constructor, what type of constructor is automatically provided?",
+      "options": ["A. Parameterized constructor", "B. Default constructor", "C. Private constructor", "D. Static constructor", "E. Overloaded constructor", "F. Abstract constructor"],
+      "answer": "B"
+    }
+  },
+  {
+    "id": 15,
+    "category": "Classes & Objects",
+    "en": {
+      "question": "(Choose 3 answers) What are components of a class in Java OOP? Choose multiple correct answers.",
+      "options": ["A. Constructors are responsible for object creation", "B. Attributes, Fields, Properties of a class represents by variables", "C. Behaviours, Modification code represent by methods or functions", "D. main() method for execution of the class."],
+      "answer": "ABC"
+    }
+  },
+  {
+    "id": 16,
+    "category": "Encapsulation",
+    "en": {
+      "question": "(Choose 1 answer) Which access modifier is commonly used for setter methods in Java?",
+      "options": ["A. public", "B. private", "C. protected", "D. static", "E. final", "F. abstract"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 17,
+    "category": "Classes & Objects",
+    "en": {
+      "question": "(Choose 1 answer) What is the output of the following code snippet?\npublic class Person {\nprotected String id;\npublic void calPerson(Person p){\np.id = \"HCM\";\nSystem.out.print(p.id);}\npublic static void main(String[] args) {\nPerson p = new Person();\np.id = \"FPT\";\np.calPerson(p);}}",
+      "options": ["A. HCM", "B. FPT", "C. FPTHCM", "D. HCMFPT"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 18,
+    "category": "Polymorphism",
+    "en": {
+      "question": "(Choose 1 answer) What is the output of the following code snippet?\nclass Test{\nvoid method(int x){\nSystem.out.print(x*x);}\nvoid method(int...a){\nSystem.out.print(a.length);}\npublic static void main(String[] args){\nTest t = new Test();\nt.method();\nt.method(2);\nt.method(3, 4);}}",
+      "options": ["A. 042", "B. 034", "C. 234", "D. 242"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 19,
+    "category": "Classes & Objects",
+    "en": {
+      "question": "(Choose 1 answer) Which of the following is one of the characteristics of the constructors?",
+      "options": ["A. They have the same name as the class in which they are declared.", "B. They may be inherited from a superclass.", "C. They may not make exceptions.", "D. They must be declared public."],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 20,
+    "category": "Classes & Objects",
+    "en": {
+      "question": "(Choose 1 answer) Assume the following code snippet:\nObject objA = new Object();\nObject objB = new Object();\nWhich of the following statements is correct to compare objA with objB?",
+      "options": ["A. objA.equals(objB)", "B. compareObjects(objA, objB)", "C. Object.compareTo(objA, objB)", "D. Object.compare(objA,objB)"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 21,
+    "category": "Inheritance",
+    "en": {
+      "question": "(Choose 1 answer) What is the purpose of the \"super\" keyword in Java?",
+      "options": ["A. To call the constructor or methods of the parent class", "B. To call the constructor or methods of the child class", "C. To call the members of the same class", "D. To define a static method"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 22,
+    "category": "Encapsulation",
+    "en": {
+      "question": "(Choose 2 answers) Choose multiple correct answers.",
+      "options": ["A. private access modifier should be used for a variable or method to only be accessed within the same class", "B. public access modifier should be used for a variable or method that should be accessible from any class,regardless of the package", "C. protected access modifier should be used for a variable or method that should only be accessed within the same class and subclasses, in the same package", "D. default (no modifier) access modifier only allows access in the same class"],
+      "answer": "AB"
+    }
+  },
+  {
+    "id": 23,
+    "category": "Classes & Objects",
+    "en": {
+      "question": "(Choose 1 answer) What is the output of the following Java program?\nclass A {\nint i, j;\nA() {\ni = 1;j = 2;}}\npublic class Main {public static void main(String args[]) {\nA obj1 = new A();A obj2 = new A();\nSystem.out. println(obj1.equals(obj2));}}",
+      "options": ["A. false", "B. true", "C. obj1.equals(obj2)", "D. Runtime error"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 24,
+    "category": "Classes & Objects",
+    "en": {
+      "question": "(Choose 1 answer) What is the \"instanceof\" operator used for?",
+      "options": ["A. To check whether an object is an instance of a particular class or not", "B. To create a new instance of a class", "C. To compare two objects for equality", "D. To check if an object is null"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 25,
+    "category": "Polymorphism",
+    "en": {
+      "question": "(Choose 1 answer) What is the output following the code snippet?\npublic class DemoClass {\nvoid add(int x, int y){\nSystem.out.println(\"1. Addition is: \" +(x+y));}\nvoid add(int y, int x){\nSystem.out.println(\"2. Addition is: \" +(x+y));}\npublic static void main(String[] args){\nobj.add(20, 30);}\nDemoClass obj = new DemoClass ();}",
+      "options": ["A. Compile error", "B. 2. Addition of two numbers: 50", "C. 1. Addition of two numbers: 50", "D. 20, 30"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 26,
+    "category": "Polymorphism",
+    "en": {
+      "question": "(Choose 1 answer) What is the term for the ability of a single method name to represent multiple implementations based on the method signature or parameters?",
+      "options": ["A. Overloading", "B. Overriding", "C. Abstracting", "D. Encapsulation", "E. Inheritance", "F. Derivation"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 27,
+    "category": "Polymorphism",
+    "en": {
+      "question": "(Choose 1 answer) What is method overriding in Java?",
+      "options": ["A. Re-implementing a method in the subclass with the same signature as in the superclass", "B. Creating multiple methods with the same name but different parameters", "C. Calling a method from another method", "D. Re-implementing another method in the same class with the same signature"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 28,
+    "category": "Polymorphism",
+    "en": {
+      "question": "(Choose 1 answer) In Java, can an abstract class have instance variables?",
+      "options": ["A. Yes, abstract classes can have both instance and static variables.", "B. No, abstract classes cannot have instance variables.", "C. Yes, but only if the instance variables are declared as \"static\"", "D. Yes, but only if the abstract class has no methods."],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 29,
+    "category": "Classes & Objects",
+    "en": {
+      "question": "(Choose 1 answer) What is the term for creating objects from a class in OOP to manage a collection of vehicles?",
+      "options": ["A. Instantiation", "B. Inheritance", "C. Encapsulation", "D. Abstraction", "E. Composition", "F. Polymorphism"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 30,
+    "category": "Polymorphism",
+    "en": {
+      "question": "(Choose 1 answer) What is the output of the following Java program?\nabstract class A {\nprivate int a, b;\npublic void call(int a, int b) {\nthis.a = a;\nthis.b = b;\nSystem.out.println(a + b);}}\npublic class Main {\npublic static void main(String args[]) {\nA m = new A() {};\nm.call(12, 25);}}",
+      "options": ["A. 37", "B. 12", "C. 25", "D. Compiler error at statement A m = new A() {};"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 31,
+    "category": "Inheritance",
+    "en": {
+      "question": "(Choose 1 answer) What is the difference between composition and inheritance in Java?",
+      "options": ["A. Composition is a way to create objects dynamically, while inheritance is a way to reuse code", "B. Composition is a way to create objects statically, while inheritance is a way to create objects dynamically", "C. Composition is a way to reuse code, while inheritance is a way to create objects dynamically", "D. Composition is a way to create objects by combining existing objects, while inheritance is a way to reuse code"],
+      "answer": "D"
+    }
+  },
+  {
+    "id": 32,
+    "category": "Arrays",
+    "en": {
+      "question": "(Choose 1 answer) What is the default value of boolean elements in an array if NOT initialized?",
+      "options": ["A. false", "B. 0", "C. null", "D. true"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 33,
+    "category": "Encapsulation",
+    "en": {
+      "question": "(Choose 1 answer) Choose the correct statement related to the encapsulation concept in Java.",
+      "options": ["A. Data hiding", "B. Method hiding", "C. Hiding constructor", "D. Class hiding"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 34,
+    "category": "Arrays",
+    "en": {
+      "question": "(Choose 1 answer) Which of the following statements is used to get the size of a one-dimensional array in Java?\nAssume that array is given by this statement:\nint[] arr = new int[100];",
+      "options": ["A. arr.length", "B. arr.length()", "C. arr.size", "D. arr.size()"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 35,
+    "category": "Java Collections",
+    "en": {
+      "question": "(Choose 1 answer) Which of the following classes is used for shuffling an ArrayList in Java?",
+      "options": ["A. Collections", "B. CollectionList", "C. Arrays", "D. Array.Util"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 36,
+    "category": "Java Collections",
+    "en": {
+      "question": "(Choose 1 answer) All abstract data structures: List, Set, Map is implemented in which of the following types?",
+      "options": ["A. Interface", "B. Abstract class", "C. Concrete class", "D. Derived class"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 37,
+    "category": "Java Collections",
+    "en": {
+      "question": "(Choose 1 answer) Which method is used to find the maximum element in a collection of the Collections class?",
+      "options": ["A. max()", "B. findMax()", "C. getMax()", "D. maxElement()"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 38,
+    "category": "Java Collections",
+    "en": {
+      "question": "(Choose 1 answer) Which of the following statements related to inserting a new element into an ArrayList is true?",
+      "options": ["A. We use the add method to insert a new element into the ArrayList object", "B. We cannot insert a new element in the middle of the ArrayList object", "C. We cannot insert a new element at the beginning of the ArrayList object", "D. We use the put method to insert a new element into the ArrayList object"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 39,
+    "category": "Java Collections",
+    "en": {
+      "question": "(Choose 1 answer) What is the output of the following code snippet?\nSet<Integer> set1 = new HashSet();\nset1.add(1); set1.add(2); set1.add(3); set1.add(1);\nSet<Integer> set2 = new HashSet();\nset2.add(1);set2.add(4);set1.removeAll(set2);\nSystem.out.println(set1)",
+      "options": ["A. [2, 3]", "B. [3,1]", "C. [1,2]", "D. [4,1]"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 40,
+    "category": "Java Collections",
+    "en": {
+      "question": "(Choose 1 answer) What is the main difference between HashSet and TreeSet?",
+      "options": ["A. HashSet uses a hash table; TreeSet uses a balanced tree.", "B. HashSet allows duplicate elements; TreeSet does not.", "C. HashSet sorts elements based on natural ordering; TreeSet does not.", "D. HashSet allows null elements; TreeSet does not."],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 41,
+    "category": "Java Collections",
+    "en": {
+      "question": "(Choose 1 answer) What is the output of the following code snippet?\nArrayList<Integer> nums = new ArrayList();\nnums.add(0,2);\nnums.add(1,3);\nnums.add(2,4);\nIterator it = nums.iterator();\nnums.add(3,5);\nwhile(it.hasNext()){\nSystem.out.print(it.next());}\nwhile(it!=null);",
+      "options": ["A. 2345", "B. 0123", "C. 02132435", "D. ConcurrentModificationException (Runtime Error)"],
+      "answer": "D"
+    }
+  },
+  {
+    "id": 42,
+    "category": "File I/O",
+    "en": {
+      "question": "(Choose 1 answer) What classes are best suited for handling the reading and writing of character streams?",
+      "options": ["A. FileReader and FileWriter", "B. FileInputStream and FileOutputStream", "C. BufferedReader and FilePrinter", "D. None of the others"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 43,
+    "category": "File I/O",
+    "en": {
+      "question": "(Choose 1 answer) Which of the following exceptions might arise when using the File object to generate a new file?",
+      "options": ["A. IOException exception", "B. FileNotFound exception", "C. FileError Exception", "D. IOAccessDenied exception"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 44,
+    "category": "File I/O",
+    "en": {
+      "question": "(Choose 1 answer) Which of the following exceptions is thrown when an attempt is made to open a file that CANNOT be found by the FileInputStream class?",
+      "options": ["A. FileNotFoundException", "B. IOException", "C. FileAccessException", "D. NotFoundIOException"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 45,
+    "category": "File I/O",
+    "en": {
+      "question": "(Choose 1 answer) In the RandomAccessFile class, which mode supports metadata changes (file attributes) of the file immediately?",
+      "options": ["A. \"rws\"", "B. \"rw\"", "C. \"rwd\"", "D. \"r\""],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 46,
+    "category": "File I/O",
+    "en": {
+      "question": "(Choose 1 answer) What is the output of the following code snippet?\nString fName = \"output.txt\";\nbyte[] array = {65, 66, 67};\nbyte[] arr = new byte[3];\ntry {RandomAccessFile f = new RandomAccessFile(fName, \"rw\");\nf.write(array);\nf.seek(0);\nf.read(arr);\nString str1 = new String(arr);\nSystem.out.println(str1);\n} catch (Exception e) { }\nSystem.out.println(e);",
+      "options": ["A. ABC", "B. ACB", "C. BAC", "D. BCA"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 47,
+    "category": "File I/O",
+    "en": {
+      "question": "(Choose 1 answer) Which of the following statements is used to add the content to an existing text file?",
+      "options": ["A. Set the append parameter to true in the constructor of the FileWriter object", "B. Set the append parameter to true in the constructor of the File object", "C. Set append parameter of true in the constructor of OutputStream object", "D. All of the others"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 48,
+    "category": "Java Fundamentals",
+    "en": {
+      "question": "(Choose 1 answer) Which of the following related to the comment in Java is false?",
+      "options": ["A. /* comment", "B. /* comment */", "C. /** comment */", "D. //comment"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 49,
+    "category": "Classes & Objects",
+    "en": {
+      "question": "(Choose 1 answer) Choose the correct statement about the \"instanceof\" operator.",
+      "options": ["A. It can be used to test if an object is of a specified type.", "B. The instanceof is also known as a string comparison operator.", "C. The instanceof operator is used to check the validity of object variables", "D. All of the others"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 50,
+    "category": "File I/O",
+    "en": {
+      "question": "(Choose 1 answer) Which of the following methods of File class is used to check a file is hidden?",
+      "options": ["A. isHidden()", "B. isDisplay()", "C. isWrite()", "D. isRead()"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 51,
+    "category": "Java Fundamentals",
+    "en": {
+      "question": "(Choose 1 answer) Which of the following statements about the Java language is true?",
+      "options": ["A. Java language is case-sensitive.", "B. Java is not a fully object-oriented language.", "C. Using a colon to end the command.", "D. The Java code only runs on the Windows platform."],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 52,
+    "category": "Java Fundamentals",
+    "en": {
+      "question": "(Choose 1 answer) What is the purpose of a Java Virtual Machine(JVM)?",
+      "options": ["A. It is used to interpret and execute Java bytecode", "B. It is used to write the bytecode into the class file", "C. It is used to verify and improve performance the of Java programs", "D. All of the others"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 53,
+    "category": "Memory Management",
+    "en": {
+      "question": "(Choose 1 answer) What is the role of the Garbage Collection?",
+      "options": ["A. It frees heap memory by destroying unreachable objects.", "B. It deletes all the Java files available on the memory.", "C. It loads a Java program into memory.", "D. It checks the output of any Java program and deletes anything that does not make sense at all."],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 54,
+    "category": "Java Fundamentals",
+    "en": {
+      "question": "(Choose 1 answer) Which of the following is NOT a Java feature?",
+      "options": ["A. Use of pointers.", "B. Ease of learning.", "C. It is a secure language.", "D. Independent Platform."],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 55,
+    "category": "Data Types & Variables",
+    "en": {
+      "question": "(Choose 1 answer) Which of the following is a primitive data type in Java?",
+      "options": ["A. String", "B. Float", "C. boolean", "D. ArrayList", "E. Integer", "F. Character"],
+      "answer": "C"
+    }
+  },
+  {
+    "id": 56,
+    "category": "Arrays",
+    "en": {
+      "question": "(Choose 1 answer) What is a correct statement about an array in Java?",
+      "options": ["A. The array can store elements that are the same data types.", "B. The index of the array can be a float or double data type.", "C. The size() is a method that returns the number of elements in an array.", "D. The array has a dynamic size."],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 57,
+    "category": "Arrays",
+    "en": {
+      "question": "(Choose 1 answer) What is the output of the following code snippet?\npublic static void main(String[] args) {\nint[] arr={{1,2,3}, {4,5,6,6}, {6,7,8}};\nint[] copy={9,10,11,12};\narr[2]=copy;\nSystem.out.println(arr[2][2]);}",
+      "options": ["A. 11", "B. 8", "C. 6", "D. 9"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 58,
+    "category": "Data Types & Variables",
+    "en": {
+      "question": "(Choose 1 answer) What will be the output of the following code?\npublic class Test10 {\npublic static void main(String[] args) {\nInteger x = new Integer(5);\nInteger y= new Integer(10);\nSystem.out.println((String)(x+y));}}",
+      "options": ["A. 15", "B. 510", "C. Runtime error", "D. Compiler Error"],
+      "answer": "D"
+    }
+  },
+  {
+    "id": 59,
+    "category": "Java Fundamentals",
+    "en": {
+      "question": "(Choose 1 answer) Which of the following packages contains the Scanner class used to input data via keyboard?",
+      "options": ["A. java.util", "B. java.net", "C. java.io", "D. java.awt"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 60,
+    "category": "Exception Handling",
+    "en": {
+      "question": "(Choose 1 answer) What is the output of the code snippet?\npublic class Test {\npublic static void main(String[] args) {\ntry {\nint kq = 10/0; throw new Exception();}\ncatch (ArithmeticException e) {\nSystem.out.println(\"Error1\");}\ncatch (NumberFormatException e) {\nSystem.out.println(\"Error2\");}\ncatch (Exception e) {\nSystem.out.println(\"Error3\");}\nfinally {\nSystem.out.println(\"Finish\");}}}",
+      "options": ["A. Error1\\nFinish", "B. Error2", "C. Error3", "D. Finish"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 61,
+    "category": "OOP Concepts",
+    "en": {
+      "question": "(Choose 1 answer) Which of the following statements is one of the advantages of OOP?",
+      "options": ["A. The systems can be easily upgraded from small to large systems.", "B. OOP leads to higher programmer productivity, better software quality, and higher maintenance costs.", "C. OOP language did not allow breaking the program into bit-sized problems that can be solved easily", "D. All of the others"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 62,
+    "category": "Classes & Objects",
+    "en": {
+      "question": "(Choose 1 answer) Which of the following statements is correct to declare a class named Cat?",
+      "options": ["A. class Cat{ // something}", "B. public class Cat{ // something}", "C. Class Cat{ // something}", "D. public Cat class{ // something}"],
+      "answer": "B"
+    }
+  },
+  {
+    "id": 63,
+    "category": "Classes & Objects",
+    "en": {
+      "question": "(Choose 1 answer) Which of the following statements related to the constructors is false?",
+      "options": ["A. The constructor can be overridden.", "B. The constructor can be overloaded.", "C. The \"this\" keyword and \"super\" keyword can be used in the constructor.", "D. All of the others"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 64,
+    "category": "Classes & Objects",
+    "en": {
+      "question": "(Choose 1 answer) Choose the correct statement related to the constructors.",
+      "options": ["A. Constructor is a block of codes similar to the method. It is called when an instance of the class is created", "B. Constructor is a special type of method that is used to initialize default members of the object only", "C. Constructor is an abstract method with an empty body", "D. Constructor is a method that does not allow parameters"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 65,
+    "category": "Classes & Objects",
+    "en": {
+      "question": "(Choose 1 answer) What is the output of the following code snippet?\npublic class Person {\nprotected String id;\npublic Person(String id) {id = id;}\npublic static void main(String[] args) {\nPerson p = new Person(\"FPTU\");\nSystem.out.println(p.id);}}",
+      "options": ["A. null", "B. FPTU", "C. Runtime error", "D. None of the others"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 66,
+    "category": "Polymorphism",
+    "en": {
+      "question": "(Choose 1 answer) What is the output of the following code snippet?\npublic class Main {\npublic int a; public long b;\npublic void test(long b) {\nSystem.out.println(\"long b\");}\npublic void test(int a) {\nSystem.out.println(\"int a\");}\npublic static void main(String[] args) {\nMain e=new Main();\ne.test(9*1000000000);}",
+      "options": ["A. int a", "B. long a", "C. long b", "D. Compile error"],
+      "answer": "D"
+    }
+  },
+  {
+    "id": 67,
+    "category": "Inheritance",
+    "en": {
+      "question": "(Choose 1 answer) Which of the following is the superclass of all classes in Java?",
+      "options": ["A. Object", "B. Number", "C. Class", "D. System"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 68,
+    "category": "Inheritance",
+    "en": {
+      "question": "(Choose 1 answer) Which keyword is used to declare inheritance between two classes in Java?",
+      "options": ["A. extends", "B. imports", "C. super", "D. implement"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 69,
+    "category": "Encapsulation",
+    "en": {
+      "question": "(Choose 1 answer) Which of the following is an example of encapsulation in Java?",
+      "options": ["A. Creating a private field and providing public getter and setter methods", "B. Creating a public field and directly accessing it from other classes", "C. Creating a protected field and accessing it from subclasses only", "D. Creating a default (no modifier) field and accessing it from the same package"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 70,
+    "category": "Inheritance",
+    "en": {
+      "question": "(Choose 1 answer) Which method is called first when an object of a subclass is created in Java?",
+      "options": ["A. The constructor of the superclass", "B. The constructor of the subclass", "C. The toString method", "D. The equals method"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 71,
+    "category": "Inheritance",
+    "en": {
+      "question": "(Choose 1 answer) What is the primary purpose of using a superclass and subclass relationship in Java?",
+      "options": ["A. To restrict access to certain methods or fields.", "B. To create multiple instances of a class.", "C. To implement multiple inheritance.", "D. To achieve code reusability and facilitate polymorphism."],
+      "answer": "D"
+    }
+  },
+  {
+    "id": 72,
+    "category": "Java Fundamentals",
+    "en": {
+      "question": "(Choose 1 answer) What is a way to group related classes in Java and it is called a namespace?",
+      "options": ["A. package", "B. file", "C. software", "D. folder"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 73,
+    "category": "Inheritance",
+    "en": {
+      "question": "(Choose 1 answer) What is the output of the following Java program?\nclass Demo {\nvoid m1(String x) { System.out.println(\"One\");}}\nclass DemoChild extends Demo { public void m2(String x) { System.out.println(\"Two\"); super.m1(x);}} public class Test {\npublic static void main(String[] args) { Demo obj = new DemoChild();\nobj.m2(\"PE\");}}",
+      "options": ["A. Compile error", "B. Runtime error", "C. Output is: Two One", "D. Output is: One Two"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 74,
+    "category": "Polymorphism",
+    "en": {
+      "question": "(Choose 1 answer) What is the output of the following Java program?\nclass A {\nvoid displayMessage() {\nSystem.out.println(\"A Display\");}}\nclass B extends A {\n@Override void displayMessage() {\nSystem.out.println(\"B Display\");}}\npublic class Main {\npublic static void main(String[] args) {\nA objA = new B();\nobjA.displayMessage();}}",
+      "options": ["A. B Display", "B. A Display", "C. A Display B Display", "D. Compile error"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 75,
+    "category": "Polymorphism",
+    "en": {
+      "question": "(Choose 1 answer) What is the output of the following Java program?\nclass Test {\nvoid m1(String x) {\nSystem.out.println(\"Parent\");}}\nclass TestChild extends Test {\npublic void m2(String x) {\nSystem.out.println(\"Child\");\nsuper.m1(x);}}\npublic class Main {\npublic static void main(String[] args) {\nTest obj = new TestChild();\nif (obj instanceof TestChild) {\n((TestChild)obj).m2(\"FE\");}}}",
+      "options": ["A. Compile error", "B. Child \\n Parent", "C. Child Child", "D. Parent Parent"],
+      "answer": "B"
+    }
+  },
+  {
+    "id": 76,
+    "category": "Polymorphism",
+    "en": {
+      "question": "(Choose 1 answer) What is the output of the following Java program?\ninterface IA{void show();}\ninterface IB{void show();}\nclass MyClass implements IA, IB{\n@Override public void show() {\nSystem.out.println(\"@MyClass\");}}\npublic class Main {\npublic static void main(String args[]) {\nIA objA = new MyClass();objA.show();}}",
+      "options": ["A. @MyClass", "B. Runtime error in the statement: objA.show();", "C. Compile error in the statement: IA objA = new MyClass();", "D. None of the others"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 77,
+    "category": "Polymorphism",
+    "en": {
+      "question": "(Choose 1 answer) Which of the following statements is correct for a declaration of the interface named MyInterface?",
+      "options": ["A. interface MyInterface{/* something */ }", "B. public MyInterface interface{/* something */}", "C. final interface MyInterface{/* something */}", "D. default interface MyInterface {/* something */ }"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 78,
+    "category": "Polymorphism",
+    "en": {
+      "question": "(Choose 1 answer) Consider an abstract class \"Shape\" with an abstract method \"calculateArea().\" If a concrete subclass \"Circle\"extends \"Shape\" and provides an implementation for \"calculateArea(),\" what happens when an object of the \"Circle\" class is created and the \"calculateArea()\" is called?",
+      "options": ["A. The abstract method in the superclass is executed.", "B. The concrete method in the subclass is executed.", "C. The program will not compile.", "D. An exception is thrown at runtime."],
+      "answer": "B"
+    }
+  },
+  {
+    "id": 79,
+    "category": "Inheritance",
+    "en": {
+      "question": "(Choose 2 answers) Choose multiple correct answers.",
+      "options": ["A. Inheritance allows a class to inherit the properties and methods of another class", "B. The keyword \"extends\" is used to indicate inheritance in Java. It is used in the declaration of a subclass to specify the superclass that it is inheriting from.", "C. A subclass can inherit the private members of the superclass", "D. Java supports both multiple inheritance of classes and interfaces"],
+      "answer": "AB"
+    }
+  },
+  {
+    "id": 80,
+    "category": "Exception Handling",
+    "en": {
+      "question": "(Choose 1 answer) What is the purpose of the \"finally\" keyword in Java?",
+      "options": ["A. To execute code regardless of whether an exception is thrown or caught", "B. To indicate that an abstract class", "C. To hide a method of the superclass", "D. To indicate that a class can only be inherited once"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 81,
+    "category": "Arrays",
+    "en": {
+      "question": "(Choose 1 answer) Given the following code snippet:\nint[] arr = new int[100];\nArrayList<Integer> al = new ArrayList();\nChoose the correct statement.",
+      "options": ["A. arr can not change its length whilst al can change its length", "B. arr might change its length, but al cannot change the length", "C. arr and al will have fixed lengths throughout the program", "D. Access the first element of them by using al[0] and arr[0]"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 82,
+    "category": "Java Collections",
+    "en": {
+      "question": "(Choose 1 answer) Which method is used to convert an array to a List in Java?",
+      "options": ["A. Arrays.asList()", "B. Arrays.toList()", "C. Arrays.convertToList()", "D. Arrays.arrayToList()"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 83,
+    "category": "Polymorphism",
+    "en": {
+      "question": "(Choose 1 answer) Which of the following is the best description of polymorphism?",
+      "options": ["A. It is the ability for a message/data to be processed in more than one form.", "B. It is the ability for many messages/data to be processed in one way", "C. It is the ability for a message/data to be processed in only one form", "D. None of the others"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 84,
+    "category": "Inheritance",
+    "en": {
+      "question": "(Choose 1 answer) Which OOP concept allows a class to inherit attributes and behaviors from another class?",
+      "options": ["A. Abstraction", "B. Encapsulation", "C. Inheritance", "D. Polymorphism"],
+      "answer": "C"
+    }
+  },
+  {
+    "id": 85,
+    "category": "Java Collections",
+    "en": {
+      "question": "(Choose 1 answer) You are tasked with implementing a system that tracks the frequency of words in a large text document. Explain how you would use a Java collection to efficiently achieve this.",
+      "options": ["A. Utilize a HashMap<String, Integer> for efficient word frequency tracking.", "B. Implement a LinkedList<String> to store words and their occurrences.", "C. Use a PriorityQueue<String> to prioritize words based on frequency.", "D. Employ a HashSet<String> for unique word storage."],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 86,
+    "category": "Java Collections",
+    "en": {
+      "question": "(Choose 1 answer) How do you find the frequency of occurrence of an element in a collection of the Collections class?",
+      "options": ["A. frequency()", "B. countOccurrence()", "C. frequencyOf()", "D. findFrequency()"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 87,
+    "category": "Java Collections",
+    "en": {
+      "question": "(Choose 1 answer) What is the output of the following code snippet?\npublic class Program {\nvoid swap(Integer t1, Integer t2){\nint temp =t1;\nt1=t2;\nt2=temp;}\nvoid f1(){List<Integer> list = new ArrayList();\nlist.add(1);list.add(2);\nswap(list.get(0), list.get(1));\nSystem.out.println(list);}\npublic static void main(String[] args) {new Program().f1();}}",
+      "options": ["A. [1, 2]", "B. [2, 1]", "C. [1, 1]", "D. [2, 2]"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 88,
+    "category": "Java Collections",
+    "en": {
+      "question": "(Choose 1 answer) What is the output of the following code snippet?\nSet<Integer> set1 = new TreeSet();\nset1.add(1); set1.add(3); set1.add(2); set1.add(1);\nSystem.out.println(set1);",
+      "options": ["A. [1, 2, 3]", "B. [1, 1, 2, 3]", "C. [1, 3, 2]", "D. [1, 3, 2, 1]"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 89,
+    "category": "Java Collections",
+    "en": {
+      "question": "(Choose 1 answer) Can we add a duplicated element into a Set in Java?",
+      "options": ["A. No, if we add a duplicated element into a Set, the Set will keep the old element and ignore the new one.", "B. No, the procedure will raise an exception", "C. Yes, we can add a duplicated element into a Set and the Set will keep the new element and remove the old one", "D. Yes, we can add a duplicated element into a Set and the Set will maintain 2 elements including the old element and the duplicated one"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 90,
+    "category": "Java Collections",
+    "en": {
+      "question": "(Choose 1 answer) Which of the following statements related to removing an element in an ArrayList is true?",
+      "options": ["A. The remove method will return the deleted value (if by index) or boolean (if by Object) for the user.", "B. The remove operation will raise an exception if the element does not exist in the ArrayList", "C. The remove method will return the integer value after removing.", "D. All of the others"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 91,
+    "category": "Exception Handling",
+    "en": {
+      "question": "(Choose 1 answer) Which of the following is an example of a checked exception in Java?",
+      "options": ["A. NullPointerException", "B. ArrayIndexOutOfBoundsException", "C. FileNotFoundException", "D. ArithmeticException"],
+      "answer": "C"
+    }
+  },
+  {
+    "id": 92,
+    "category": "Exception Handling",
+    "en": {
+      "question": "(Choose 1 answer) How are exceptions handled in Java?",
+      "options": ["A. By using try-catch blocks to catch and handle exceptions.", "B. By using throw statements to throw exceptions.", "C. By using the throws keyword to declare that a method may throw an exception", "D. All of the mentioned."],
+      "answer": "D"
+    }
+  },
+  {
+    "id": 93,
+    "category": "Exception Handling",
+    "en": {
+      "question": "(Choose 1 answer) How does the try-catch-finally statement work?",
+      "options": ["A. The code inside the try block is executed, and if an exception occurs, it is caught and handled by the catch block. The code inside the finally block is executed regardless of whether an exception occurred or not.", "B. The code inside the try block is executed, and if an exception occurs, it is caught and handled by the finally block.", "C. The code inside the try block is executed, and if an exception occurs, it is caught and handled by the catch block. The code inside the finally block is executed only if an exception occurred.", "D. The finally block is executed only if an exception occurred and was not caught by the catch block."],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 94,
+    "category": "File I/O",
+    "en": {
+      "question": "(Choose 1 answer) To use the ObjectOutputStream object for writing an object to a destination file, which interface should the target class implement?",
+      "options": ["A. Serializable", "B. Interpretable", "C. Writable", "D. Comparable"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 95,
+    "category": "Inheritance",
+    "en": {
+      "question": "(Choose 1 answer) What does Java not support?",
+      "options": ["A. Multiple inheritances for classes", "B. Inheritance", "C. Multiple inheritances of interfaces", "D. Compile-time polymorphism"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 96,
+    "category": "Java Fundamentals",
+    "en": {
+      "question": "Which of the following statements is used to compile the program.java file?",
+      "options": ["A. javac program.java", "B. java -java program.java", "C. javac -c program.java", "D. java -j program.java"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 97,
+    "category": "Java Fundamentals",
+    "en": {
+      "question": "What is the meaning of platform-independent?",
+      "options": ["A. write once, run anywhere", "B. not easy to execute on any system after compilation.", "C. the execution of the program is restricted by the type of OS environment provided.", "D. All of the others"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 98,
+    "category": "Data Types & Variables",
+    "en": {
+      "question": "Which of the following is a Java primitive type?",
+      "options": ["A. boolean", "B. String", "C. Object", "D. Class"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 99,
+    "category": "Data Types & Variables",
+    "en": {
+      "question": "Choose multiple correct answers.",
+      "options": ["A. The default value of an uninitialized int variable in Java is 0", "B. Constants can be changed during the execution of a program", "C. Variables and constants are both used to store values in Java", "D. Variables can be changed during the execution of a program"],
+      "answer": "ACD"
+    }
+  },
+  {
+    "id": 100,
+    "category": "Data Types & Variables",
+    "en": {
+      "question": "Concerning rules and conventions for naming variables in Java, choose an incorrect statement.",
+      "options": ["A. An identifier can begin with any character except '$' and '_'", "B. An identifier can begin with a character.", "C. An identifier can begin with the dollar sign character.", "D. An identifier can begin with the underscore character."],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 101,
+    "category": "Data Types & Variables",
+    "en": {
+      "question": "What is the output of the code snippet?\npublic class Test {\npublic static void main(String[] args) {\nint result;\nSystem.out.println(result = true ? 100 : 5);\n}\n}",
+      "options": ["A. 100", "B. 5", "C. 0", "D. Runtime error."],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 102,
+    "category": "Data Types & Variables",
+    "en": {
+      "question": "What is the output of the code snippet?\npublic class Test {\npublic static void main(String[] args) {\nint[] a = new int[5];\nfor (int i : a) {\ni = 1;\n}\nSystem.out.println(a[1]);\n}\n}",
+      "options": ["A. 0", "B. 1", "C. null", "D. Compile error"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 103,
+    "category": "Classes & Objects",
+    "en": {
+      "question": "What operator is used to access the member (field or method) of the object?",
+      "options": ["A. .", "B. {}", "C. []", "D. :"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 104,
+    "category": "Classes & Objects",
+    "en": {
+      "question": "What is the output of the following code snippet?\npublic class Person {\nprotected String id = \"New Id\";\npublic static void main(String[] args) {\nPerson p = new Person();\np.id = \"FPTU\";\nSystem.out.println(p.id);\n}\n}",
+      "options": ["A. FPTU", "B. null", "C. New Id", "D. Runtime error"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 105,
+    "category": "Classes & Objects",
+    "en": {
+      "question": "What is the output of the following code snippet?\npublic class Person {\nprotected String id;\npublic void calPerson(Person p){\np.id = \"HCM\";\nSystem.out.print(p.id);\n}\npublic static void main(String[] args) {\nPerson p = new Person();\np.id = \"FPT\";\np.calPerson(p);\n}\n}",
+      "options": ["A. HCM", "B. FPT", "C. FPTHCM", "D. HCMFPT"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 106,
+    "category": "Encapsulation",
+    "en": {
+      "question": "Which of the following statements related to the protected access modifier is true?",
+      "options": ["A. It allows the outside package access (via inheritance)", "B. It does not allow within-package access", "C. The protected members must be initialized before use", "D. All of the others"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 107,
+    "category": "Polymorphism",
+    "en": {
+      "question": "What is the output of the following Java program?\nclass A {\nfinal int a = 100;\n}\nclass B extends A {\nfinal int a = 200;\n}\npublic class Main extends B {\nfinal int a = 300;\npublic static void main(String args[]) {\nMain t = new A();\nSystem.out.print(t.a);\n}\n}",
+      "options": ["A. Compile error", "B. 300", "C. 200", "D. 100"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 108,
+    "category": "Inheritance",
+    "en": {
+      "question": "Which of the following statements is true about superclass and subclass relationships in Java?",
+      "options": ["A. A subclass can access private members of its superclass.", "B. A superclass can extend multiple subclasses simultaneously", "C. A subclass constructor must always call the superclass constructor explicitly or implicitly.", "D. A superclass reference can be used to directly access subclass-specific methods."],
+      "answer": "C"
+    }
+  },
+  {
+    "id": 109,
+    "category": "Encapsulation",
+    "en": {
+      "question": "Choose multiple correct answers.",
+      "options": ["A. The purpose of a getter method in Java is to get the value of a variable", "B. The purpose of a setter method in Java is to set the value of a variable", "C. return keyword used to define getter and setter method in Java", "D. Access modifiers often used for getter or setter method is public"],
+      "answer": "ABD"
+    }
+  },
+  {
+    "id": 110,
+    "category": "Classes & Objects",
+    "en": {
+      "question": "What is the output following the code snippet?\nclass DemoClass {\nstatic void m() {\nSystem.out.println(\"A\");\n}\n}\nclass DemoClassChild extends DemoClass {\nstatic void m() {\nSystem.out.println(\"B\");\n}\n}\npublic class Main {\npublic static void main(String[] args) {\nDemoClass obj = new DemoClassChild();\nobj.m();\n}\n}",
+      "options": ["A. A", "B. B", "C. AB", "D. BA"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 111,
+    "category": "Polymorphism",
+    "en": {
+      "question": "Which of the following are NOT the characteristics of interfaces?",
+      "options": ["A. All interfaces extend to the Object class.", "B. All constant declarations are implicitty public, static, and final.", "C. Methods may not be declared as final or static.", "D. All method declarations are implicitly public and abstract."],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 112,
+    "category": "Polymorphism",
+    "en": {
+      "question": "Assuming the following code snippet:\npublic class Student {\npublic abstract double numberOfSubject();\n}\nWhich of the following statements is true?",
+      "options": ["A. The class Student must be defined as the abstract class", "B. The keywords public and abstract cannot be used together.", "C. The method numberOfSubject() must have a body.", "D. The method numberOfSubject() must declared with the @Override"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 113,
+    "category": "Data Types & Variables",
+    "en": {
+      "question": "What is the output following code snippet:\nint sum=0;\nfor(int i=0;i<=10;i++){\nsum+= (i%2==0?i:-i);\n}\nSystem.out.println(sum);",
+      "options": ["A. 5", "B. 2", "C. The program will raise an exception.", "D. 3"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 114,
+    "category": "Arrays",
+    "en": {
+      "question": "Given the following code snippet:\nint[] arr = new int[100];\nWhich of the following statements is correct?",
+      "options": ["A. The maximum number of elements of the arr is 100", "B. The maximum index of the arr is 100", "C. arr[100]=100", "D. Each element in the arr will be 1 by default"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 115,
+    "category": "Polymorphism",
+    "en": {
+      "question": "in a banking application, you need to represent customer accounts using object arrays. Which OOP concept allows you to create a blueprint for the Account class?",
+      "options": ["A. Inheritance", "B. Abstraction", "C. Encapsulation", "D. Polymorphism"],
+      "answer": "B"
+    }
+  },
+  {
+    "id": 116,
+    "category": "Java Collections",
+    "en": {
+      "question": "What is the output of the following code snippet?\nSet<Integer> set1 = new TreeSet<>();\nset1.add(1); set1.add(3); set1.add(2); set1.add(1);\nSystem.out.println(set1);",
+      "options": ["A. [1, 2, 3]", "B. [1, 1, 2, 3]", "C. [1, 3, 2]", "D. [1, 3, 2, 1]"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 117,
+    "category": "Java Collections",
+    "en": {
+      "question": "What is the output of the following code snippet?\nSet<Integer> set1 = new HashSet<>();\nset1.add(1); set1.add(2); set1.add(3); set1.add(1);\nSet<Integer> set2 = new HashSet<>();\nset2.add(1); set2.add(4);\nset1.removeAll(set2);\nSystem.out.println(set1);",
+      "options": ["A. [2, 3]", "B. [3, 1]", "C. [1, 2]", "D. [4, 1]"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 118,
+    "category": "Java Collections",
+    "en": {
+      "question": "What is the size of an ArrayList if capacity is NOT specified during initialization?",
+      "options": ["A. 0", "B. 1", "C. 16", "D. 10"],
+      "answer": "D"
+    }
+  },
+  {
+    "id": 119,
+    "category": "Java Collections",
+    "en": {
+      "question": "What is the output of the following code snippet?\nMap<Character, Integer> map = new TreeMap<>();\nString data = \"hello\";\nfor (Character c : data.toCharArray()) {\nif (map.containsKey(c)) {\nmap.put(c, map.get(c) + 1);\n} else {\nmap.put(c, 0);\n}\n}\nSystem.out.println(map.keySet());",
+      "options": ["A. ['e', 'h', 'l', 'l', 'o']", "B. ['h', 'o', 'e', 'l']", "C. ['e', 'o', 'h', 'l']", "D. ['e', 'h', 'l', 'o']"],
+      "answer": "D"
+    }
+  },
+  {
+    "id": 120,
+    "category": "File I/O",
+    "en": {
+      "question": "How do you check if a File object refers to a file (NOT a directory) in Java?",
+      "options": ["A. isFile()", "B. checkFile()", "C. isNotDirectory()", "D. notlsDirectory()"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 121,
+    "category": "Java Collections",
+    "en": {
+      "question": "You are developing a card game, and you need to shuffle a deck of cards thoroughly before each game.\nExplain how you would use Java collections to achieve an unbiased shuffle, and discuss the importance of randomness in shuffling.",
+      "options": ["A. Use Collections.shuffle() for a simple and unbiased shuffle.", "B. Implement a custom Fisher-Yates shuffle algorithm for control.", "C. Choose Random.nextInt() to generate random indices for shuffling.", "D. Utilize Arrays.sort() with a random comparator for a randomized effect."],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 122,
+    "category": "File I/O",
+    "en": {
+      "question": "Which of the following methods of the FileOutputStream class is used to write bytes to a target stream?",
+      "options": ["A. write()", "B. print()", "C. writeLine()", "D. println()"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 123,
+    "category": "File I/O",
+    "en": {
+      "question": "What is the output of the following code snippet?\nString fName = \"output.txt\";\nbyte[] array = {65, 66, 67};\nbyte[] arr = new byte[3];\ntry {\nRandomAccessFile f = new RandomAccessFile(fName, \"rw\");\nf.write(array);\nf.seek(0);\nf.read(arr);\nString str1 = new String(arr);\nSystem.out.println(str1);\n} catch (Exception e) {\nSystem.out.println(e);\n}",
+      "options": ["A. ABC", "B. ACB", "C. BAC", "D. BCA"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 124,
+    "category": "Java Fundamentals",
+    "en": {
+      "question": "Which of the following are components of the Java platform?",
+      "options": ["A. JVM(Java Virtual Machine), the java application programming interface (API)", "B. JVM(Java Virtual Machine), Java Run-time Environment", "C. JVM(Java Virtual Machine), java compiler", "D. Java compiler, java"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 125,
+    "category": "Classes & Objects",
+    "en": {
+      "question": "What will be the output of the following code?\npublic class Test1 {\nint x;\nx = 5;\npublic static void main(String[] args) {\nTest1 t = new Test1();\nSystem.out.println(t.x);\n}\n}",
+      "options": ["A. compile error", "B. runtime error", "C. 5", "D. 0"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 126,
+    "category": "Exception Handling",
+    "en": {
+      "question": "What is the output of the code snippet?\npublic class Test {\npublic static void main(String[] args) {\ntry {\nint kq = 10 / 0;\nthrow new Exception();\n} catch (ArithmeticException e) {\nSystem.out.println(\"Error1\");\n} catch (NumberFormatException e) {\nSystem.out.println(\"Error2\");\n} catch (Exception e) {\nSystem.out.println(\"Error3\");\n} finally {\nSystem.out.println(\"Finish\");\n}\n}\n}",
+      "options": ["A. Error1 \\n Finish", "B. Error2 \\n Finish", "C. Error3 \\n Finish", "D. Finish"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 127,
+    "category": "Inheritance",
+    "en": {
+      "question": "What is a subclass in Java inheritance?",
+      "options": ["A. The class that inherits from another class", "B. The class that is inherited from multiple classes", "C. The final class in the inheritance chain", "D. The class that has abstract methods"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 128,
+    "category": "Inheritance",
+    "en": {
+      "question": "What will be the output of the following Java code?\nclass A {\nint a = 5;\npublic int getA() {\nreturn a;\n}\n} \nclass B extends A {\nprivate int a = 6;\npublic void rollBackA() {\na++;\na = super.getA();\n}\n} \npublic class Main {\npublic static void main(String[] args) {\nA objA = new A();\nB objB = new B();\nobjB.rollBackA();\nSystem.out.format(\"%d, %d%n\", objA.getA(), objB.getA());\n}\n}",
+      "options": ["A. 5, 5", "B. 6, 6", "C. 5, 6", "D. 6, 5"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 129,
+    "category": "Classes & Objects",
+    "en": {
+      "question": "What is the output following the code snippet?\npublic class Main {\nvoid m1(String x) { System.out.print(\"One \"); }\nprotected void m1(String x, String y) { System.out.println(\"Two\"); }\npublic static void main(String[] args) {\nMain obj = new Main(); obj.m1(\"ABC\"); obj.m1(\"PQR\", \"XYZ\");\n}\n}",
+      "options": ["A. One Two", "B. Two One", "C. Two Two", "D. One One"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 130,
+    "category": "Polymorphism",
+    "en": {
+      "question": "What is the output of the following Java program?\nabstract class A {\nprivate String my_name = null;\npublic String myName() {\nmy_name = \"test\";\nreturn my_name;\n}\nabstract void display();\n}\npublic class Main extends A{\nvoid display() {}\nString n = myName();\nSystem.out.println(n);\npublic static void main(String args[]) {\nA obj = new Main(); obj.display();\n}\n}",
+      "options": ["A. test", "B. Runtime error", "C. null", "D. Compile error"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 131,
+    "category": "Polymorphism",
+    "en": {
+      "question": "What is the output of the following Java program?\nclass A{\nint i= 100;\npublic void printValue(){\nSystem.out.print(\"A\");\n}\n}\nclass B extends A{\nint i= 120;\npublic void printValue(){\nSystem.out.print(\"B\");\n}\n}\npublic class Main{\npublic static void main(String args[]){\nA a = new B(); a.printValue(); System.out.print(a.i);\n}\n}",
+      "options": ["A. B100", "B. B120", "C. A100", "D. A120"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 132,
+    "category": "Arrays",
+    "en": {
+      "question": "Given the following code snippet: float[] arr = new float[100]; //Line 1\narr[0]=3.4;//Line 2\nChoose the correct statement.",
+      "options": ["A. 3.4 is a double type by default so we need to explicitly cast it to float", "B. 3.4 is a float type by default so we don't need to explicitly cast it to float", "C. There is no problem with these code lines", "D. Line 1 will throw the indexOutOfBound exception"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 133,
+    "category": "File I/O",
+    "en": {
+      "question": "In the object stream, which of the following members of an object won't be serialized?",
+      "options": ["A. transient variables", "B. final variables", "C. inherited variables", "D. All of the others"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 134,
+    "category": "File I/O",
+    "en": {
+      "question": "For the low-level binary stream class FileInputStream, which of the following methods is used to retrieve a byte from a source stream?",
+      "options": ["A. read()", "B. readByte()", "C. fetch()", "D. fetchLine()"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 135,
+    "category": "File I/O",
+    "en": {
+      "question": "What is the purpose of the FileOutputStream class in Java?",
+      "options": ["A. To write raw bytes to a file", "B. To write primitive data types to a file", "C. To create an object stream for a file", "D. All of the others"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 136,
+    "category": "File I/O",
+    "en": {
+      "question": "What is the output of the following code snippet?\nFile f = new File(\"test.txt\");\ntry{\nFileReader fr = new FileReader(f);\nBufferedReader bf = new BufferedReader(fr);\nint k = 2; String line = \"\";\nfor (int i = 0; i <k; i++) {\nline = bf.readLine();\n}\nSystem.out.println(line);\n}\ncatch (IOException e){\nSystem.out.println(e);\n}\nAssumes that test.txt has the content as follows:\nHello\nXin chao\nHallo\nAnyong Haseyo",
+      "options": ["A. Xin chao", "B. Hello", "C. Hallo", "D. Anyong Haseyo"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 137,
+    "category": "Polymorphism",
+    "en": {
+      "question": "What is the output of the following code snippet?\npublic class Main {\npublic int a;\npublic long b;\npublic void test(long b) {\nSystem.out.println(\"long b\");\n}\npublic void test(int a) {\nSystem.out.println(\"int a\");\n}\npublic static void main(String[] args) {\nMain e=new Main();\ne.test(9* 1000000000);\n}\n}",
+      "options": ["A. int a", "B. long a", "C. long b", "D. Compile Error"],
+      "answer": "D",
+      "explanation": "9 * 1000000000 exceeds the maximum value of an int, so it causes a compilation error (integer number too large)."
+    }
+  },
+  {
+    "id": 138,
+    "category": "Java Fundamentals",
+    "en": {
+      "question": "Which is a valid keyword in Java?",
+      "options": ["A. interface", "B. include", "C. Float", "D. Integer"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 139,
+    "category": "Exception Handling",
+    "en": {
+      "question": "What is a checked exception in Java?",
+      "options": ["A. Checked exceptions are the ones that are checked during compilation time", "B. Checked exceptions are the ones that are checked during the execution time", "C. Checked exceptions are syntax errors", "D. Checked exceptions are runtime errors"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 140,
+    "category": "Encapsulation",
+    "en": {
+      "question": "Which of the following modifiers is used to hide information of a class from the classes outside?",
+      "options": ["A. private", "B. public", "C. protected", "D. default"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 141,
+    "category": "Classes & Objects",
+    "en": {
+      "question": "What is the difference between a class and an object?",
+      "options": ["A. A class is a blueprint to make an object", "B. An object is a blueprint to make a class", "C. A class is only like an object", "D. None of the others"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 142,
+    "category": "Classes & Objects",
+    "en": {
+      "question": "Choose the correct statement about the \"this\" keyword.",
+      "options": ["A. It can be used to refer to the current object in a method or constructor", "B. It can be used to refer to the object of the superclass", "C. It can be used to invoke methods of the superclass", "D. All of the others"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 143,
+    "category": "Classes & Objects",
+    "en": {
+      "question": "What is the output of the following Java program?\nclass A {\nint i, j;\nA(){\ni = 1;\nj= 2;\n}\n}\npublic class Main {\npublic static void main(String args[]) {\nA obj1 = new A();\nA obj2 = new A();\nSystem.out.println(obj1.equals(obj2));\n}\n}",
+      "options": ["A. false", "B. true", "C. obj1.equals(obj2)", "D. Runtime error"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 144,
+    "category": "Encapsulation",
+    "en": {
+      "question": "Which of the following is/are advantages of packages?",
+      "options": ["A. Packages avoid name clashes", "B. Classes, even though they are visible outside their package, can have fields visible to packages only", "C. We can have hidden classes that are used by the packages, but not visible outside.", "D. All of the mentioned"],
+      "answer": "D"
+    }
+  },
+  {
+    "id": 145,
+    "category": "Polymorphism",
+    "en": {
+      "question": "What is the output following the code snippet?\npublic class DemoClass {\nvoid add(int x, int y){\nSystem.out.println(\"1. Addition is: \" +(x+y));\n}\nvoid add(int y, int x){\nSystem.out.println(\"2. Addition is: \" +(x+y));\n}\npublic static void main(String[] args){\nDemoClass obj = new DemoClass();\nobj.add(20, 30);\n}\n}",
+      "options": ["A. Compile error", "B. 2. Addition of two numbers: 50", "C. 1. Addition of two numbers: 50", "D. 20, 30"],
+      "answer": "A",
+      "explanation": "Compile error due to duplicate method `add(int, int)`. The parameter names (x,y vs y,x) do not differentiate method signatures."
+    }
+  },
+  {
+    "id": 146,
+    "category": "Polymorphism",
+    "en": {
+      "question": "What is the output of the following Java program?\ninterface InfA {\nstatic String message = \"hello\";\nString getName();\n}\npublic class Main implements InfA {\npublic String getName() {\nreturn InfA.message;\n}\npublic static void main(String[] args) {\nMain t = new Main();\nSystem.out.println(t.getName());\n}\n}",
+      "options": ["A. hello", "B. Compile error because the variable message is declared with a static keyword", "C. Runtime error because the interface infA has no static method", "D. None of the others"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 147,
+    "category": "Polymorphism",
+    "en": {
+      "question": "Which of the following statements about abstract classes in Java is correct?",
+      "options": ["A. An abstract class can be instantiated using the \"new\" keyword.", "B. Abstract classes can only have abstract methods.", "C. Abstract classes can have both abstract and concrete (non-abstract) methods.", "D. Abstract classes cannot have constructors."],
+      "answer": "C"
+    }
+  },
+  {
+    "id": 148,
+    "category": "Data Types & Variables",
+    "en": {
+      "question": "Session is instance of which?",
+      "options": ["A. Session", "B. HttpSession", "C. HttpServletSession", "D. ServletSession"],
+      "answer": "B"
+    }
+  },
+  {
+    "id": 149,
+    "category": "Arrays",
+    "en": {
+      "question": "What is the output of the following code snippet:\nint i = 0;\nint[] list = {1, 2, 3, 4, 5};\ndo {\nlist[i] += i++;\n} while (i < 4);\nSystem.out.println(list[0] + list[list.length - 1]);",
+      "options": ["A. The program will raise an exception.", "B. 5", "C. 1", "D. 6"],
+      "answer": "D",
+      "explanation": "list[0] becomes 1+0=1. list[4] remains 5. 1+5=6."
+    }
+  },
+  {
+    "id": 150,
+    "category": "Java Collections",
+    "en": {
+      "question": "What is the output of the following code snippet?\npublic class Program {\nvoid swap(Integer t1, Integer t2) {\nint temp = t1;\nt1 = t2;\nt2 = temp;\n}\nvoid f1() {\nList<Integer> list = new ArrayList();\nlist.add(1);\nlist.add(2);\nswap(list.get(0), list.get(1));\nSystem.out.println(list);\n}\npublic static void main(String[] args) {\nnew Program().f1();\n}\n}",
+      "options": ["A. [1, 2]", "B. [2, 1]", "C. [1, 1]", "D. [2,2]"],
+      "answer": "A",
+      "explanation": "Java passes references by value. Swapping `t1` and `t2` inside `swap()` only swaps local variables, not the elements inside the List."
+    }
+  },
+  {
+    "id": 151,
+    "category": "Java Collections",
+    "en": {
+      "question": "In a logistics application, you need to associate each product with its corresponding warehouse location.\nIllustrate how you would use a Java collection to model this relationship, considering the principles of\nassociation and key-value mapping.",
+      "options": ["A. Use a HashMap<Product, WarehouseLocation> for direct key-value mapping.", "B. Implement a custom ProductWarehouseAssociation class with parallel arrays.", "C. Utilize a LinkedHashMap<Product, WarehouseLocation> to maintain insertion order.", "D. Design a TreeMap<Product, WarehouseLocation> for sorted key-value mapping."],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 152,
+    "category": "Java Collections",
+    "en": {
+      "question": "How do you convert an ArrayList to an array?",
+      "options": ["A. toArray()", "B. copyToArray()", "C. convertArray()", "D. makeArray()"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 153,
+    "category": "File I/O",
+    "en": {
+      "question": "What is the output of the following code snippet: String fName=\"test.txt\";\nFileInputStream fs = new FileInputStream(fName);\nbyte[] list = new byte[100];\nfs.read(list, 0, 4);\nSystem.out.format(\"%c%n\", list[1]);\nIf test.txt has the content as follows:\n01234567890",
+      "options": ["A. 1", "B. 0", "C. 2", "D. 3"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 154,
+    "category": "File I/O",
+    "en": {
+      "question": "The nextLine() method belongs to which of the following classes?",
+      "options": ["A. Scanner", "B. Integer", "C. String", "D. System"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 155,
+    "category": "Polymorphism",
+    "en": {
+      "question": "What is the output of the following code snippet?\npublic class Main{\nstatic void m1(Integer i){ System.out.println(1); }\nstatic void m1(Double d) { System.out.println(2); }\nstatic void m1(Object o) { System.out.println(3); }\npublic static void main(String[] args) {\nm1(12.5);\n}\n}",
+      "options": ["A. 2", "B. 3", "C. 1", "D. 12.5"],
+      "answer": "A",
+      "explanation": "12.5 is a double literal, which gets autoboxed to Double. Thus `m1(Double)` is the closest match."
+    }
+  },
+  {
+    "id": 156,
+    "category": "Inheritance",
+    "en": {
+      "question": "What is a superclass in Java inheritance?",
+      "options": ["A. The class from which the subclass is derived", "B. The class that inherits from another class", "C. The final class in the inheritance chain", "D. The class that has abstract methods"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 157,
+    "category": "Inheritance",
+    "en": {
+      "question": "What is the output of the following Java program?\nclass A { public A() { System.out.print(\"A\"); } }\nclass B extends A{ public B() { System.out.print(\"B,\"); } }\nclass C extends B{ public C() { System.out.println(\"C\"); } }\npublic class Test {\npublic static void main(String[] args) { C c = new C(); }\n}",
+      "options": ["A. A,B,C", "B. B,C,A", "C. B,A,C", "D. AB,C"],
+      "answer": "D",
+      "explanation": "Constructors are called top-down. A prints 'A', B prints 'B,', C prints 'C'. Result: AB,C"
+    }
+  },
+  {
+    "id": 158,
+    "category": "Polymorphism",
+    "en": {
+      "question": "What is the output of the following Java program?\ninterface A {\npublic int setValue(int value);\n}\npublic class Main {\npublic static void main(String[] args) {\nint value = 1;\nA objA = new A() {\npublic int setValue(int value) {\nvalue++;\nreturn value;\n}\n};\nSystem.out.println(objA.setValue(++value));\n}\n}",
+      "options": ["A. 3", "B. 1", "C. 2", "D. Compile error"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 159,
+    "category": "Polymorphism",
+    "en": {
+      "question": "Choose the correct statement about the anonymous class",
+      "options": ["A. An anonymous class can be used to implement an interface", "B. Anonymous class used to extend methods", "C. Anonymous class is used to define a set of constants", "D. All of the others"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 160,
+    "category": "Classes & Objects",
+    "en": {
+      "question": "What is the output following the code snippet?\nclass StaticTest {\nstatic void staticMethod() {\nSystem.out.println(\"Static Method\");\n}\n}\npublic class Main {\npublic static void main(String[] args) {\nStaticTest first = null;\nfirst.staticMethod();\n}\n}",
+      "options": ["A. Static Method", "B. Throws a NullPointerException", "C. null", "D. None of the others"],
+      "answer": "A",
+      "explanation": "Static methods are bound to the class, not the instance. Calling a static method on a null reference does not throw a NullPointerException."
+    }
+  },
+  {
+    "id": 161,
+    "category": "Arrays",
+    "en": {
+      "question": "Which method is used to compare two arrays for equality in Java?",
+      "options": ["A. Arrays.equals()", "B. Arrays.equal()", "C. Arrays.compare()", "D. Arrays.comparison()"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 162,
+    "category": "Java Collections",
+    "en": {
+      "question": "What is the output of the following code snippet?\nSet<Integer> set1 = new HashSet<>();\nset1.add(1);\nset1.add(2);\nset1.add(3);\nset1.add(1); \nSet<Integer> set2 = new HashSet<>();\nset2.add(1);\nset2.add(4);\nset1.removeAll(set2); \nSystem.out.println(set1);",
+      "options": ["A. [2, 3]", "B. [3, 1]", "C. [1, 2]", "D. [4, 1]"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 163,
+    "category": "Polymorphism",
+    "en": {
+      "question": "Choose correct answer about anonymous class?",
+      "options": ["A. A class that is defined without a name and can be instantiated only once", "B. The purpose of using an anonymous class is to provide a way to implement an interface or extend a class without explicitly defining a named class.", "C. An anonymous class is created using the \"new\" keyword followed by the name of the interface or class being implemented or extended.", "D. Anonymous classes are like local classes except that they do not have a name.", "E. All of the others"],
+      "answer": "E"
+    }
+  },
+  {
+    "id": 164,
+    "category": "File I/O",
+    "en": {
+      "question": "Which of the following statements about the low-level stream and the high-level stream is true?",
+      "options": ["A. The low-level stream's data unit is a byte, high-level stream's data unit is a primitive type.", "B. The low-level stream's data unit is character UTF-8, high-level stream's data unit is character UNICODE.", "C. The low-level stream's data unit is a character type, high-level stream's data unit is an object type.", "D. The low-level stream's data unit is primitive, high-level stream's data unit is character."],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 165,
+    "category": "Encapsulation",
+    "en": {
+      "question": "Which of the following keywords only allows access within the same class?",
+      "options": ["A. private", "B. protected", "C. public", "D. static"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 166,
+    "category": "Polymorphism",
+    "en": {
+      "question": "Consider a superclass with a private method and a subclass that attempts to override it. What happens in terms of method overriding and access control?",
+      "options": ["A. The subclass can successfully override the private method.", "B. The private method cannot be overridden in the subclass.", "C. The subclass can override the private method, but only if it is declared as \"protected\" in the superclass.", "D. The subclass can override the private method, but only if it is declared as \"public\" in the superclass."],
+      "answer": "B"
+    }
+  },
+  {
+    "id": 167,
+    "category": "Java Collections",
+    "en": {
+      "question": "You are working on an application that simulates a deck of playing cards. Explain how you would use Java collections to represent the deck, ensuring that cards are efficiently shuffled, drawn, and replaced.",
+      "options": ["A. Utilize an ArrayList<Card> for easy manipulation and shuffling.", "B. Design a custom Deck class with a circular linked list for efficient cycling.", "C. Use a HashSet<Card> for unique card storage.", "D. Implement a TreeSet<Card> for sorted card ordering."],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 168,
+    "category": "File I/O",
+    "en": {
+      "question": "Which of the following classes is used to iterate through lines in a text file when reading line by line?",
+      "options": ["A. BufferedReader", "B. FileReader", "C. FileInputStream", "D. InputStreamReader"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 169,
+    "category": "Java Collections",
+    "en": {
+      "question": "You are developing a contact management system, and you need to quickly find a contact by their phone number. Explain how you would use Java collections to efficiently search for a contact based on a specific criterion.",
+      "options": ["A. Use a HashMap with phone numbers as keys for O(1) lookup.", "B. Implement a linear search through the list of contacts.", "C. Utilize Collections.binarySearch() with a sorted list.", "D. Choose a HashSet for efficient phone number-based searching."],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 170,
+    "category": "Polymorphism",
+    "en": {
+      "question": "What will be the output of the following code snippet?\nclass A {\npublic void methodA() {\nSystem.out.println(\"Class A\");\n}\n}\nclass B extends A {\npublic void methodA() {\nSystem.out.println(\"Class B\");\n}\npublic void methodB() {\nSystem.out.println(\"Class B - methodB\");\n}\n}\npublic class Test {\npublic static void main(String[] args) {\nA obj = new B();\nobj.methodA();\n}\n}",
+      "options": ["A. Class A", "B. Class B", "C. Compilation error", "D. Runtime error"],
+      "answer": "B"
+    }
+  },
+  {
+    "id": 171,
+    "category": "Arrays",
+    "en": {
+      "question": "What loop is specifically designed for iterating through array elements?",
+      "options": ["A. for-each loop", "B. for loop", "C. while loop", "D. do-while loop"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 172,
+    "category": "Inheritance",
+    "en": {
+      "question": "What is the output of the following Java program?\nclass A {\npublic int x = 1;\npublic void setX(int a) {\nx = a;\n}\n}\nclass B extends A {\npublic int getB() {\nsetX(2);\nreturn x;\n}\n}\npublic class Main {\npublic static void main(String[] args) {\nA a = new A();\nB b = new B();\nSystem.out.println(a.x + \" \" + b.getB());\n}\n}",
+      "options": ["A. 1 2", "B. 2 1", "C. 1 1", "D. 2 2"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 173,
+    "category": "Encapsulation",
+    "en": {
+      "question": "Choose multiple correct answers",
+      "options": ["A. private access modifier should be used for a variable or method to only be accessed within the same class", "B. public access modifier should be used for a variable or method that should be accessible from any class, regardless of the package", "C. protected access modifier should be used for a variable or method that should only be accessed within the same class and subclasses, in the same package", "D. default (no modifier) access modifier only allows access in the same class"],
+      "answer": "AB"
+    }
+  },
+  {
+    "id": 174,
+    "category": "Polymorphism",
+    "en": {
+      "question": "Choose the correct statement about overloading in Java.",
+      "options": ["A. Overloading is based on having multiple methods with the same name but different by the number of input parameters or type of input parameters, or a mixture of both.", "B. Overloading is based on having multiple methods with the same name.", "C. Overloading is based on having multiple methods with the same name, parameter types, and number of parameters", "D. Overloading is based on having multiple methods with the same name but different return types."],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 175,
+    "category": "Java Collections",
+    "en": {
+      "question": "Which of the following statements is used to determine the maximum capacity of an ArrayList named al?",
+      "options": ["A. al.size()", "B. al.length()", "C. al.size", "D. al.length"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 176,
+    "category": "Java Collections",
+    "en": {
+      "question": "Which method is used to check if an element is present in an ArrayList?",
+      "options": ["A. contains()", "B. exists()", "C. includes()", "D. has()"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 177,
+    "category": "File I/O",
+    "en": {
+      "question": "Which of the following objects is a parameter of the constructor of the DataInputStream class?",
+      "options": ["A. An object of the FileInputStream class", "B. An object of the File class", "C. An object of the BufferedReader class", "D. An object of the RandomAccessFile class"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 178,
+    "category": "Java Fundamentals",
+    "en": {
+      "question": "What will be the output of the following code snippet?\nString s1 = \"Java\";\nString s2 = \"Java\";\nString s3 = new String(\"Java\");\nSystem.out.println(s1 == s2);\nSystem.out.println(s1 == s3);\nSystem.out.println(s1.equals(s3));",
+      "options": ["A. true, true, true", "B. true, false, true", "C. false, true, true", "D. true, true, false"],
+      "answer": "B"
+    }
+  },
+  {
+    "id": 179,
+    "category": "Classes & Objects",
+    "en": {
+      "question": "What are not components of a class in Java OOP?",
+      "options": ["A. Constructors are responsible for object creation", "B. Attributes, Fields, Properties of a class represents by variables", "C. Behaviours, Modification code represent by methods or functions", "D. main method for execution of the class"],
+      "answer": "D"
+    }
+  },
+  {
+    "id": 180,
+    "category": "Classes & Objects",
+    "en": {
+      "question": "What is the output of the following code snippet?\npublic class Person {\nString id = \"P1\";\npublic Person(String id) {\nthis.id = id;\n}\npublic String getId() {\nreturn id;\n}\npublic void setId(String id) {\nthis.id = id;\n}\npublic static void main(String[] args) {\nPerson p = new Person();\np.setId(\"FPTU\");\nSystem.out.println(p.getId());\n}",
+      "options": ["A. Compile error", "B. FPTU", "C. P1", "D. Runtime error"],
+      "answer": "A",
+      "explanation": "Compile error at 'new Person()' because there is no default no-argument constructor defined (only Person(String) exists)."
+    }
+  },
+  {
+    "id": 181,
+    "category": "Polymorphism",
+    "en": {
+      "question": "Which of the following statements about the final keyword and inheritance is true?",
+      "options": ["A. A final class can have subclasses...", "B. A final method cannot be overridden by subclasses.", "C. A final variable can be reassigned within a subclass.", "D. A final class must have a final method."],
+      "answer": "B"
+    }
+  },
+  {
+    "id": 182,
+    "category": "Polymorphism",
+    "en": {
+      "question": "Consider a superclass \"Shape\" with a method \"draw()\" and a subclass \"Circle\" that overrides the \"draw()\" method. If an object of the \"Circle\" class is declared using the superclass type and the \"draw()\" method is invoked, what will happen?",
+      "options": ["A. The \"draw()\" method of the superclass will be executed.", "B. The \"draw()\" method of the subclass will be executed.", "C. A compilation error will occur.", "D. Both the \"draw()\" methods of the superclass and subclass will be executed."],
+      "answer": "B"
+    }
+  },
+  {
+    "id": 183,
+    "category": "Polymorphism",
+    "en": {
+      "question": "Choose the correct statement about declaring an abstract class named MyClass.",
+      "options": ["A. abstract class MyClass { /* something */ }", "B. public class MyClass { /* something */ }", "C. class MyClass : abstract { /* something */ }", "D. public class abstract MyClass { /* something */ }"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 184,
+    "category": "Data Types & Variables",
+    "en": {
+      "question": "Which of the following best describes the difference between primitive and reference types in Java?",
+      "options": ["A. Primitive types store data directly, while reference types store references to data", "B. Primitive types can be null, while reference types cannot be null", "C. Reference types are always larger in memory than primitive types", "D. Primitive types are objects, while reference types are not"],
+      "answer": "A"
+    }
+  },
+  {
+    "id": 185,
+    "category": "Polymorphism",
+    "en": {
+      "question": "Choose multiple correct answers. What is true about interfaces?",
+      "options": ["A. The purpose of an interface in Java is to provide a blueprint for a class", "B. Can create instance variables of an interface", "C. An interface has constructors and private methods.", "D. The keyword used to implement an interface in Java is implements"],
+      "answer": "AD"
+    }
+  },
+  {
+    "id": 186,
+    "category": "File I/O",
+    "en": {
+      "question": "Which of the following methods of File class is used to check a file already exists?",
+      "options": ["A. exists()", "B. isExists()", "C. checkFile()", "D. fileExists()"],
+      "answer": "A"
+    }
+  }
+];
 
     // Khởi động
     document.addEventListener('DOMContentLoaded', init);
